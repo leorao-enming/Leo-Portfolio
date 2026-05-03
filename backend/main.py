@@ -21,18 +21,9 @@ app = FastAPI(
 # CORS
 # ---------------------------------------------------------------------------
 
-ALLOWED_ORIGINS: list[str] = [
-    # Local development (Next.js default port)
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    # Production
-    "https://leologic.org",
-    "https://www.leologic.org",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
