@@ -1,0 +1,112 @@
+# =============================================================================
+# Leologic — Root .gitignore
+# Covers: Next.js frontend, FastAPI Python backend, and shared tooling
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# Environment & Secrets
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example          # Always keep the example file tracked
+frontend/.env.local
+frontend/.env*.local
+
+
+# -----------------------------------------------------------------------------
+# Node / Next.js (frontend/)
+# -----------------------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.vercel/
+
+# Next.js cache
+frontend/.next/cache/
+
+# TypeScript
+*.tsbuildinfo
+frontend/next-env.d.ts
+
+# Package manager debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Yarn Berry
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnp.*
+
+
+# -----------------------------------------------------------------------------
+# Python (backend/)
+# -----------------------------------------------------------------------------
+
+# Byte-compiled / optimized files
+__pycache__/
+backend/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+backend/venv/
+.venv/
+env/
+ENV/
+.env/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+MANIFEST
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# mypy / type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# Ruff / linters
+.ruff_cache/
+
+
+# -----------------------------------------------------------------------------
+# OS & Editor
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+
+# -----------------------------------------------------------------------------
+# Certificates & Keys
+# -----------------------------------------------------------------------------
+*.pem
+*.key
+*.crt
+*.p12
