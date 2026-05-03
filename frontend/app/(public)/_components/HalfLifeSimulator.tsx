@@ -75,7 +75,7 @@ export function HalfLifeSimulator() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:8000/api/decay", {
+      const res = await fetch("https://leo-portfolio-f9vp.onrender.com/api/decay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -211,8 +211,8 @@ export default function LandingPage() {
               LAUNCH COMMAND CENTER →
             </Link>
             <Link
-              href="/logs"
-              className="text-xs tracking-[0.2em] px-5 py-2.5 text-zinc-400 hover:text-white transition-colors"
+              href="#"
+              className="text-xs tracking-[0.2em] px-5 py-2.5 text-zinc-400 transition-colors cursor-not-allowed opacity-50"
               style={{ border: "1px solid #3f3f46" }}
             >
               READ TECHNICAL LOGS

@@ -30,10 +30,10 @@ export default function PublicLayout({
             <Link href="/projects" className="hover:text-white transition-colors">
               / PROJECTS
             </Link>
-            <Link href="/methodology" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors cursor-not-allowed opacity-50">
               / METHOD
             </Link>
-            <Link href="/logs" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors cursor-not-allowed opacity-50">
               / LOGS
             </Link>
             <Link
