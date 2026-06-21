@@ -1,29 +1,49 @@
 @import "tailwindcss";
 
 @theme {
+  /* ── Fonts ────────────────────────────────────────────────── */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), "Fira Code", "Cascadia Code", ui-monospace, monospace;
+  --font-display: var(--font-space-grotesk), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "Fira Code", ui-monospace, monospace;
+
+  /* ── Terminal / brand accent colors (dashboard compat) ──── */
   --color-terminal-green: #00ff41;
   --color-terminal-dim: #00cc33;
   --color-terminal-amber: #ffb000;
   --color-terminal-cyan: #00d4ff;
   --color-terminal-red: #ff3b3b;
-  --color-surface-0: #09090b;   /* zinc-950 */
-  --color-surface-1: #18181b;   /* zinc-900 */
-  --color-surface-2: #27272a;   /* zinc-800 */
-  --color-surface-3: #3f3f46;   /* zinc-700 */
+
+  /* ── Surface scale (dashboard compat) ────────────────────── */
+  --color-surface-0: #09090b;
+  --color-surface-1: #18181b;
+  --color-surface-2: #27272a;
+  --color-surface-3: #3f3f46;
   --color-border: #27272a;
   --color-border-dim: #3f3f46;
+
+  /* ── Premium landing palette ──────────────────────────────── */
+  --color-bg: #050507;
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-hover: rgba(255, 255, 255, 0.05);
+  --color-hairline: rgba(255, 255, 255, 0.07);
+  --color-hairline-bright: rgba(255, 255, 255, 0.12);
+  --color-text-primary: #ededed;
+  --color-text-secondary: rgba(255, 255, 255, 0.48);
+  --color-text-tertiary: rgba(255, 255, 255, 0.22);
+  --color-accent-glow: rgba(0, 255, 65, 0.12);
 }
 
+/* ════════════════════════════════════════════════════════════
+   BASE RESET
+   ════════════════════════════════════════════════════════════ */
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
   }
 
   html {
-    background-color: var(--color-surface-0);
-    color: #e4e4e7; /* zinc-200 */
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
     font-family: var(--font-sans);
     scroll-behavior: smooth;
   }
@@ -32,7 +52,52 @@
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Blueprint texture: corner glow blobs + faint engineering grid */
+    background-color: var(--color-bg);
+  }
+
+  /* Dashboard-specific pages still use mono headings */
+  h1, h2, h3 {
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  h4, h5, h6 {
+    color: #f4f4f5;
+    font-family: var(--font-mono);
+    line-height: 1.3;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #e4e4e7;
+  }
+
+  code, kbd, samp, pre {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background-color: var(--color-terminal-green);
+    color: var(--color-bg);
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #09090b; }
+  ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-terminal-dim); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   COMPONENTS
+   ════════════════════════════════════════════════════════════ */
+@layer components {
+
+  /* ── Dashboard blueprint background ────────────────────── */
+  .blueprint-bg {
     background-image:
       radial-gradient(ellipse 75% 55% at 0% 0%,   rgba(59, 130, 246, 0.08) 0%, transparent 60%),
       radial-gradient(ellipse 65% 50% at 100% 100%, rgba(99, 102, 241, 0.06) 0%, transparent 55%),
@@ -42,63 +107,13 @@
     background-attachment: fixed;
   }
 
-  h1, h2, h3 {
-    color: #ffffff;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-  }
-
-  h4, h5, h6 {
-    color: #f4f4f5; /* zinc-100 */
-    font-family: var(--font-mono);
-    line-height: 1.3;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.625;
-    color: #f4f4f5; /* zinc-100 */
-  }
-
-  code, kbd, samp, pre {
-    font-family: var(--font-mono);
-  }
-
-  ::selection {
-    background-color: var(--color-terminal-green);
-    color: var(--color-surface-0);
-  }
-
-  ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--color-surface-1);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-border-dim);
-    border-radius: 2px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-terminal-dim);
-  }
-}
-
-@layer components {
+  /* ── Terminal text styles (dashboard compat) ────────────── */
   .terminal-text {
     color: var(--color-terminal-green);
     text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
   }
 
-  .terminal-text-dim {
-    color: var(--color-terminal-dim);
-  }
+  .terminal-text-dim { color: var(--color-terminal-dim); }
 
   .terminal-amber {
     color: var(--color-terminal-amber);
@@ -131,16 +146,15 @@
     box-shadow: 0 0 20px rgba(0, 255, 65, 0.08), inset 0 0 20px rgba(0, 255, 65, 0.02);
   }
 
+  /* ── Scanlines overlay (dashboard body) ─────────────────── */
   .scanline::after {
     content: '';
     position: fixed;
     inset: 0;
     background: repeating-linear-gradient(
       to bottom,
-      transparent 0px,
-      transparent 2px,
-      rgba(0, 0, 0, 0.03) 2px,
-      rgba(0, 0, 0, 0.03) 4px
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px
     );
     pointer-events: none;
     z-index: 9999;
@@ -152,11 +166,7 @@
     color: var(--color-terminal-green);
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
+  /* ── Status dots ─────────────────────────────────────────── */
   .status-dot {
     width: 6px;
     height: 6px;
@@ -180,7 +190,68 @@
     box-shadow: 0 0 6px var(--color-terminal-amber);
   }
 
-  /* ── ID Card animations ─────────────────────────────── */
+  /* ── Data metric classes ─────────────────────────────────── */
+  .metric-value {
+    color: #60a5fa;
+    font-weight: 700;
+    text-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
+  }
+
+  .metric-value-white {
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.18);
+  }
+
+  .tech-accent {
+    color: #60a5fa;
+    font-weight: 500;
+  }
+
+  .dim-label { color: #71717a; }
+  .text-secondary { color: #a1a1aa; }
+
+  /* ── Premium landing: glass card ────────────────────────── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ── Double-bezel outer shell ───────────────────────────── */
+  .bezel-outer {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 6px;
+    border-radius: 28px;
+  }
+
+  .bezel-inner {
+    background: #0c0c0f;
+    border-radius: 23px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  /* ── Font display override for landing sections ─────────── */
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* ── Accent green glow for single words ─────────────────── */
+  .accent-green {
+    color: var(--color-terminal-green);
+    text-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
+  }
+
+  /* ── Logo glitch on hover ───────────────────────────────── */
+  .glitch-hover:hover {
+    animation: glitch 2.5s infinite;
+  }
+
+  /* ── ID card rope animations ─────────────────────────────── */
   @keyframes rope-extend {
     from { height: 0; opacity: 0; }
     to   { height: 120px; opacity: 1; }
@@ -200,11 +271,7 @@
     100% { transform: translateY(-460px); opacity: 0; }
   }
 
-  /* ── Logo glitch on hover ───────────────────────────── */
-  .glitch-hover:hover {
-    animation: glitch 2.5s infinite;
-  }
-
+  /* ── Glitch keyframes ────────────────────────────────────── */
   @keyframes glitch {
     0%, 90%, 100% {
       transform: none;
@@ -214,7 +281,19 @@
     92% { transform: translate(2px, -1px);  text-shadow:  2px 0 #ff003c,-2px 0 #00ffff; }
     93% { transform: translate(-1px, 2px);  text-shadow: none; }
     94% { transform: translate(1px, -1px);  text-shadow: -1px 0 #00ffff, 1px 0 #ff003c; }
-    95% { transform: none;                  text-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
+    95% { transform: none; text-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
+  }
+
+  /* ── Hero orb breathe ────────────────────────────────────── */
+  @keyframes orb-breathe {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.12); }
+  }
+
+  /* ── Pulse animations ────────────────────────────────────── */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
   @keyframes pulse-green {
@@ -222,32 +301,9 @@
     50% { opacity: 0.6; box-shadow: 0 0 12px var(--color-terminal-green); }
   }
 
-  /* Primary data numbers — metabolic / system metrics */
-  .metric-value {
-    color: #60a5fa; /* blue-400 */
-    font-weight: 700;
-    text-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
-  }
-
-  .metric-value-white {
-    color: #ffffff;
-    font-weight: 700;
-    text-shadow: 0 0 14px rgba(255, 255, 255, 0.18);
-  }
-
-  /* Technical accent — highlights language/framework keywords */
-  .tech-accent {
-    color: #60a5fa; /* blue-400 */
-    font-weight: 500;
-  }
-
-  /* Dim label — section prefixes, watermark-level annotations */
-  .dim-label {
-    color: #71717a; /* zinc-500 */
-  }
-
-  /* Secondary readable text — still zinc-200+ level */
-  .text-secondary {
-    color: #a1a1aa; /* zinc-400 */
+  /* ── Timeline dot pulse ──────────────────────────────────── */
+  @keyframes timeline-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(0, 255, 65, 0); }
   }
 }

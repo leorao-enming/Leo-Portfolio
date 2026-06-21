@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -17,25 +24,22 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "LEOLOGIC",
-    template: "%s // LEOLOGIC",
+    default: "LeoLogic — Leo Rao",
+    template: "%s — LeoLogic",
   },
-  description: "Personal Operating System — Engineering, Quantitative Systems, and Biometric Optimization.",
-  keywords: ["leologic", "quant trading", "biometrics", "engineering", "personal OS"],
+  description:
+    "LeoLogic. Building precision systems at the intersection of chemical engineering and artificial intelligence.",
+  keywords: ["LeoLogic", "Leo Rao", "AI systems", "quant trading", "chemical engineering", "automation"],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-zinc-950 text-zinc-200 scanline">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
