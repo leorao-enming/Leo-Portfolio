@@ -41,6 +41,7 @@ export function CapabilitiesSection() {
 
   return (
     <section
+      id="capabilities"
       style={{
         padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
         maxWidth: "1280px",

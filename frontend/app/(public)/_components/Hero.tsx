@@ -1,310 +1,299 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import Link from "next/link";
 
-const ease = [0.16, 1, 0.3, 1] as const;
+/* ── Text scramble hook (lusion-style) ─────────────────────────── */
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234";
 
-function MagneticButton({
-  href,
+function useScramble(text: string, startDelay = 0) {
+  const [display, setDisplay] = useState("".padEnd(text.length, " "));
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (reduced) { setDisplay(text); return; }
+
+    let frame = 0;
+    const fps = 2;          // resolve N chars per frame
+    let raf: number;
+    let started = false;
+    const startAt = startDelay / 16;
+
+    const tick = () => {
+      frame++;
+      if (frame < startAt) { raf = requestAnimationFrame(tick); return; }
+      if (!started) { started = true; }
+
+      const elapsed = frame - startAt;
+      const revealed = Math.min(Math.floor((elapsed / 20) * text.length), text.length);
+
+      if (revealed >= text.length) { setDisplay(text); return; }
+
+      const out = text.split("").map((ch, i) => {
+        if (ch === " " || ch === "." || ch === ",") return ch;
+        if (i < revealed) return ch;
+        return CHARS[Math.floor(Math.random() * CHARS.length)];
+      }).join("");
+
+      setDisplay(out);
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [text, startDelay, reduced]);
+
+  return display;
+}
+
+/* ── Magnetic CTA button ─────────────────────────────────────────── */
+function MagneticBtn({
   children,
+  href,
   variant = "primary",
 }: {
-  href: string;
   children: React.ReactNode;
+  href: string;
   variant?: "primary" | "ghost";
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
 
   const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.28;
     el.style.transform = `translate(${x}px, ${y}px)`;
   };
-
-  const onLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "translate(0, 0)";
-  };
+  const onLeave = () => { if (ref.current) ref.current.style.transform = ""; };
 
   const base: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
     gap: 10,
-    padding: "14px 28px",
-    borderRadius: "9999px",
+    padding: "13px 26px",
+    borderRadius: 9999,
     fontFamily: "var(--font-display)",
     fontWeight: 500,
-    fontSize: 14,
-    letterSpacing: "0.02em",
+    fontSize: 13,
+    letterSpacing: "0.04em",
     textDecoration: "none",
-    transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, border-color 0.2s, box-shadow 0.2s",
-    cursor: "pointer",
-    userSelect: "none",
+    transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s",
     willChange: "transform",
+    cursor: "none",
   };
 
-  const styles: Record<string, React.CSSProperties> = {
-    primary: {
-      ...base,
-      background: "var(--color-terminal-green)",
-      color: "#050507",
-      fontWeight: 600,
-      boxShadow: "0 0 32px rgba(0,255,65,0.25)",
-    },
-    ghost: {
-      ...base,
-      background: "transparent",
-      color: "rgba(255,255,255,0.7)",
-      border: "1px solid rgba(255,255,255,0.12)",
-    },
-  };
+  if (variant === "primary") {
+    return (
+      <a ref={ref} href={href} style={{ ...base, background: "var(--color-terminal-green)", color: "#050507", fontWeight: 600, boxShadow: "0 0 28px rgba(0,255,65,0.22)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
+        {children}
+        <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(0,0,0,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10 }}>→</span>
+      </a>
+    );
+  }
 
   return (
-    <a
-      ref={ref}
-      href={href}
-      style={styles[variant]}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      onMouseEnter={e => {
-        const el = e.currentTarget;
-        if (variant === "primary") {
-          el.style.boxShadow = "0 0 48px rgba(0,255,65,0.35)";
-        } else {
-          el.style.borderColor = "rgba(255,255,255,0.28)";
-          el.style.color = "rgba(255,255,255,0.95)";
-        }
-      }}
-      onMouseOut={e => {
-        const el = e.currentTarget;
-        if (variant === "primary") {
-          el.style.boxShadow = "0 0 32px rgba(0,255,65,0.25)";
-        } else {
-          el.style.borderColor = "rgba(255,255,255,0.12)";
-          el.style.color = "rgba(255,255,255,0.7)";
-        }
-      }}
-    >
+    <a ref={ref} href={href} style={{ ...base, background: "transparent", color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.14)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
       {children}
-      <span
-        style={{
-          width: 22,
-          height: 22,
-          borderRadius: "50%",
-          background: variant === "primary" ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.08)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 11,
-          flexShrink: 0,
-        }}
-      >
-        {variant === "primary" ? "→" : "↗"}
-      </span>
+      <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10 }}>↗</span>
     </a>
   );
 }
 
+/* ── Hero ───────────────────────────────────────────────────────── */
 export function Hero() {
   const reduced = useReducedMotion();
-  const dur = reduced ? 0 : 1;
+
+  /* scramble the three lines with staggered delays */
+  const line1 = useScramble("By day, I build quant systems.", 200);
+  const line2 = useScramble("By night, I write precision code.", 600);
+  const line3 = useScramble("Same machine. Different rules.", 1000);
 
   return (
     <section
       id="hero"
       style={{
+        position: "relative",
         minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        padding: "0 clamp(24px, 5vw, 80px)",
-        paddingTop: "140px",
-        paddingBottom: "80px",
-        position: "relative",
+        justifyContent: "flex-end",
         overflow: "hidden",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
+        background: "#050507",
       }}
     >
-      {/* Background orbs */}
+      {/* ── Cinematic gradient bg ───────────────────────────────── */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
+          background:
+            "radial-gradient(ellipse 80% 70% at 15% 55%, rgba(0,40,15,0.55) 0%, transparent 60%)," +
+            "radial-gradient(ellipse 50% 50% at 80% 20%, rgba(0,10,5,0.3) 0%, transparent 55%)," +
+            "radial-gradient(ellipse 100% 80% at 50% 100%, rgba(0,0,0,0.7) 0%, transparent 60%)",
           pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
+      {/* ── Orb breathe ─────────────────────────────────────────── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: "8%",
+          left: "-8%",
+          width: "clamp(400px, 55vw, 800px)",
+          height: "clamp(400px, 55vw, 800px)",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0,255,65,0.055) 0%, transparent 70%)",
+          filter: "blur(60px)",
+          animation: "orb-breathe 9s ease-in-out infinite",
           zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* ── Giant backdrop word (Wang-13 / nirnor style) ───────── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          fontFamily: "var(--font-display)",
+          fontSize: "clamp(120px, 22vw, 320px)",
+          fontWeight: 800,
+          letterSpacing: "-0.06em",
+          color: "rgba(255,255,255,0.025)",
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          userSelect: "none",
+          zIndex: 0,
+          lineHeight: 1,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: "15%",
-            left: "-10%",
-            width: "clamp(320px, 50vw, 640px)",
-            height: "clamp(320px, 50vw, 640px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(0,255,65,0.07) 0%, transparent 70%)",
-            animation: "orb-breathe 8s ease-in-out infinite",
-            filter: "blur(40px)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "10%",
-            right: "5%",
-            width: "clamp(200px, 30vw, 400px)",
-            height: "clamp(200px, 30vw, 400px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(0,255,65,0.04) 0%, transparent 70%)",
-            animation: "orb-breathe 12s ease-in-out infinite reverse",
-            filter: "blur(60px)",
-          }}
-        />
+        LEOLOGIC
       </div>
 
-      <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: dur * 0.6, ease }}
-          style={{ marginBottom: 28 }}
-        >
-          <span
+      {/* ── Top-right descriptor (Wang-13 right-side small text) ── */}
+      <motion.div
+        initial={{ opacity: 0, y: reduced ? 0 : -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "absolute",
+          top: "clamp(90px, 14vh, 140px)",
+          right: "clamp(24px, 5vw, 80px)",
+          textAlign: "right",
+          zIndex: 2,
+        }}
+      >
+        {[
+          "AI Systems Engineer.",
+          "Quant Research.",
+          "A studio of one.",
+        ].map((line, i) => (
+          <div
+            key={i}
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "6px 14px",
-              borderRadius: "9999px",
-              border: "1px solid rgba(0,255,65,0.2)",
-              background: "rgba(0,255,65,0.06)",
-              fontSize: 11,
-              letterSpacing: "0.22em",
-              color: "var(--color-terminal-green)",
               fontFamily: "var(--font-display)",
-              fontWeight: 500,
-              textTransform: "uppercase",
+              fontSize: "clamp(13px, 1.4vw, 17px)",
+              color: i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.32)",
+              letterSpacing: "-0.01em",
+              lineHeight: 1.55,
+              fontWeight: i === 0 ? 500 : 400,
             }}
           >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "var(--color-terminal-green)",
-                boxShadow: "0 0 8px rgba(0,255,65,0.6)",
-                animation: "pulse-green 2s ease-in-out infinite",
-                flexShrink: 0,
-              }}
-            />
-            LeoLogic · Operating Company
-          </span>
-        </motion.div>
+            {line}
+          </div>
+        ))}
 
-        {/* H1 — three-line kinetic display */}
-        <div style={{ marginBottom: 28 }}>
-          {[
-            { text: "Precision.", color: "var(--color-text-primary)", delay: 0.1 },
-            { text: "Intelligence.", color: "var(--color-terminal-green)", delay: 0.2, glow: true },
-            { text: "Automation.", color: "var(--color-text-primary)", delay: 0.3 },
-          ].map(({ text, color, delay, glow }) => (
+        {/* Status dot + label */}
+        <div style={{ display: "flex", alignItems: "center", gap: 7, justifyContent: "flex-end", marginTop: 16 }}>
+          <span style={{ fontSize: 9, letterSpacing: "0.3em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            TORONTO · CA
+          </span>
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.7)", animation: "pulse-green 2s ease-in-out infinite" }} />
+        </div>
+      </motion.div>
+
+      {/* ── Main content — BOTTOM LEFT (Wang-13 asymmetric) ──────── */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          padding: "0 clamp(24px, 5vw, 80px) clamp(48px, 8vh, 96px)",
+          maxWidth: "100%",
+        }}
+      >
+        {/* Scramble headline lines */}
+        <div style={{ marginBottom: "clamp(28px, 4vh, 44px)" }}>
+          {[line1, line2, line3].map((line, i) => (
             <motion.div
-              key={text}
-              initial={{ opacity: 0, x: reduced ? 0 : -32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: dur * 0.9, delay: dur * delay, ease }}
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: reduced ? 0 : i * 0.12 }}
             >
               <h1
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "clamp(54px, 9vw, 120px)",
+                  fontSize: "clamp(28px, 5.5vw, 72px)",
                   fontWeight: 700,
-                  lineHeight: 1.0,
-                  letterSpacing: "-0.04em",
-                  color,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.08,
+                  color: i === 1
+                    ? "var(--color-terminal-green)"
+                    : i === 2
+                    ? "rgba(255,255,255,0.55)"
+                    : "rgba(255,255,255,0.92)",
                   margin: 0,
-                  textShadow: glow ? "0 0 60px rgba(0,255,65,0.25)" : undefined,
+                  fontVariantNumeric: "tabular-nums",
+                  textShadow: i === 1 ? "0 0 60px rgba(0,255,65,0.2)" : undefined,
                 }}
               >
-                {text}
+                {line}
               </h1>
             </motion.div>
           ))}
         </div>
 
-        {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0, y: reduced ? 0 : 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: dur * 0.7, delay: dur * 0.5, ease }}
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(15px, 1.4vw, 18px)",
-            color: "rgba(255,255,255,0.5)",
-            maxWidth: 480,
-            lineHeight: 1.65,
-            marginBottom: 44,
-          }}
-        >
-          ChemEng student building quant systems, AI agents, and precision tooling at the intersection of science and code.
-        </motion.p>
-
-        {/* CTAs */}
+        {/* CTA row */}
         <motion.div
           initial={{ opacity: 0, y: reduced ? 0 : 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: dur * 0.7, delay: dur * 0.65, ease }}
-          style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
+          transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
         >
-          <MagneticButton href="#projects" variant="primary">
-            View Work
-          </MagneticButton>
-          <MagneticButton href="#contact" variant="ghost">
-            Get in Touch
-          </MagneticButton>
+          <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
+          <MagneticBtn href="#contact" variant="ghost">Get in Touch</MagneticBtn>
         </motion.div>
 
-        {/* Scroll cue */}
+        {/* Bottom bar — nirnor-style horizontal rule + scroll cue */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: dur * 1.4 }}
+          transition={{ duration: 1, delay: reduced ? 0 : 1.4 }}
           style={{
-            marginTop: "clamp(48px, 8vh, 96px)",
             display: "flex",
             alignItems: "center",
-            gap: 10,
+            justifyContent: "space-between",
+            marginTop: "clamp(40px, 7vh, 72px)",
+            paddingTop: 18,
+            borderTop: "1px solid rgba(255,255,255,0.07)",
           }}
         >
-          <div
-            style={{
-              width: 1,
-              height: 48,
-              background: "linear-gradient(to bottom, transparent, rgba(0,255,65,0.5), transparent)",
-              animation: "orb-breathe 2.5s ease-in-out infinite",
-            }}
-          />
-          <span
-            style={{
-              fontSize: 10,
-              letterSpacing: "0.28em",
-              color: "rgba(255,255,255,0.22)",
-              fontFamily: "var(--font-display)",
-              textTransform: "uppercase",
-            }}
-          >
-            Scroll to explore
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ width: 32, height: 1, background: "var(--color-terminal-green)", opacity: 0.4 }} />
+            <span style={{ fontSize: 9, letterSpacing: "0.36em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+              SCROLL TO EXPLORE
+            </span>
+          </div>
+          <span style={{ fontSize: 9, letterSpacing: "0.24em", color: "rgba(255,255,255,0.15)", fontFamily: "var(--font-mono)" }}>
+            01 / 06
           </span>
         </motion.div>
       </div>
