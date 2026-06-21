@@ -180,6 +180,43 @@
     box-shadow: 0 0 6px var(--color-terminal-amber);
   }
 
+  /* ── ID Card animations ─────────────────────────────── */
+  @keyframes rope-extend {
+    from { height: 0; opacity: 0; }
+    to   { height: 120px; opacity: 1; }
+  }
+
+  @keyframes card-drop {
+    0%   { transform: translateY(-340px) rotate(-3deg); opacity: 0; }
+    65%  { transform: translateY(14px) rotate(1deg);   opacity: 1; }
+    78%  { transform: translateY(-7px) rotate(-0.5deg); }
+    88%  { transform: translateY(4px) rotate(0.3deg); }
+    95%  { transform: translateY(-2px); }
+    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes card-leave {
+    0%   { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-460px); opacity: 0; }
+  }
+
+  /* ── Logo glitch on hover ───────────────────────────── */
+  .glitch-hover:hover {
+    animation: glitch 2.5s infinite;
+  }
+
+  @keyframes glitch {
+    0%, 90%, 100% {
+      transform: none;
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+    }
+    91% { transform: translate(-2px, 1px);  text-shadow: -2px 0 #ff003c, 2px 0 #00ffff; }
+    92% { transform: translate(2px, -1px);  text-shadow:  2px 0 #ff003c,-2px 0 #00ffff; }
+    93% { transform: translate(-1px, 2px);  text-shadow: none; }
+    94% { transform: translate(1px, -1px);  text-shadow: -1px 0 #00ffff, 1px 0 #ff003c; }
+    95% { transform: none;                  text-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
+  }
+
   @keyframes pulse-green {
     0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--color-terminal-green); }
     50% { opacity: 0.6; box-shadow: 0 0 12px var(--color-terminal-green); }
