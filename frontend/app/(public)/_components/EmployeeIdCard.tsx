@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 
-type Phase = "hidden" | "entering" | "visible" | "leaving";
+/* card resting positions */
+const OPEN_Y  =  20;   /* visible: 20px below top of viewport */
+const CLOSE_Y = -580;  /* fully hidden above viewport          */
 
 /* ─── Security pattern SVG (guilloché-style micro lines) ─────────── */
 const SECURITY_BG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23003a1a' stroke-width='0.4' opacity='0.18'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='20' cy='20' r='8'/%3E%3Cline x1='0' y1='20' x2='40' y2='20'/%3E%3Cline x1='20' y1='0' x2='20' y2='40'/%3E%3C/g%3E%3C/svg%3E")`;
@@ -31,7 +33,6 @@ function Chip() {
         flexShrink: 0,
       }}
     >
-      {/* Chip contact pads */}
       {[
         { top: 3, left: 3 }, { top: 3, left: 11 }, { top: 3, right: 3 },
         { top: 10, left: 3 }, { top: 10, right: 3 },
@@ -70,7 +71,6 @@ function PhotoPlaceholder() {
         boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)",
       }}
     >
-      {/* Silhouette */}
       <div
         style={{
           position: "absolute",
@@ -84,7 +84,6 @@ function PhotoPlaceholder() {
           gap: 0,
         }}
       >
-        {/* Head circle */}
         <div
           style={{
             width: 28,
@@ -94,7 +93,6 @@ function PhotoPlaceholder() {
             marginBottom: 2,
           }}
         />
-        {/* Shoulders */}
         <div
           style={{
             width: 52,
@@ -104,7 +102,6 @@ function PhotoPlaceholder() {
           }}
         />
       </div>
-      {/* "LR" monogram overlay */}
       <div
         style={{
           position: "absolute",
@@ -202,7 +199,6 @@ function CardFront() {
           "0 32px 80px rgba(0,0,0,0.75), 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.9)",
       }}
     >
-      {/* Security guilloché background */}
       <div
         style={{
           position: "absolute",
@@ -214,8 +210,6 @@ function CardFront() {
           zIndex: 0,
         }}
       />
-
-      {/* Holographic sheen */}
       <div
         style={{
           position: "absolute",
@@ -227,9 +221,7 @@ function CardFront() {
         }}
       />
 
-      {/* Content */}
       <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column" }}>
-
         {/* Badge clip hole */}
         <div
           style={{
@@ -257,7 +249,6 @@ function CardFront() {
             overflow: "hidden",
           }}
         >
-          {/* Header security micro-lines */}
           <div
             style={{
               position: "absolute",
@@ -278,7 +269,6 @@ function CardFront() {
                 CREDENTIAL
               </div>
             </div>
-            {/* Mini logo mark */}
             <div
               style={{
                 width: 28,
@@ -303,8 +293,6 @@ function CardFront() {
 
         {/* Body */}
         <div style={{ padding: "14px 16px 0", flex: 1 }}>
-
-          {/* Photo + identity row */}
           <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
             <PhotoPlaceholder />
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -336,11 +324,7 @@ function CardFront() {
               <div style={{ fontSize: 8, color: "#777", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "monospace" }}>
                 Quant Research · ChemEng
               </div>
-
-              {/* Chip */}
               <Chip />
-
-              {/* Status pill */}
               <div
                 style={{
                   marginTop: 8,
@@ -370,7 +354,6 @@ function CardFront() {
             </div>
           </div>
 
-          {/* Separator */}
           <div
             style={{
               height: 1,
@@ -379,7 +362,6 @@ function CardFront() {
             }}
           />
 
-          {/* Fields */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 8px", marginBottom: 10 }}>
             {[
               ["INSTITUTION", "University of Toronto"],
@@ -398,7 +380,6 @@ function CardFront() {
             ))}
           </div>
 
-          {/* Separator */}
           <div
             style={{
               height: 1,
@@ -407,12 +388,10 @@ function CardFront() {
             }}
           />
 
-          {/* Barcode area */}
           <div>
             <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "#bbb", fontFamily: "monospace", marginBottom: 5 }}>
               ID: LL-2004-ENG-0723
             </div>
-            {/* Realistic barcode */}
             <div style={{ display: "flex", gap: 0, alignItems: "flex-end", height: 28 }}>
               {[2,1,3,1,2,1,1,3,2,1,2,1,3,1,2,2,1,3,1,2,1,1,3,2,1,2,1,3,1,2,1,2,3,1,2,1,1,3,2,1].map((w, i) => (
                 <div
@@ -484,7 +463,6 @@ function CardBack() {
           "0 32px 80px rgba(0,0,0,0.75), 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
       }}
     >
-      {/* Magnetic stripe — full width at top */}
       <div
         style={{
           width: "100%",
@@ -496,7 +474,6 @@ function CardBack() {
           flexShrink: 0,
         }}
       >
-        {/* Stripe texture lines */}
         <div
           style={{
             position: "absolute",
@@ -520,7 +497,6 @@ function CardBack() {
         </div>
       </div>
 
-      {/* Signature strip */}
       <div
         style={{
           margin: "10px 16px 0",
@@ -535,7 +511,6 @@ function CardBack() {
           paddingLeft: 8,
         }}
       >
-        {/* Signature strip pattern */}
         <div
           style={{
             position: "absolute",
@@ -571,7 +546,6 @@ function CardBack() {
         </span>
       </div>
 
-      {/* Body */}
       <div
         style={{
           padding: "14px 16px",
@@ -588,7 +562,6 @@ function CardBack() {
 
         <QrCode />
 
-        {/* Access fields */}
         <div style={{ width: "100%", borderTop: "1px solid rgba(0,255,65,0.08)", paddingTop: 10 }}>
           {[
             ["CLEARANCE", "LEVEL 5 / ADMIN"],
@@ -613,7 +586,6 @@ function CardBack() {
           ))}
         </div>
 
-        {/* Machine-readable zone */}
         <div
           style={{
             width: "100%",
@@ -632,7 +604,6 @@ function CardBack() {
         </div>
       </div>
 
-      {/* Footer */}
       <div
         style={{
           padding: "6px 16px 8px",
@@ -684,141 +655,173 @@ function LanyardClip() {
 
 /* ─── MAIN COMPONENT ─────────────────────────────────────────────── */
 export function EmployeeIdCard({ open, onClose }: Props) {
-  const [phase, setPhase] = useState<Phase>("hidden");
   const [flipped, setFlipped] = useState(false);
-  const [angle, setAngle] = useState(0);
-  const angleRef = useRef(0);
-  const velRef = useRef(0);
-  const isDragging = useRef(false);
-  const lastXRef = useRef(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef<number>(0);
 
+  /* DOM refs for direct transform updates (no re-render per frame) */
+  const wrapperRef = useRef<HTMLDivElement>(null); /* translateY */
+  const ropeRef    = useRef<HTMLDivElement>(null); /* rope X rotation */
+  const bodyRef    = useRef<HTMLDivElement>(null); /* card+clip X rotation */
+
+  /* Physics state (all refs — never trigger renders) */
+  const yRef     = useRef(CLOSE_Y);
+  const velYRef  = useRef(0);
+  const angleRef = useRef(0);
+  const velXRef  = useRef(0);
+
+  /* Drag tracking */
+  const isDragging   = useRef(false);
+  const dragStartY   = useRef(0);
+  const dragStartPY  = useRef(0);
+  const lastCY       = useRef(0);
+  const lastCX       = useRef(0);
+
+  /* Keep latest open value accessible inside RAF without re-creating effect */
+  const openRef = useRef(open);
+  useEffect(() => { openRef.current = open; }, [open]);
+
+  /* Kick impulse when opening so card "drops" with momentum */
   useEffect(() => {
-    if (open && phase === "hidden") {
-      setPhase("entering");
-      const t = setTimeout(() => setPhase("visible"), 800);
-      return () => clearTimeout(t);
-    }
-    if (!open && (phase === "entering" || phase === "visible")) {
-      setPhase("leaving");
-      const t = setTimeout(() => {
-        setPhase("hidden");
-        setFlipped(false);
-        setAngle(0);
-        angleRef.current = 0;
-        velRef.current = 0;
-      }, 420);
-      return () => clearTimeout(t);
+    if (open) {
+      velYRef.current = 22;
+      velXRef.current = 3;
     }
   }, [open]);
 
-  /* Pendulum physics */
+  /* Pointer events only active when open */
   useEffect(() => {
-    if (phase !== "visible") {
-      cancelAnimationFrame(animRef.current);
-      return;
+    if (bodyRef.current) {
+      bodyRef.current.style.pointerEvents = open ? "auto" : "none";
     }
-    velRef.current = 4;
-    const tick = () => {
-      if (!isDragging.current) {
-        velRef.current += (-angleRef.current * 0.07) - (velRef.current * 0.09);
-        angleRef.current += velRef.current;
-        if (Math.abs(angleRef.current) < 0.008 && Math.abs(velRef.current) < 0.008) {
-          angleRef.current = 0;
-          velRef.current = 0;
-        }
-        setAngle(angleRef.current);
-      }
-      animRef.current = requestAnimationFrame(tick);
-    };
-    animRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animRef.current);
-  }, [phase]);
+  }, [open]);
 
-  /* Scroll close */
+  /* Main physics RAF — runs for lifetime of component */
   useEffect(() => {
-    if (phase !== "visible" && phase !== "entering") return;
+    let raf: number;
+
+    const tick = () => {
+      const targetY = openRef.current ? OPEN_Y : CLOSE_Y;
+
+      if (!isDragging.current) {
+        /* Y spring toward target */
+        const dy = targetY - yRef.current;
+        velYRef.current = velYRef.current * 0.78 + dy * 0.10;
+        yRef.current   += velYRef.current;
+
+        /* X pendulum damping */
+        velXRef.current  += (-angleRef.current * 0.07) - (velXRef.current * 0.09);
+        angleRef.current += velXRef.current;
+        if (Math.abs(angleRef.current) < 0.01 && Math.abs(velXRef.current) < 0.01) {
+          angleRef.current = 0;
+          velXRef.current  = 0;
+        }
+      }
+
+      /* Apply directly to DOM — zero React overhead */
+      if (wrapperRef.current)
+        wrapperRef.current.style.transform = `translateY(${yRef.current}px)`;
+      if (ropeRef.current)
+        ropeRef.current.style.transform = `rotate(${angleRef.current * 0.28}deg)`;
+      if (bodyRef.current)
+        bodyRef.current.style.transform = `rotate(${angleRef.current}deg)`;
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  /* Scroll → close */
+  useEffect(() => {
+    if (!open) return;
     const onScroll = () => { if (window.scrollY > 80) onClose(); };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [phase, onClose]);
+  }, [open, onClose]);
 
-  /* Click outside close */
+  /* Click outside → close */
   useEffect(() => {
-    if (phase !== "visible") return;
+    if (!open) return;
     const onClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) onClose();
+      if (bodyRef.current && !bodyRef.current.contains(e.target as Node)) onClose();
     };
     const t = setTimeout(() => window.addEventListener("click", onClick), 200);
     return () => { clearTimeout(t); window.removeEventListener("click", onClick); };
-  }, [phase, onClose]);
+  }, [open, onClose]);
 
-  /* Drag to swing */
+  /* ── Drag handlers ── */
   const onPointerDown = (e: React.PointerEvent) => {
-    isDragging.current = true;
-    lastXRef.current = e.clientX;
+    isDragging.current  = true;
+    dragStartY.current  = e.clientY;
+    dragStartPY.current = yRef.current;
+    lastCY.current      = e.clientY;
+    lastCX.current      = e.clientX;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    if (bodyRef.current) bodyRef.current.style.cursor = "grabbing";
+    e.preventDefault();
   };
+
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
-    const dx = e.clientX - lastXRef.current;
-    velRef.current = dx * 0.45;
-    angleRef.current += velRef.current;
-    setAngle(angleRef.current);
-    lastXRef.current = e.clientX;
+    const dy = e.clientY - dragStartY.current;
+    const dx = e.clientX - lastCX.current;
+
+    /* Y: allow full drag, clamp so card can't fly too far above OPEN_Y */
+    const newY = dragStartPY.current + dy;
+    yRef.current   = Math.max(newY, OPEN_Y - 50);
+    velYRef.current = (e.clientY - lastCY.current) * 0.6;
+
+    /* X swing from horizontal drag */
+    velXRef.current   = dx * 0.45;
+    angleRef.current += velXRef.current;
+
+    lastCY.current = e.clientY;
+    lastCX.current = e.clientX;
   };
-  const onPointerUp = () => { isDragging.current = false; };
 
-  if (phase === "hidden") return null;
-
-  const isEntering = phase === "entering";
-  const isLeaving = phase === "leaving";
+  const onPointerUp = () => {
+    isDragging.current = false;
+    if (bodyRef.current) bodyRef.current.style.cursor = "grab";
+  };
 
   return (
     <div
+      ref={wrapperRef}
       style={{
         position: "fixed",
         top: 0,
-        /* Drop from right side — near the "Enter OS" button */
         right: "clamp(60px, 10vw, 180px)",
         zIndex: 9998,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         pointerEvents: "none",
+        willChange: "transform",
+        /* initial value prevents flicker before RAF starts */
+        transform: `translateY(${CLOSE_Y}px)`,
       }}
     >
       {/* Lanyard rope */}
       <div
+        ref={ropeRef}
         style={{
           width: 3,
           height: 110,
           background: "linear-gradient(180deg, #1a1a14 0%, #3a3828 30%, #4a4838 70%, #3a3828 100%)",
           transformOrigin: "top center",
-          transform: `rotate(${angle * 0.28}deg)`,
-          animation: isEntering ? "rope-extend 0.55s cubic-bezier(0.22,1,0.36,1) forwards" : undefined,
-          opacity: isLeaving ? 0 : 1,
-          transition: isLeaving ? "opacity 0.35s ease" : undefined,
           flexShrink: 0,
           boxShadow: "2px 0 6px rgba(0,0,0,0.5), -1px 0 3px rgba(0,0,0,0.3)",
           borderRadius: "0 0 2px 2px",
         }}
       />
 
-      {/* Lanyard clip + Card */}
+      {/* Clip + card — draggable */}
       <div
-        ref={containerRef}
+        ref={bodyRef}
         style={{
           transformOrigin: "top center",
-          transform: `rotate(${angle}deg)`,
-          animation: isEntering
-            ? "card-drop 0.85s cubic-bezier(0.34, 1.4, 0.64, 1) forwards"
-            : isLeaving
-            ? "card-leave 0.42s cubic-bezier(0.4, 0, 0.8, 0.2) forwards"
-            : undefined,
-          pointerEvents: "auto",
-          cursor: isDragging.current ? "grabbing" : "grab",
+          pointerEvents: "none", /* updated via effect when open changes */
+          cursor: "grab",
         }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -834,7 +837,7 @@ export function EmployeeIdCard({ open, onClose }: Props) {
             position: "relative",
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)",
           }}
           onClick={() => !isDragging.current && setFlipped(f => !f)}
         >
