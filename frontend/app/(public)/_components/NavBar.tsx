@@ -1,20 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useCallback, useEffect } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { useState, useCallback } from "react";
+import { motion } from "motion/react";
 import { EmployeeIdCard } from "./EmployeeIdCard";
 
 export function NavBar() {
   const [cardOpen, setCardOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const close = useCallback(() => setCardOpen(false), []);
-
-  const { scrollY } = useScroll();
-  const bgOpacity = useTransform(scrollY, [0, 80], [0.4, 0.75]);
-  const blur = useTransform(scrollY, [0, 80], [12, 20]);
-
-  useEffect(() => { setMounted(true); }, []);
 
   return (
     <>
@@ -33,17 +26,16 @@ export function NavBar() {
             padding: "10px 16px 10px 20px",
             borderRadius: "9999px",
             border: "1px solid rgba(255,255,255,0.09)",
-            backdropFilter: mounted ? `blur(${blur.get()}px)` : "blur(12px)",
-            WebkitBackdropFilter: mounted ? `blur(${blur.get()}px)` : "blur(12px)",
-            background: mounted
-              ? `rgba(5,5,7,${bgOpacity.get()})`
-              : "rgba(5,5,7,0.4)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            background: "rgba(6,8,7,0.72)",
+            boxShadow: "0 18px 60px rgba(0,0,0,0.22)",
           }}
         >
           {/* Logo */}
           <button
             onClick={() => setCardOpen(v => !v)}
-            className="glitch-hover flex items-center gap-2 focus:outline-none"
+            className="glitch-hover flex items-center gap-2 rounded-full focus:outline-none"
             style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
             aria-label="Open ID card"
           >
@@ -66,7 +58,7 @@ export function NavBar() {
               <a
                 key={label}
                 href={href}
-                className="text-xs px-3 py-1.5 rounded-full transition-all duration-300"
+                className="text-xs px-3 py-1.5 rounded-full transition-all duration-300 active:scale-95"
                 style={{
                   color: "rgba(255,255,255,0.45)",
                   fontFamily: "var(--font-display)",
@@ -89,7 +81,7 @@ export function NavBar() {
           {/* Enter OS CTA */}
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-xs font-medium rounded-full transition-all duration-300 group"
+            className="flex items-center gap-2 text-xs font-medium rounded-full transition-all duration-300 active:scale-95 group"
             style={{
               padding: "8px 16px",
               background: "rgba(0,255,65,0.1)",

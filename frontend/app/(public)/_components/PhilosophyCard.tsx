@@ -98,7 +98,7 @@ export function PhilosophyCard() {
         className="mt-4 pt-3 font-mono text-xs"
         style={{ borderTop: "1px solid #27272a" }}
       >
-        <span className="dim-label">// END MANIFESTO &nbsp;·&nbsp; </span>
+        <span className="dim-label">END MANIFESTO &nbsp;·&nbsp; </span>
         <span className="terminal-text">3 AXIOMS LOADED</span>
       </div>
     </div>

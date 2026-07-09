@@ -13,31 +13,25 @@ export function CursorGlow() {
   const rafRef      = useRef(0);
 
   useEffect(() => {
-    /* ── Mouse tracking ── */
+    const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!supportsFinePointer || prefersReducedMotion) return;
+
     const onMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
     const onDown = () => { stateRef.current = "click"; };
     const onUp   = () => { stateRef.current = "hover-check"; };
 
-    /* ── Hover detection ── */
     const SELECTORS = "a, button, [role=button], label, input, textarea, select";
-    let hovering = false;
-    const enterHover = () => { hovering = true;  stateRef.current = "hover"; };
-    const leaveHover = () => { hovering = false; stateRef.current = "default"; };
-
-    const attachHovers = () => {
-      document.querySelectorAll<HTMLElement>(SELECTORS).forEach(el => {
-        el.addEventListener("mouseenter", enterHover);
-        el.addEventListener("mouseleave", leaveHover);
-      });
+    const updateHover = (target: EventTarget | null) => {
+      const el = target instanceof Element ? target.closest(SELECTORS) : null;
+      stateRef.current = el ? "hover" : "default";
     };
-    attachHovers();
+    const onPointerOver = (e: PointerEvent) => updateHover(e.target);
+    const onPointerOut = (e: PointerEvent) => updateHover(e.relatedTarget);
 
-    const mutObs = new MutationObserver(attachHovers);
-    mutObs.observe(document.body, { childList: true, subtree: true });
-
-    /* ── RAF loop ── */
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const tick = () => {
@@ -66,7 +60,7 @@ export function CursorGlow() {
         ring.style.width       = `${size}px`;
         ring.style.height      = `${size}px`;
         ring.style.border      = border;
-        ring.style.mixBlendMode = blend as any;
+        ring.style.mixBlendMode = blend;
         ring.style.opacity     = mx < 0 ? "0" : "1";
       }
 
@@ -87,17 +81,16 @@ export function CursorGlow() {
     document.addEventListener("mousemove",  onMove, { passive: true });
     document.addEventListener("mousedown",  onDown);
     document.addEventListener("mouseup",    onUp);
-
-    /* ── hide native cursor ── */
-    document.documentElement.style.cursor = "none";
+    document.addEventListener("pointerover", onPointerOver, { passive: true });
+    document.addEventListener("pointerout", onPointerOut, { passive: true });
 
     return () => {
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("mouseup",   onUp);
-      mutObs.disconnect();
+      document.removeEventListener("pointerover", onPointerOver);
+      document.removeEventListener("pointerout", onPointerOut);
       cancelAnimationFrame(rafRef.current);
-      document.documentElement.style.cursor = "";
     };
   }, []);
 

@@ -14,13 +14,13 @@ const links = [
   {
     label: "GitHub",
     value: "github.com/leo-rao",
-    href: "https://github.com",
+    href: "https://github.com/leo-rao",
     icon: "↗",
   },
   {
     label: "LinkedIn",
     value: "linkedin.com/in/leo-rao",
-    href: "https://linkedin.com",
+    href: "https://linkedin.com/in/leo-rao",
     icon: "↗",
   },
 ];
@@ -95,7 +95,7 @@ export function ContactSection() {
                 marginBottom: 20,
               }}
             >
-              Let's build
+              Let&apos;s build
               <br />
               <span style={{ color: "var(--color-terminal-green)", textShadow: "0 0 40px rgba(0,255,65,0.25)" }}>
                 something real.
@@ -139,6 +139,7 @@ export function ContactSection() {
                 textDecoration: "none",
                 boxShadow: "0 0 32px rgba(0,255,65,0.2)",
                 transition: "box-shadow 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)",
+                cursor: "pointer",
               }}
               onMouseEnter={e => {
                 (e.currentTarget as HTMLElement).style.boxShadow = "0 0 48px rgba(0,255,65,0.35)";

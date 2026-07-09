@@ -11,18 +11,15 @@ function useScramble(text: string, startDelay = 0) {
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) { setDisplay(text); return; }
+    if (reduced) return;
 
     let frame = 0;
-    const fps = 2;          // resolve N chars per frame
     let raf: number;
-    let started = false;
     const startAt = startDelay / 16;
 
     const tick = () => {
       frame++;
       if (frame < startAt) { raf = requestAnimationFrame(tick); return; }
-      if (!started) { started = true; }
 
       const elapsed = frame - startAt;
       const revealed = Math.min(Math.floor((elapsed / 20) * text.length), text.length);
@@ -43,7 +40,7 @@ function useScramble(text: string, startDelay = 0) {
     return () => cancelAnimationFrame(raf);
   }, [text, startDelay, reduced]);
 
-  return display;
+  return reduced ? text : display;
 }
 
 /* ── Magnetic CTA button ─────────────────────────────────────────── */
@@ -80,12 +77,12 @@ function MagneticBtn({
     textDecoration: "none",
     transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s",
     willChange: "transform",
-    cursor: "none",
+    cursor: "pointer",
   };
 
   if (variant === "primary") {
     return (
-      <a ref={ref} href={href} style={{ ...base, background: "var(--color-terminal-green)", color: "#050507", fontWeight: 600, boxShadow: "0 0 28px rgba(0,255,65,0.22)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <a ref={ref} href={href} style={{ ...base, background: "var(--color-terminal-green)", color: "#050507", fontWeight: 600, boxShadow: "0 0 28px rgba(104,242,154,0.22)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
         {children}
         <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(0,0,0,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10 }}>→</span>
       </a>
@@ -252,7 +249,7 @@ export function Hero() {
                     : "rgba(255,255,255,0.92)",
                   margin: 0,
                   fontVariantNumeric: "tabular-nums",
-                  textShadow: i === 1 ? "0 0 60px rgba(0,255,65,0.2)" : undefined,
+                  textShadow: i === 1 ? "0 0 60px rgba(104,242,154,0.2)" : undefined,
                 }}
               >
                 {line}

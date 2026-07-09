@@ -27,8 +27,8 @@ function useCountUp(target: number, inView: boolean, duration = 1400) {
 const stats = [
   { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#60a5fa" },
   { raw: 2,   display: (n: number) => `${n}+`,  label: "Yrs Quant Res.",    accent: "var(--color-terminal-green)" },
-  { raw: 6,   display: (n: number) => `6σ`,     label: "Black Belt",        accent: "#c084fc" },
-  { raw: 100, display: (n: number) => `∞`,      label: "Systems Mindset",   accent: "#fb923c" },
+  { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#c084fc" },
+  { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#fb923c" },
 ];
 
 function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inView: boolean; index: number; reduced: boolean | null }) {
@@ -136,7 +136,7 @@ export function AboutSection() {
             </h2>
 
             <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.45)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
-              I'm Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
+              I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
             </p>
             <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.3)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
               From quant trading engines to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.

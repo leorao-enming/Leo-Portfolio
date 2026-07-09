@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, ReactNode } from "react";
+import { useReducedMotion } from "motion/react";
 
 interface TiltCardProps {
   children: ReactNode;
@@ -11,8 +12,10 @@ interface TiltCardProps {
 
 export function TiltCard({ children, className = "", style, intensity = 10 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -27,6 +30,7 @@ export function TiltCard({ children, className = "", style, intensity = 10 }: Ti
   };
 
   const handleLeave = () => {
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
     el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)";

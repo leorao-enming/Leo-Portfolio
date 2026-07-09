@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -140,13 +141,13 @@ export default function LoginPage() {
 
         {/* Back link */}
         <div className="mt-4 text-center">
-          <a
+          <Link
             href="/"
             className="text-xs tracking-widest transition-colors hover:text-white"
             style={{ color: "#2a2a2a" }}
           >
             ← RETURN TO PUBLIC SITE
-          </a>
+          </Link>
         </div>
       </div>
     </div>
