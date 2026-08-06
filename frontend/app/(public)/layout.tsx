@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { NavBar } from "./_components/NavBar";
 import { CursorGlow } from "./_components/CursorGlow";
 
-export const metadata: Metadata = {
-  title: "LeoLogic — Leo Rao",
-  description:
-    "Building precision systems at the intersection of chemical engineering and artificial intelligence.",
-};
+// Title and description are inherited from the root layout. Re-declaring the
+// title here as a string re-applied the root's "%s — LeoLogic" template on top
+// of it, rendering "LeoLogic — Leo Rao — LeoLogic".
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (

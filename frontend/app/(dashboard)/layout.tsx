@@ -43,12 +43,12 @@ export default async function DashboardLayout({
           <span className="text-xs tracking-widest text-zinc-400">
             UID:{user.slice(0, 8).toUpperCase()}
           </span>
-          <Link
-            href="/login"
+          <a
+            href="/logout"
             className="text-xs tracking-widest text-zinc-400 hover:text-white transition-colors"
           >
             LOGOUT →
-          </Link>
+          </a>
         </div>
       </header>
 

@@ -1,42 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { TiltCard } from "./TiltCard";
+import { LANDING_PROJECTS, type Project } from "../../_data/projects";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-
-const projects = [
-  {
-    id: "lqc",
-    tag: "Flagship",
-    name: "LQC — Live Quant Center",
-    desc: "Real-time options flow analysis, earnings catalyst tracking, and market microstructure signals. Built on Next.js with a Python FastAPI backend and live WebSocket feeds.",
-    stack: ["Next.js", "FastAPI", "Python", "WebSocket"],
-    status: "In Development",
-    accent: "var(--color-terminal-green)",
-    featured: true,
-  },
-  {
-    id: "leologic-os",
-    tag: "System",
-    name: "LeoLogic OS",
-    desc: "Personal operating system: biometrics dashboard, quant engine, and AI command center in one unified interface.",
-    stack: ["Next.js", "Supabase", "Tailwind"],
-    status: "Active",
-    accent: "#60a5fa",
-    featured: false,
-  },
-  {
-    id: "chem-sim",
-    tag: "Research",
-    name: "ChemSim Agent",
-    desc: "AI agent for chemical process simulation and optimization. Automates HYSYS workflows using Python scripting and LLM reasoning.",
-    stack: ["Python", "GPT-4", "HYSYS COM"],
-    status: "Prototype",
-    accent: "#c084fc",
-    featured: false,
-  },
-];
 
 function ProjectTag({ label, accent }: { label: string; accent: string }) {
   return (
@@ -59,7 +28,7 @@ function ProjectTag({ label, accent }: { label: string; accent: string }) {
   );
 }
 
-function FeaturedCard({ project, reduced }: { project: typeof projects[0]; reduced: boolean | null }) {
+function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean | null }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: reduced ? 0 : 30 }}
@@ -118,7 +87,7 @@ function FeaturedCard({ project, reduced }: { project: typeof projects[0]; reduc
                   animation: "pulse-green 2s ease-in-out infinite",
                 }}
               />
-              {project.status}
+              {project.statusLabel}
             </span>
           </div>
 
@@ -133,7 +102,7 @@ function FeaturedCard({ project, reduced }: { project: typeof projects[0]; reduc
               marginBottom: 16,
             }}
           >
-            {project.name}
+            {project.title}
           </h3>
 
           <p
@@ -145,7 +114,7 @@ function FeaturedCard({ project, reduced }: { project: typeof projects[0]; reduc
               paddingBottom: 28,
             }}
           >
-            {project.desc}
+            {project.summary}
           </p>
 
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: "auto" }}>
@@ -177,7 +146,7 @@ function SmallCard({
   index,
   reduced,
 }: {
-  project: typeof projects[0];
+  project: Project;
   index: number;
   reduced: boolean | null;
 }) {
@@ -223,7 +192,7 @@ function SmallCard({
               marginBottom: 10,
             }}
           >
-            {project.name}
+            {project.title}
           </h3>
 
           <p
@@ -235,7 +204,7 @@ function SmallCard({
               paddingBottom: 16,
             }}
           >
-            {project.desc}
+            {project.summary}
           </p>
 
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: "auto" }}>
@@ -264,7 +233,9 @@ function SmallCard({
 
 export function ProjectsSection() {
   const reduced = useReducedMotion();
-  const [featured, ...rest] = projects;
+  const featured =
+    LANDING_PROJECTS.find((p) => p.landingFeatured) ?? LANDING_PROJECTS[0];
+  const rest = LANDING_PROJECTS.filter((p) => p.id !== featured.id);
 
   return (
     <section
@@ -281,8 +252,16 @@ export function ProjectsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: reduced ? 0 : 0.7, ease }}
-        style={{ marginBottom: "clamp(40px, 6vw, 64px)" }}
+        style={{
+          marginBottom: "clamp(40px, 6vw, 64px)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: 24,
+          flexWrap: "wrap",
+        }}
       >
+        <div>
         <span
           style={{
             display: "inline-block",
@@ -312,6 +291,35 @@ export function ProjectsSection() {
         >
           Systems that ship.
         </h2>
+        </div>
+
+        <Link
+          href="/projects"
+          className="group"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "9px 16px",
+            borderRadius: "9999px",
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.03)",
+            fontFamily: "var(--font-display)",
+            fontSize: 12,
+            letterSpacing: "0.02em",
+            color: "rgba(255,255,255,0.62)",
+            whiteSpace: "nowrap",
+            transition: "color 240ms ease, border-color 240ms ease, background 240ms ease",
+          }}
+        >
+          Full project registry
+          <span
+            className="transition-transform duration-300 group-hover:translate-x-0.5"
+            aria-hidden
+          >
+            →
+          </span>
+        </Link>
       </motion.div>
 
       <div

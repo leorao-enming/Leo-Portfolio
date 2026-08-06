@@ -1,39 +1,15 @@
 "use client";
 
-import { HalfLifeSimulator } from "./HalfLifeSimulator";
+import { HalfLifeSimulator } from "../../_components/HalfLifeSimulator";
+import type {
+  Project,
+  ProjectRegistryDetail,
+  ProjectMetric,
+  TechTag,
+} from "../../_data/projects";
 
-export type TechTag = {
-  label: string;
-  tone?: "green" | "cyan" | "amber";
-};
-
-export type ProjectMetric = {
-  label: string;
-  value: string;
-};
-
-export type ProjectLink = {
-  label: string;
-  href: string;
-};
-
-export type ProjectCardProps = {
-  id: string;
-  codename: string;
-  title: string;
-  status: "ACTIVE" | "STABLE" | "ARCHIVED" | "WIP";
-  displayType: "Live System" | "Architecture Only";
-  description: string;
-  longDescription: string;
-  techStack: TechTag[];
-  metrics: ProjectMetric[];
-  architecture: {
-    title: string;
-    layers: { label: string; sublabel?: string; tone?: "green" | "cyan" | "amber" }[];
-  };
-  tags: string[];
-  links?: ProjectLink[];
-};
+/** A registry project flattened into the shape this card renders. */
+export type ProjectCardProps = Project & { registry: ProjectRegistryDetail };
 
 const TONE_CLASS: Record<string, string> = {
   green: "terminal-text",
@@ -61,6 +37,8 @@ function LockIcon() {
 
 // ─── Live System card ──────────────────────────────────────────────────────────
 function LiveSystemCard({ project }: { project: ProjectCardProps }) {
+  const { registry } = project;
+  const hasLinks = Boolean(registry.links?.length);
   return (
     <article
       className="group transition-colors duration-300 overflow-hidden"
@@ -102,25 +80,25 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
         <h2 className="text-base font-bold tracking-wide mb-2 text-white">{project.title}</h2>
-        <p className="text-xs leading-relaxed mb-1 text-zinc-300">{project.description}</p>
-        <p className="text-xs leading-relaxed mb-5 text-zinc-400">{project.longDescription}</p>
+        <p className="text-xs leading-relaxed mb-1 text-zinc-300">{project.summary}</p>
+        <p className="text-xs leading-relaxed mb-5 text-zinc-400">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-          <TechStackPanel tags={project.techStack} />
-          <MetricsPanel metrics={project.metrics} />
+          <TechStackPanel tags={registry.techStack} />
+          <MetricsPanel metrics={registry.metrics} />
         </div>
 
         {/* Architecture */}
-        <ArchitecturePanel arch={project.architecture} />
+        <ArchitecturePanel arch={registry.architecture} />
 
         {/* Half-Life decay simulator — embedded for the Bio-Metrics live showcase */}
-        {project.id === "P-03" && <HalfLifeSimulator />}
+        {project.codename === "HALFLIFE" && <HalfLifeSimulator />}
 
         {/* ── CTA buttons ─────────────────────────────────────────────────── */}
-        {project.links && project.links.length > 0 && (
+        {registry.links && registry.links.length > 0 && (
           <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(0,212,255,0.1)" }}>
-            {project.links.map((link, i) => (
+            {registry.links.map((link, i) => (
               <a
                 key={i}
                 href={link.href}
@@ -145,7 +123,7 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
         )}
 
         {/* Tag strip */}
-        <TagStrip tags={project.tags} mt={project.links && project.links.length > 0} />
+        <TagStrip tags={registry.tags} mt={hasLinks} />
       </div>
     </article>
   );
@@ -153,6 +131,8 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
 
 // ─── Architecture Only card ────────────────────────────────────────────────────
 function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
+  const { registry } = project;
+  const hasLinks = Boolean(registry.links?.length);
   return (
     <article
       className="group transition-colors duration-300 overflow-hidden"
@@ -207,22 +187,22 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
           </span>
         </div>
 
-        <p className="text-xs leading-relaxed mb-1 text-zinc-400">{project.description}</p>
-        <p className="text-xs leading-relaxed mb-5 text-zinc-500">{project.longDescription}</p>
+        <p className="text-xs leading-relaxed mb-1 text-zinc-400">{project.summary}</p>
+        <p className="text-xs leading-relaxed mb-5 text-zinc-500">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics (slightly muted) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-          <TechStackPanel tags={project.techStack} muted />
-          <MetricsPanel metrics={project.metrics} muted />
+          <TechStackPanel tags={registry.techStack} muted />
+          <MetricsPanel metrics={registry.metrics} muted />
         </div>
 
         {/* Architecture — shown in full since that's the whole point */}
-        <ArchitecturePanel arch={project.architecture} muted />
+        <ArchitecturePanel arch={registry.architecture} muted />
 
         {/* ── Ghost CTA buttons ────────────────────────────────────────────── */}
-        {project.links && project.links.length > 0 && (
+        {registry.links && registry.links.length > 0 && (
           <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(255,176,0,0.08)" }}>
-            {project.links.map((link, i) => (
+            {registry.links.map((link, i) => (
               <a
                 key={i}
                 href={link.href}
@@ -241,7 +221,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
         )}
 
         {/* Tag strip */}
-        <TagStrip tags={project.tags} mt={project.links && project.links.length > 0} muted />
+        <TagStrip tags={registry.tags} mt={hasLinks} muted />
       </div>
     </article>
   );
@@ -321,7 +301,7 @@ function ArchitecturePanel({
   arch,
   muted,
 }: {
-  arch: ProjectCardProps["architecture"];
+  arch: ProjectRegistryDetail["architecture"];
   muted?: boolean;
 }) {
   return (
@@ -406,7 +386,7 @@ function TagStrip({
 
 // ─── Public export ─────────────────────────────────────────────────────────────
 export function ProjectCard({ project }: { project: ProjectCardProps }) {
-  if (project.displayType === "Live System") {
+  if (project.registry.displayType === "Live System") {
     return <LiveSystemCard project={project} />;
   }
   return <ArchitectureOnlyCard project={project} />;

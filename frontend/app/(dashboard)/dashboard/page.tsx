@@ -1,10 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Command Center",
+  robots: { index: false, follow: false },
+};
 
 const SUBSYSTEMS = [
   {
-    id: "CATALYST",
+    id: "LQC-CORE",
     label: "QUANT TRADING ENGINE",
-    description: "Project Catalyst — Systematic execution, signal routing, and live portfolio metrics.",
+    description:
+      "LeoLogic Quantitative Core — Systematic execution, signal routing, and live portfolio metrics.",
     href: "/dashboard/quant",
     statusLabel: "LIVE",
     statusClass: "terminal-text",
@@ -31,8 +38,8 @@ const SUBSYSTEMS = [
 
 const RECENT_EVENTS = [
   { time: "00:00:00", level: "INFO", msg: "System boot sequence complete." },
-  { time: "00:00:01", level: "INFO", msg: "Auth middleware loaded. Dashboard routes protected." },
-  { time: "00:00:02", level: "INFO", msg: "Subsystem: CATALYST initialized." },
+  { time: "00:00:01", level: "INFO", msg: "Auth proxy loaded. Dashboard routes protected." },
+  { time: "00:00:02", level: "INFO", msg: "Subsystem: LQC-CORE initialized." },
   { time: "00:00:02", level: "INFO", msg: "Subsystem: HALFLIFE initialized." },
   { time: "00:00:03", level: "WARN", msg: "Live data feeds: awaiting external integrations." },
 ];

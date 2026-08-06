@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { HalfLifeSimulator } from "../../../_components/HalfLifeSimulator";
 
 export const metadata: Metadata = {
   title: "Bio-Metrics",
 };
+
+const SUPPLEMENT_STACK = [
+  { name: "Creatine Monohydrate", dose: "5000mg", freq: "Daily", tHalf: "36h", purpose: "ATP resynthesis, strength output" },
+  { name: "Vitamin D3", dose: "5000 IU", freq: "Daily", tHalf: "720h", purpose: "Hormonal regulation, immune function" },
+  { name: "Artichoke Extract", dose: "320mg", freq: "As needed", tHalf: "4h", purpose: "PDE4 inhibition, cAMP elevation" },
+];
 
 const METRIC_CARDS = [
   { label: "READINESS SCORE", value: "—", sub: "Awaiting biometric data", color: "terminal-cyan" },
@@ -23,20 +30,24 @@ const TRAINING_LOG: {
 ];
 
 const HALFLIFE_PARAMS = [
-  { param: "COMPOUND", halfLife: "48h", category: "CNS FATIGUE", notes: "Neurological recovery" },
+  { param: "COMPOUND", halfLife: "48h", category: "CNS FATIGUE", notes: "Neurological recovery window" },
   { param: "GLYCOGEN", halfLife: "24h", category: "METABOLIC", notes: "Full repletion with nutrition" },
   { param: "MUSCLE DAMAGE", halfLife: "72h", category: "STRUCTURAL", notes: "Eccentric-dominant sessions" },
   { param: "HORMONAL STRESS", halfLife: "6h", category: "ENDOCRINE", notes: "Cortisol acute response" },
   { param: "CARDIO FATIGUE", halfLife: "12h", category: "CARDIOVASCULAR", notes: "Aerobic system load" },
+  { param: "CREATINE SATURATION", halfLife: "36h", category: "SUPPLEMENT", notes: "Phosphocreatine pool depletion" },
+  { param: "VITAMIN D3", halfLife: "720h", category: "SUPPLEMENT", notes: "Stored in adipose; slow decay" },
 ];
 
 const BIO_MODULES = [
   { name: "HRV MONITOR", status: "PENDING" },
   { name: "TRAINING LOGGER", status: "ACTIVE" },
   { name: "METABOLIC DECAY MODEL", status: "ACTIVE" },
+  { name: "SUPPLEMENT TRACKER", status: "ACTIVE" },
   { name: "SLEEP TRACKER (EXT)", status: "PENDING" },
   { name: "NUTRITION INTAKE (EXT)", status: "PENDING" },
   { name: "WEARABLE FEED (EXT)", status: "PENDING" },
+  { name: "BLOODWORK API (EXT)", status: "PENDING" },
 ];
 
 function StatusBadge({ status }: { status: string }) {
@@ -67,6 +78,9 @@ export default function BiometricsPage() {
           Half-Life protocol — Models physiological fatigue as exponential decay functions.
           Tracks metabolic stressors, training load, and recovery state across time.
         </p>
+        <p className="mt-3 text-xs font-mono" style={{ color: "#3f3f46" }}>
+          R(t) = R₀ · e^(−λt) &nbsp;·&nbsp; λ = ln(2) / t½ &nbsp;·&nbsp; bone_weight_modifier = 4.5
+        </p>
       </div>
 
       {/* Status cards */}
@@ -91,6 +105,61 @@ export default function BiometricsPage() {
               </p>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Interactive decay simulator */}
+      <div className="mb-10">
+        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+          ── DECAY SIMULATOR
+        </p>
+        <HalfLifeSimulator />
+      </div>
+
+      {/* Active supplement stack */}
+      <div className="mb-10">
+        <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+          ── ACTIVE SUPPLEMENT STACK
+        </p>
+        <div className="card-surface overflow-x-auto">
+          <table className="w-full text-xs font-mono">
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--color-border)" }}>
+                {["COMPOUND", "DOSE", "FREQUENCY", "t½", "PURPOSE"].map((h) => (
+                  <th
+                    key={h}
+                    className="px-4 py-3 text-left tracking-widest font-medium whitespace-nowrap"
+                    style={{ color: "#333" }}
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SUPPLEMENT_STACK.map((row, i) => (
+                <tr
+                  key={row.name}
+                  style={{
+                    borderBottom: i < SUPPLEMENT_STACK.length - 1 ? "1px solid #0d0d0d" : "none",
+                  }}
+                  className="hover:bg-zinc-900 transition-colors"
+                >
+                  <td className="px-4 py-3 font-semibold tracking-wider whitespace-nowrap" style={{ color: "#ccc" }}>
+                    {row.name}
+                  </td>
+                  <td className="px-4 py-3 terminal-cyan font-bold whitespace-nowrap">{row.dose}</td>
+                  <td className="px-4 py-3 tracking-wider whitespace-nowrap" style={{ color: "#555" }}>
+                    {row.freq}
+                  </td>
+                  <td className="px-4 py-3 terminal-amber font-bold">{row.tHalf}</td>
+                  <td className="px-4 py-3" style={{ color: "#555" }}>
+                    {row.purpose}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 

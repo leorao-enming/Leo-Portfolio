@@ -19,11 +19,30 @@ app = FastAPI(
 
 # ---------------------------------------------------------------------------
 # CORS
+#
+# A wildcard origin cannot be combined with credentials — browsers reject the
+# pair outright. Origins are listed explicitly and can be extended per
+# environment via CORS_ORIGINS (comma-separated).
 # ---------------------------------------------------------------------------
+
+DEFAULT_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://leologic.org",
+    "https://www.leologic.org",
+]
+
+_extra_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "").split(",")
+    if origin.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=DEFAULT_ORIGINS + _extra_origins,
+    # Vercel preview deployments get a generated subdomain per build.
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

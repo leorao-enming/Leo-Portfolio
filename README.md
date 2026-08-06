@@ -12,6 +12,23 @@ leora/
 └── backend/           # FastAPI (Python, Uvicorn)
 ```
 
+### Routes
+
+| Route | Access | Purpose |
+|---|---|---|
+| `/` | Public | Landing page — hero, about, featured work, timeline, contact |
+| `/projects` | Public | Full project registry with architecture breakdowns |
+| `/login` | Public | Auth gate (demo token) |
+| `/logout` | Public | Clears the auth cookie, redirects to `/login` |
+| `/dashboard` | Protected | Command center overview |
+| `/dashboard/quant` | Protected | LQC quant engine subsystem |
+| `/dashboard/biometrics` | Protected | Half-Life bio-metrics subsystem |
+
+`frontend/proxy.ts` gates every `/dashboard/*` route on the `auth-token` cookie.
+Project names, codenames, and statuses come from a single source of truth in
+`frontend/app/_data/projects.ts` — both the landing page and `/projects` read
+from it, so a project is never described two different ways.
+
 ### Frontend — `frontend/`
 
 | Technology | Version |
@@ -21,7 +38,7 @@ leora/
 | Tailwind CSS | v4 |
 | TypeScript | v5 |
 
-The frontend communicates with the backend via the `NEXT_PUBLIC_API_URL` environment variable. In production, it is deployed on **Vercel** and served at [leologic.org](https://leologic.org).
+The frontend communicates with the backend via the `NEXT_PUBLIC_API_URL` environment variable, read in `frontend/app/_lib/api.ts`. Set it to `http://localhost:8000` for local development; if unset it falls back to the deployed backend. In production, the frontend is deployed on **Vercel** and served at [leologic.org](https://leologic.org).
 
 ### Backend — `backend/`
 
@@ -36,7 +53,7 @@ Key routers:
 - `/bio` — Bio-metrics tracking endpoints
 - `/health` — Health check (used by load balancers and uptime monitors)
 
-CORS is pre-configured to accept requests from `localhost:3000` (dev) and `leologic.org` (prod).
+CORS accepts `localhost:3000` / `127.0.0.1:3000` (dev), `leologic.org` and `www.leologic.org` (prod), plus any `*.vercel.app` preview deployment. Add further origins with the `CORS_ORIGINS` environment variable (comma-separated). A wildcard origin is deliberately not used — browsers reject `Access-Control-Allow-Origin: *` on credentialed requests.
 
 ---
 

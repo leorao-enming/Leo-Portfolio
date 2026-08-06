@@ -4,7 +4,7 @@ const AUTH_COOKIE = "auth-token";
 const PROTECTED_PREFIX = "/dashboard";
 const LOGIN_ROUTE = "/login";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!pathname.startsWith(PROTECTED_PREFIX)) {

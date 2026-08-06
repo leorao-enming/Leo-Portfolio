@@ -49,11 +49,13 @@ export function NavBar() {
 
           {/* Nav links — hidden on small screens */}
           <div className="hidden md:flex items-center gap-1">
+            {/* Root-relative so the anchors also resolve from /projects */}
             {[
-              { label: "Work", href: "#projects" },
-              { label: "About", href: "#about" },
-              { label: "Timeline", href: "#timeline" },
-              { label: "Contact", href: "#contact" },
+              { label: "Work", href: "/#projects" },
+              { label: "Projects", href: "/projects" },
+              { label: "About", href: "/#about" },
+              { label: "Timeline", href: "/#timeline" },
+              { label: "Contact", href: "/#contact" },
             ].map(({ label, href }) => (
               <a
                 key={label}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiUrl } from "../_lib/api";
 import {
   LineChart,
   Line,
@@ -75,7 +76,7 @@ export function HalfLifeSimulator() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("https://leo-portfolio-f9vp.onrender.com/api/decay", {
+      const res = await fetch(apiUrl("/api/decay"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
