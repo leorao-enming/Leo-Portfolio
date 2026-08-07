@@ -48,10 +48,54 @@ The frontend communicates with the backend via the `NEXT_PUBLIC_API_URL` environ
 | Uvicorn | ASGI server |
 | python-dotenv | Environment config |
 
-Key routers:
-- `/quant` — Quantitative trading engine endpoints
-- `/bio` — Bio-metrics tracking endpoints
-- `/health` — Health check (used by load balancers and uptime monitors)
+#### Layout
+
+```
+backend/
+├── schemas/      # Pydantic response models — the API contract
+├── content/      # The data that fills those models (editable source of truth)
+└── routers/      # Wires content to HTTP endpoints
+```
+
+There is no database. Dashboard content lives in `backend/content/` as typed
+Python values, so content changes are code changes and `git log` doubles as the
+change history. Because the content is built from the schema models, a malformed
+entry fails at import rather than reaching the UI.
+
+#### Endpoints
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/health` | Health check (load balancers, uptime monitors) |
+| `GET` | `/system/overview` | Subsystem registry + recent activity → `/dashboard` |
+| `GET` | `/system/activity` | Full activity feed, newest first (`?limit=`) |
+| `GET` | `/quant/dashboard` | Everything `/dashboard/quant` renders |
+| `GET` | `/quant/status` | Engine state, derived from the strategy registry |
+| `GET` | `/quant/ibkr/connection` | IBKR TWS connection state |
+| `GET` | `/bio/dashboard` | Everything `/dashboard/biometrics` renders |
+| `POST` | `/bio/metabolic-decay` | First-order decay for a single compound |
+| `POST` | `/bio/physiological-update` | Record a physiological measurement |
+| `POST` | `/api/decay` | 72-hour decay curve for the interactive simulator |
+
+Interactive docs at `/docs`, schema at `/openapi.json`.
+
+#### Updating content
+
+| To change | Edit |
+|---|---|
+| Recent activity / work log | `backend/content/system.py` → `ACTIVITY_LOG` |
+| Subsystem cards on `/dashboard` | `backend/content/system.py` → `SUBSYSTEMS` |
+| Quant metrics, strategies, signals | `backend/content/quant.py` |
+| Supplements, training log, bio modules | `backend/content/bio.py` |
+| Project registry (frontend) | `frontend/app/_data/projects.ts` |
+
+Append new activity and training entries at the end of their list — the API
+sorts and serves them newest-first.
+
+The frontend fetches these payloads server-side with a 6-second timeout and a
+120-second revalidate window. If the API is unreachable the dashboards render an
+explicit "DATA FEED OFFLINE" panel rather than falling back to a bundled copy —
+stale numbers presented as live would be worse than an honest gap.
 
 CORS accepts `localhost:3000` / `127.0.0.1:3000` (dev), `leologic.org` and `www.leologic.org` (prod), plus any `*.vercel.app` preview deployment. Add further origins with the `CORS_ORIGINS` environment variable (comma-separated). A wildcard origin is deliberately not used — browsers reject `Access-Control-Allow-Origin: *` on credentialed requests.
 
@@ -135,6 +179,13 @@ python main.py
 | http://localhost:3000 | Next.js app |
 | http://localhost:8000/health | `{"status": "ok", "service": "leologic-api"}` |
 | http://localhost:8000/docs | FastAPI Swagger UI |
+| http://localhost:8000/system/overview | Subsystem registry + activity feed |
+| http://localhost:3000/dashboard | Command center, populated from the API |
+
+Set `NEXT_PUBLIC_API_URL=http://localhost:8000` in `frontend/.env.local` first,
+otherwise the dashboards read from the deployed backend instead of your local
+one. To confirm the offline path, stop the backend, delete `frontend/.next`, and
+reload a dashboard — it should show "DATA FEED OFFLINE" rather than erroring.
 
 ---
 

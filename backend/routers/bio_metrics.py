@@ -2,10 +2,24 @@ import math
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from content import bio as bio_content
+from schemas import BioDashboard
+
 router = APIRouter(
     prefix="/bio",
     tags=["Bio Metrics"],
 )
+
+
+@router.get(
+    "/dashboard",
+    summary="Full bio-metrics dashboard payload",
+    response_model=BioDashboard,
+    response_description="Metric cards, supplement stack, half-life parameters, training log, and module status",
+)
+async def get_bio_dashboard() -> BioDashboard:
+    """Everything /dashboard/biometrics renders, in one round trip."""
+    return bio_content.get_dashboard()
 
 # Secondary router that powers the Half-Life Bio-Metrics interactive showcase.
 api_router = APIRouter(

@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import quant_engine, bio_metrics
+from routers import bio_metrics, quant_engine, system
 
 # ---------------------------------------------------------------------------
 # Application factory
@@ -52,6 +52,7 @@ app.add_middleware(
 # Routers
 # ---------------------------------------------------------------------------
 
+app.include_router(system.router)
 app.include_router(quant_engine.router)
 app.include_router(bio_metrics.router)
 app.include_router(bio_metrics.api_router)

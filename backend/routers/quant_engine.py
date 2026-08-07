@@ -1,10 +1,23 @@
 from fastapi import APIRouter
-from typing import Literal
+
+from content import quant as quant_content
+from schemas import ModuleStatus, QuantDashboard, StrategyStatus
 
 router = APIRouter(
     prefix="/quant",
     tags=["Quant Engine"],
 )
+
+
+@router.get(
+    "/dashboard",
+    summary="Full quant dashboard payload",
+    response_model=QuantDashboard,
+    response_description="Status cards, engine layers, IBKR flow, strategies, signals, and module health",
+)
+async def get_quant_dashboard() -> QuantDashboard:
+    """Everything /dashboard/quant renders, in one round trip."""
+    return quant_content.get_dashboard()
 
 
 @router.get(
@@ -15,13 +28,25 @@ router = APIRouter(
 async def get_engine_status() -> dict:
     """
     Returns the current status of the Leologic automated trading engine.
-    Placeholder — replace with real engine state lookup.
+
+    Strategy and module counts are derived from the registry in
+    `content/quant.py` so this endpoint cannot drift from the dashboard.
     """
+    active_strategies = sum(
+        1 for s in quant_content.STRATEGIES if s.status == StrategyStatus.ACTIVE
+    )
+    execution_standby = any(
+        m.name == "EXECUTION ENGINE" and m.status == ModuleStatus.STANDBY
+        for m in quant_content.MODULES
+    )
+
     return {
         "engine": "leologic-quant-v1",
-        "status": "idle",          # e.g. "running" | "idle" | "error"
-        "active_strategies": 0,
-        "message": "Engine status endpoint is live. Integration pending.",
+        "status": "standby" if execution_standby else "running",
+        "active_strategies": active_strategies,
+        "registered_strategies": len(quant_content.STRATEGIES),
+        "active_signals": len(quant_content.SIGNALS),
+        "message": "Engine status endpoint is live. Broker integration pending.",
     }
 
 
