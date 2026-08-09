@@ -6,9 +6,11 @@ const CHAPTERS = [
   { id: "hero",         label: "IDENTITY",   num: "01" },
   { id: "about",        label: "THE SYSTEM", num: "02" },
   { id: "projects",     label: "WORKS",      num: "03" },
-  { id: "capabilities", label: "STACK",      num: "04" },
-  { id: "timeline",     label: "CHRONICLE",  num: "05" },
-  { id: "contact",      label: "CONNECT",    num: "06" },
+  { id: "engineering",  label: "PLANT",      num: "04" },
+  { id: "lab",          label: "LAB",        num: "05" },
+  { id: "capabilities", label: "STACK",      num: "06" },
+  { id: "timeline",     label: "CHRONICLE",  num: "07" },
+  { id: "contact",      label: "CONNECT",    num: "08" },
 ];
 
 export function ChapterIndicator() {

@@ -173,7 +173,7 @@ export function AboutSection() {
                 Currently Building
               </div>
               <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-                <span style={{ color: "var(--color-terminal-green)", fontWeight: 600 }}>LQC</span> — a live quant platform tracking options flow, earnings catalysts, and market microstructure signals.
+                <span style={{ color: "var(--color-terminal-green)", fontWeight: 600 }}>LQC</span> — a containerised Python research stack for market analysis and strategy validation, wired to IBKR and deliberately running paper-only until the numbers earn otherwise.
               </div>
             </div>
           </motion.div>

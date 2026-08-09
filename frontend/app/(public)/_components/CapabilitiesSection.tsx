@@ -5,32 +5,34 @@ import { TiltCard } from "./TiltCard";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+// Tags name tools and methods actually in use. Anything aspirational belongs in
+// the competency matrix's "next step" column, not here.
 const capabilities = [
   {
     id: "quant",
     label: "Quantitative Systems",
-    tags: ["Options Flow", "Backtesting", "Alpha Research", "Risk Modeling"],
+    tags: ["Market Data Pipelines", "Backtesting", "Signal Research", "Risk Modeling"],
     accent: "var(--color-terminal-green)",
     span: "col-span-1 row-span-2",
   },
   {
     id: "ai",
     label: "AI & Agents",
-    tags: ["LLM Orchestration", "RAG Pipelines", "Autonomous Agents"],
+    tags: ["LLM Orchestration", "Agent Workflows", "AI-Assisted Authoring"],
     accent: "#60a5fa",
     span: "col-span-1",
   },
   {
     id: "chem",
     label: "Process Engineering",
-    tags: ["HYSYS", "Six Sigma", "Mass & Energy Balances", "Simulation"],
+    tags: ["P&ID Reading", "Process Instrumentation", "DCS Operations", "SOP & HSE"],
     accent: "#c084fc",
     span: "col-span-1",
   },
   {
     id: "sys",
     label: "Full-Stack Systems",
-    tags: ["Next.js", "FastAPI", "Supabase", "Real-time WS", "Docker"],
+    tags: ["Next.js", "FastAPI", "React Native", "Supabase", "Docker"],
     accent: "#fb923c",
     span: "col-span-1 sm:col-span-2",
   },

@@ -35,7 +35,7 @@ export function NavBar() {
           {/* Logo */}
           <button
             onClick={() => setCardOpen(v => !v)}
-            className="glitch-hover flex items-center gap-2 rounded-full focus:outline-none"
+            className="flex items-center gap-2 rounded-full focus:outline-none"
             style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
             aria-label="Open ID card"
           >
@@ -53,8 +53,9 @@ export function NavBar() {
             {[
               { label: "Work", href: "/#projects" },
               { label: "Projects", href: "/projects" },
+              { label: "Engineering", href: "/#engineering" },
+              { label: "Lab", href: "/#lab" },
               { label: "About", href: "/#about" },
-              { label: "Timeline", href: "/#timeline" },
               { label: "Contact", href: "/#contact" },
             ].map(({ label, href }) => (
               <a

@@ -1,6 +1,8 @@
 import { Hero }               from "./_components/Hero";
 import { AboutSection }       from "./_components/AboutSection";
 import { ProjectsSection }    from "./_components/ProjectsSection";
+import { EngineeringSection } from "./_components/EngineeringSection";
+import { LabSection }         from "./_components/LabSection";
 import { CapabilitiesSection } from "./_components/CapabilitiesSection";
 import { TimelineSection }    from "./_components/TimelineSection";
 import { ContactSection }     from "./_components/ContactSection";
@@ -18,6 +20,9 @@ export default function LandingPage() {
       <AboutSection />
       <MarqueeStrip reverse />
       <ProjectsSection />
+      <MarqueeStrip />
+      <EngineeringSection />
+      <LabSection />
       <CapabilitiesSection />
       <MarqueeStrip />
       <TimelineSection />

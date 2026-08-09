@@ -5,6 +5,10 @@
 // read from here, so a project's name, codename, and status can only be
 // stated in one place.
 //
+// Content is kept in step with the Obsidian knowledge vault, which is the
+// system of record for project scope and architecture decisions. Nothing here
+// should claim a capability the vault does not back.
+//
 // `registry` is optional: only projects with a documented execution stack
 // render a full ProjectCard on /projects. Everything else still appears on
 // the landing page using the shared identity fields.
@@ -25,6 +29,8 @@ export type ProjectMetric = {
 export type ProjectLink = {
   label: string;
   href: string;
+  /** Marks a link that lands behind the operator auth gate. */
+  requiresAuth?: boolean;
 };
 
 export type ArchitectureLayer = {
@@ -75,289 +81,363 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     id: "P-01",
-    codename: "LQC-CORE",
+    codename: "LQC",
     title: "LeoLogic Quantitative Core",
     tag: "Flagship",
     status: "ACTIVE",
     statusLabel: "In Development",
     summary:
-      "Automated trading system powered by a custom Python execution engine that interfaces " +
-      "directly with the Interactive Brokers TWS API. Strict entry/exit rules, real-time signal " +
-      "evaluation, and hard drawdown caps — no discretionary overrides at runtime.",
-    stack: ["Python", "IBKR TWS API", "FastAPI", "Next.js"],
+      "Containerised Python research stack for market analysis and systematic strategy " +
+      "development, wired to Interactive Brokers. Runs paper only — live order execution " +
+      "is gated off behind measurable validation criteria.",
+    stack: ["Python", "Docker", "IBKR API", "FastAPI"],
     accent: "var(--color-terminal-green)",
     showOnLanding: true,
     landingFeatured: true,
     registry: {
       displayType: "Architecture Only",
       longDescription:
-        "LQC is a systematic trading infrastructure built entirely in pure Python. It interfaces " +
-        "directly with the Interactive Brokers TWS API via socket-level communication to manage " +
-        "live and paper positions. The engine enforces strict entry/exit rules, real-time signal " +
-        "evaluation, and hard drawdown caps — with no discretionary overrides permitted at runtime. " +
-        "Source code and strategy logic are closed to protect execution edge.",
+        "LQC is a quantitative analysis system built in Python and deployed via Docker, " +
+        "interfacing with the Interactive Brokers API for market data and strategy research. " +
+        "The order path is implemented and exercised against the paper gateway, but live " +
+        "execution is held behind an explicit flag — ENABLE_ORDER_EXECUTION stays false until " +
+        "the strategy set clears full-universe backtesting, risk-module stress testing, and a " +
+        "90-day profitable paper record. Treating the safety interlock as a first-class, " +
+        "documented decision matters more here than shipping the feature early. Strategy logic " +
+        "is closed; the architecture below reflects the real component design.",
       techStack: [
-        { label: "Python 3.12", tone: "green" },
-        { label: "IBKR TWS API", tone: "green" },
-        { label: "FastAPI", tone: "cyan" },
+        { label: "Python", tone: "green" },
+        { label: "Docker", tone: "green" },
+        { label: "IBKR API", tone: "green" },
         { label: "pandas", tone: "cyan" },
-        { label: "TA-Lib", tone: "cyan" },
-        { label: "asyncio", tone: "amber" },
+        { label: "NumPy", tone: "cyan" },
+        { label: "FastAPI", tone: "cyan" },
         { label: "SQLite", tone: "amber" },
-        { label: "Next.js 16", tone: "cyan" },
+        { label: "asyncio", tone: "amber" },
       ],
       metrics: [
-        { label: "ENGINE", value: "Pure Python" },
-        { label: "BROKER", value: "IBKR TWS API" },
-        { label: "EXECUTION", value: "Live + Paper" },
-        { label: "PARADIGM", value: "Event-driven" },
-        { label: "RISK MODULE", value: "Drawdown cap · Kelly" },
-        { label: "LATENCY", value: "Sub-100 ms target" },
+        { label: "RUNTIME", value: "Python · Docker" },
+        { label: "BROKER", value: "Interactive Brokers" },
+        { label: "EXECUTION", value: "Paper only — live gated" },
+        { label: "SAFETY FLAG", value: "ENABLE_ORDER_EXECUTION=false" },
+        { label: "UNLOCK BAR", value: "Sharpe > 1.5 · 90d paper" },
+        { label: "NEXT REVIEW", value: "2026-Q4" },
       ],
       architecture: {
-        title: "LQC — EXECUTION STACK",
+        title: "LQC — RESEARCH & EXECUTION STACK",
         layers: [
           {
             label: "MARKET DATA FEED",
-            sublabel: "Real-time price + volume stream via IBKR socket",
+            sublabel: "IBKR API — price, volume, and bar normalisation",
             tone: "cyan",
           },
           {
             label: "SIGNAL PROCESSOR",
-            sublabel: "EMA · RSI · VWAP · ATR band evaluation",
+            sublabel: "Indicator evaluation across configurable alpha models",
             tone: "cyan",
           },
           {
-            label: "STRATEGY ENGINE",
-            sublabel: "Rule validation · entry / exit condition gating",
+            label: "BACKTEST FRAMEWORK",
+            sublabel: "Historical replay · strategy validation before promotion",
             tone: "green",
           },
           {
             label: "RISK MODULE",
-            sublabel: "Drawdown cap · position sizing · Kelly fraction",
+            sublabel: "Position limits · drawdown caps · exposure constraints",
             tone: "amber",
           },
           {
-            label: "ORDER ROUTER",
-            sublabel: "IBKR TWS API — live order placement + fills",
+            label: "SAFETY INTERLOCK",
+            sublabel: "ENABLE_ORDER_EXECUTION gate — blocks the live order path",
+            tone: "amber",
+          },
+          {
+            label: "PAPER ORDER ROUTER",
+            sublabel: "IBKR paper gateway — order construction and fill handling",
             tone: "green",
           },
           {
             label: "AUDIT LEDGER",
-            sublabel: "SQLite trade log · execution timestamps · P&L",
+            sublabel: "Trade log · execution timestamps · P&L attribution",
             tone: "amber",
           },
         ],
       },
       tags: [
-        "ALGORITHMIC_TRADING",
+        "QUANT_RESEARCH",
         "PYTHON_AUTOMATION",
+        "DOCKER",
         "IBKR_API",
-        "SIGNAL_PROCESSING",
-        "EVENT_DRIVEN",
+        "BACKTESTING",
         "RISK_MANAGEMENT",
-        "QUANT_FINANCE",
+        "SAFETY_ENGINEERING",
       ],
-      links: [{ label: "OPEN LIVE MODULE", href: "/dashboard/quant" }],
+      links: [
+        { label: "LIVE MODULE — OPERATOR ACCESS", href: "/dashboard/quant", requiresAuth: true },
+      ],
     },
   },
   {
     id: "P-02",
-    codename: "CATALYST",
-    title: "Project Catalyst",
-    tag: "Research",
-    status: "WIP",
-    statusLabel: "Research",
-    summary:
-      "Multi-asset portfolio optimization engine applying modern portfolio theory and " +
-      "factor-based allocation models.",
-    stack: ["Python", "cvxpy", "PostgreSQL"],
-    accent: "#c084fc",
-    showOnLanding: false,
-    registry: {
-      displayType: "Architecture Only",
-      longDescription:
-        "Catalyst is a research-grade portfolio construction system designed to run scenario analysis " +
-        "across equity and derivative instruments. It integrates mean-variance optimization, " +
-        "Black-Litterman blending, and Fama-French factor exposure reporting. The allocation engine " +
-        "operates on a configurable rebalance schedule and is interfaced via a private REST API layer. " +
-        "Full source code is restricted — architecture overview reflects the actual component design.",
-      techStack: [
-        { label: "Python 3.12", tone: "green" },
-        { label: "cvxpy", tone: "green" },
-        { label: "scipy.optimize", tone: "green" },
-        { label: "pandas", tone: "cyan" },
-        { label: "FastAPI", tone: "cyan" },
-        { label: "PostgreSQL", tone: "amber" },
-        { label: "Redis", tone: "amber" },
-        { label: "Next.js 16", tone: "cyan" },
-      ],
-      metrics: [
-        { label: "OPTIMIZER", value: "MV · Black-Litterman" },
-        { label: "FACTORS", value: "Fama-French 3/5F" },
-        { label: "INSTRUMENTS", value: "Equity · Options" },
-        { label: "REBALANCE", value: "Configurable schedule" },
-        { label: "CONSTRAINTS", value: "Weight · sector · VaR" },
-        { label: "OUTPUT", value: "Efficient frontier + weights" },
-      ],
-      architecture: {
-        title: "CATALYST — ALLOCATION STACK",
-        layers: [
-          {
-            label: "DATA INGESTION",
-            sublabel: "Market data + fundamentals · REST + WebSocket",
-            tone: "cyan",
-          },
-          {
-            label: "FACTOR ENGINE",
-            sublabel: "Fama-French exposure · alpha signal generation",
-            tone: "cyan",
-          },
-          {
-            label: "OPTIMIZER CORE",
-            sublabel: "cvxpy MV · Black-Litterman view blending",
-            tone: "green",
-          },
-          {
-            label: "CONSTRAINT LAYER",
-            sublabel: "Weight bounds · sector limits · VaR ceiling",
-            tone: "amber",
-          },
-          {
-            label: "REBALANCE SCHEDULER",
-            sublabel: "Drift trigger · calendar-based execution gating",
-            tone: "green",
-          },
-          {
-            label: "REPORTING API",
-            sublabel: "FastAPI · frontier chart · attribution breakdown",
-            tone: "amber",
-          },
-        ],
-      },
-      tags: [
-        "PORTFOLIO_OPTIMIZATION",
-        "FACTOR_INVESTING",
-        "BLACK_LITTERMAN",
-        "MEAN_VARIANCE",
-        "QUANT_FINANCE",
-        "PYTHON_SCIENCE",
-        "RISK_MANAGEMENT",
-      ],
-    },
-  },
-  {
-    id: "P-03",
     codename: "HALFLIFE",
-    title: "Half-Life Bio-Metrics",
-    tag: "Live",
-    status: "STABLE",
-    statusLabel: "Live",
+    title: "Half-Life",
+    tag: "Mobile",
+    status: "ACTIVE",
+    statusLabel: "In Development",
     summary:
-      "Metabolic decay simulator applying first-order half-life kinetics to track substance " +
-      "plasma concentration across multi-day dosing cycles.",
-    stack: ["Python", "NumPy / SciPy", "FastAPI", "Recharts"],
+      "iOS health and metabolism app built on Expo and React Native, reading Apple HealthKit " +
+      "data and modelling physiological recovery as first-order exponential decay.",
+    stack: ["Expo", "React Native", "HealthKit", "Supabase"],
     accent: "var(--color-terminal-cyan)",
-    showOnLanding: false,
+    showOnLanding: true,
     registry: {
       displayType: "Live System",
       longDescription:
-        "Half-Life Bio-Metrics models the pharmacokinetic decay of supplemental compounds — " +
-        "including Creatine, Vitamin D3, and Magnesium — using the first-order decay equation " +
-        "A(t) = A₀ × e^(−0.693t / t½). The system accounts for scheduled dosing intervals, " +
-        "accumulation effects across multi-day cycles, and generates a continuous concentration " +
-        "curve to inform optimal supplementation timing.",
+        "Half-Life is an iOS application built with Expo and React Native that reads Apple " +
+        "HealthKit data and models metabolic load, recovery, and supplement pharmacokinetics " +
+        "as first-order decay: A(t) = A₀ · e^(−0.693t / t½). Supabase backs sync and " +
+        "persistence. The architecture deliberately runs on the stable React Native core — " +
+        "Skia, Reanimated, and Worklets were removed after they proved to be a recurring " +
+        "source of build fragility, and stability now takes priority over animation ceiling. " +
+        "The decay model itself is exposed through a Python service, and the simulator below " +
+        "calls that live endpoint.",
       techStack: [
-        { label: "Python 3.12", tone: "green" },
-        { label: "NumPy / SciPy", tone: "green" },
-        { label: "FastAPI", tone: "cyan" },
-        { label: "Next.js 16", tone: "cyan" },
+        { label: "Expo", tone: "green" },
+        { label: "React Native", tone: "green" },
+        { label: "HealthKit", tone: "green" },
+        { label: "Supabase", tone: "cyan" },
         { label: "TypeScript", tone: "cyan" },
-        { label: "Tailwind CSS", tone: "amber" },
-        { label: "Recharts", tone: "amber" },
+        { label: "Python", tone: "cyan" },
+        { label: "FastAPI", tone: "amber" },
       ],
       metrics: [
-        { label: "SUBSTANCES", value: "Creatine · Vit-D3 · Mg" },
-        { label: "ALGORITHM", value: "First-order decay" },
-        { label: "FORMULA", value: "A(t) = A₀ × e^(−λt)" },
-        { label: "HALF-LIFE", value: "Configurable per compound" },
-        { label: "DOSING", value: "Accumulation-aware" },
-        { label: "OUTPUT", value: "Plasma conc. curve" },
+        { label: "PLATFORM", value: "iOS — Expo / React Native" },
+        { label: "HEALTH DATA", value: "Apple HealthKit" },
+        { label: "BACKEND", value: "Supabase" },
+        { label: "MODEL", value: "A(t) = A₀ · e^(−λt)" },
+        { label: "ARCH CHOICE", value: "Stable core — no Skia/Reanimated" },
+        { label: "DECAY API", value: "Python · live endpoint" },
       ],
       architecture: {
         title: "HALF-LIFE — DECAY ENGINE",
         layers: [
           {
-            label: "SUBSTANCE CONFIG",
-            sublabel: "t½ per compound · dosage · unit-of-measure",
+            label: "HEALTHKIT INGESTION",
+            sublabel: "Native iOS permissions · workout, sleep, and vitals reads",
             tone: "cyan",
           },
           {
+            label: "SUPABASE SYNC",
+            sublabel: "Persistence and cross-session state",
+            tone: "cyan",
+          },
+          {
+            label: "SUBSTANCE CONFIG",
+            sublabel: "t½ per compound · dosage · unit-of-measure",
+            tone: "green",
+          },
+          {
             label: "HALF-LIFE KINETICS",
-            sublabel: "A(t) = A₀ × e^(−0.693t / t½) — first-order ODE",
+            sublabel: "A(t) = A₀ · e^(−0.693t / t½) — first-order decay",
             tone: "green",
           },
           {
             label: "DOSE SCHEDULER",
             sublabel: "Multi-dose accumulation · replenishment timing",
-            tone: "green",
-          },
-          {
-            label: "SIMULATION ENGINE",
-            sublabel: "Discrete time-step integration across cycle window",
             tone: "amber",
           },
           {
-            label: "API LAYER",
-            sublabel: "FastAPI — /api/decay endpoint · JSON payload",
+            label: "DECAY API",
+            sublabel: "Python / FastAPI — /api/decay · powers the simulator below",
             tone: "cyan",
           },
           {
             label: "VISUALIZER",
-            sublabel: "Plasma concentration curve · peak / trough markers",
+            sublabel: "Concentration curve · peak and trough markers",
             tone: "amber",
           },
         ],
       },
       tags: [
+        "IOS",
+        "REACT_NATIVE",
+        "EXPO",
+        "HEALTHKIT",
+        "SUPABASE",
         "PHARMACOKINETICS",
         "HALF_LIFE_MODELING",
-        "PYTHON_SCIENCE",
-        "NUMPY_SCIPY",
-        "FASTAPI",
-        "NEXT_JS",
-        "BIO_INFORMATICS",
       ],
-      links: [{ label: "OPEN LIVE MODULE", href: "/dashboard/biometrics" }],
+      links: [
+        { label: "LIVE MODULE — OPERATOR ACCESS", href: "/dashboard/biometrics", requiresAuth: true },
+      ],
     },
   },
   {
-    id: "P-04",
+    id: "P-03",
     codename: "LEOLOGIC-OS",
     title: "LeoLogic OS",
     tag: "System",
     status: "ACTIVE",
     statusLabel: "Active",
     summary:
-      "Personal operating system: biometrics dashboard, quant engine, and AI command center " +
-      "in one unified interface.",
-    stack: ["Next.js", "FastAPI", "Tailwind"],
+      "Personal operating system handling tasks, priorities, agent workflows, and " +
+      "cross-system automation — with Obsidian as the long-term knowledge layer beside it.",
+    stack: ["Next.js", "FastAPI", "Python", "Obsidian"],
     accent: "#60a5fa",
     showOnLanding: true,
+    registry: {
+      displayType: "Live System",
+      longDescription:
+        "LeoLogic OS is the execution layer of a two-system personal architecture. It owns " +
+        "tasks, priorities, agent workflows, automation, and cross-system execution; Obsidian " +
+        "owns long-term knowledge, project context, and decision records. The split is a " +
+        "documented scope boundary rather than an accident — neither system duplicates what " +
+        "the other already does well, which is what keeps maintenance cost from doubling. " +
+        "Development runs in phases, each with an explicit acceptance checklist and a " +
+        "test → commit → tag → changelog cycle. This site and its FastAPI backend are the " +
+        "public surface of that system.",
+      techStack: [
+        { label: "Next.js 16", tone: "green" },
+        { label: "React 19", tone: "green" },
+        { label: "TypeScript", tone: "cyan" },
+        { label: "Tailwind CSS", tone: "cyan" },
+        { label: "FastAPI", tone: "cyan" },
+        { label: "Python", tone: "amber" },
+        { label: "Obsidian", tone: "amber" },
+      ],
+      metrics: [
+        { label: "EXECUTION LAYER", value: "LeoLogic OS" },
+        { label: "KNOWLEDGE LAYER", value: "Obsidian vault" },
+        { label: "CODE LAYER", value: "Git — commit history" },
+        { label: "METHOD", value: "Phase-based · acceptance checklists" },
+        { label: "RELEASE CYCLE", value: "test → commit → tag → changelog" },
+        { label: "SCOPE RULE", value: "No duplicated responsibility" },
+      ],
+      architecture: {
+        title: "LEOLOGIC OS — SYSTEM SPLIT",
+        layers: [
+          {
+            label: "EXECUTION — LEOLOGIC OS",
+            sublabel: "Tasks · priorities · agent workflows · automation",
+            tone: "green",
+          },
+          {
+            label: "KNOWLEDGE — OBSIDIAN",
+            sublabel: "Decisions · project context · career and reference material",
+            tone: "cyan",
+          },
+          {
+            label: "CODE — GIT",
+            sublabel: "Implementation and commit history",
+            tone: "cyan",
+          },
+          {
+            label: "PUBLIC SURFACE",
+            sublabel: "Next.js portfolio + FastAPI dashboard API",
+            tone: "green",
+          },
+          {
+            label: "PHASE PIPELINE",
+            sublabel: "Goal → acceptance checklist → test → commit → tag → changelog",
+            tone: "amber",
+          },
+        ],
+      },
+      tags: [
+        "PERSONAL_SYSTEMS",
+        "AGENT_WORKFLOWS",
+        "AUTOMATION",
+        "NEXT_JS",
+        "FASTAPI",
+        "KNOWLEDGE_MANAGEMENT",
+        "SYSTEM_DESIGN",
+      ],
+      links: [
+        { label: "COMMAND CENTER — OPERATOR ACCESS", href: "/dashboard", requiresAuth: true },
+      ],
+    },
   },
   {
-    id: "P-05",
-    codename: "CHEMSIM",
-    title: "ChemSim Agent",
-    tag: "Research",
+    id: "P-04",
+    codename: "ANOMALY",
+    title: "异常事务处",
+    tag: "Creative IP",
     status: "WIP",
-    statusLabel: "Prototype",
+    statusLabel: "In Production",
     summary:
-      "AI agent for chemical process simulation and optimization. Automates HYSYS workflows " +
-      "using Python scripting and LLM reasoning.",
-    stack: ["Python", "LLM", "HYSYS COM"],
+      "AI-assisted short-drama and novel IP, exploring a repeatable content production " +
+      "workflow and monetisation path. Written under the pen name 尤尼维斯.",
+    stack: ["AI-assisted writing", "Worldbuilding", "Content ops"],
     accent: "#c084fc",
-    showOnLanding: true,
+    showOnLanding: false,
+    registry: {
+      displayType: "Architecture Only",
+      longDescription:
+        "异常事务处 is an original short-drama and novel IP developed with AI assistance " +
+        "across drafting, worldbuilding, and revision. The goal is less a single story than a " +
+        "repeatable production pipeline: a structured worldbuilding and character base that " +
+        "keeps continuity across episodes, an AI-assisted drafting loop that stays under " +
+        "authorial control, and a distribution track for content operations. Current milestone " +
+        "is unit U-001. Published under the pen name 尤尼维斯.",
+      techStack: [
+        { label: "AI-assisted drafting", tone: "green" },
+        { label: "Worldbuilding system", tone: "cyan" },
+        { label: "Episode structure", tone: "cyan" },
+        { label: "Character bible", tone: "cyan" },
+        { label: "Content operations", tone: "amber" },
+      ],
+      metrics: [
+        { label: "FORMAT", value: "Short drama · novel" },
+        { label: "PEN NAME", value: "尤尼维斯" },
+        { label: "MILESTONE", value: "U-001" },
+        { label: "METHOD", value: "AI-assisted, author-directed" },
+        { label: "FOCUS", value: "Repeatable production workflow" },
+        { label: "TRACK", value: "Content monetisation" },
+      ],
+      architecture: {
+        title: "异常事务处 — PRODUCTION PIPELINE",
+        layers: [
+          {
+            label: "WORLDBUILDING",
+            sublabel: "Setting rules · internal consistency constraints",
+            tone: "cyan",
+          },
+          {
+            label: "CHARACTER BIBLE",
+            sublabel: "Cast definitions · voice and motivation continuity",
+            tone: "cyan",
+          },
+          {
+            label: "EPISODE STRUCTURE",
+            sublabel: "Outline → beat sheet → script draft",
+            tone: "green",
+          },
+          {
+            label: "AI DRAFTING LOOP",
+            sublabel: "Assisted generation under explicit authorial direction",
+            tone: "green",
+          },
+          {
+            label: "RESEARCH BASE",
+            sublabel: "Reference material and plot source gathering",
+            tone: "amber",
+          },
+          {
+            label: "DISTRIBUTION",
+            sublabel: "Publishing cadence and content operations",
+            tone: "amber",
+          },
+        ],
+      },
+      tags: [
+        "CREATIVE_IP",
+        "AI_ASSISTED_WRITING",
+        "SHORT_DRAMA",
+        "WORLDBUILDING",
+        "CONTENT_OPERATIONS",
+        "NARRATIVE_DESIGN",
+      ],
+    },
   },
 ];
 
