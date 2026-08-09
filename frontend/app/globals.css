@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Fonts ────────────────────────────────────────────────── */
-  --font-sans: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Aptos Display", "Segoe UI Variable Display", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Consolas, monospace;
+  /* ── Fonts ────────────────────────────────────────────────────
+     Loaded and self-hosted by next/font in app/layout.tsx, so every
+     platform renders the same typeface. The generic families are a
+     safety net for the brief moment before the webfont is applied. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* ── Terminal / brand accent colors (dashboard compat) ──── */
   --color-terminal-green: #68f29a;
@@ -166,20 +169,6 @@
     box-shadow: 0 0 20px rgba(0, 255, 65, 0.08), inset 0 0 20px rgba(0, 255, 65, 0.02);
   }
 
-  /* ── Scanlines overlay (dashboard body) ─────────────────── */
-  .scanline::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px, transparent 2px,
-      rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
-  }
-
   .cursor-blink::after {
     content: '█';
     animation: blink 1.2s step-end infinite;
@@ -274,11 +263,6 @@
     text-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
   }
 
-  /* ── Logo glitch on hover ───────────────────────────────── */
-  .glitch-hover:hover {
-    animation: glitch 2.5s infinite;
-  }
-
   /* ── ID card rope animations ─────────────────────────────── */
   @keyframes rope-extend {
     from { height: 0; opacity: 0; }
@@ -297,19 +281,6 @@
   @keyframes card-leave {
     0%   { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-460px); opacity: 0; }
-  }
-
-  /* ── Glitch keyframes ────────────────────────────────────── */
-  @keyframes glitch {
-    0%, 90%, 100% {
-      transform: none;
-      text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
-    }
-    91% { transform: translate(-2px, 1px);  text-shadow: -2px 0 #ff003c, 2px 0 #00ffff; }
-    92% { transform: translate(2px, -1px);  text-shadow:  2px 0 #ff003c,-2px 0 #00ffff; }
-    93% { transform: translate(-1px, 2px);  text-shadow: none; }
-    94% { transform: translate(1px, -1px);  text-shadow: -1px 0 #00ffff, 1px 0 #ff003c; }
-    95% { transform: none; text-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
   }
 
   /* ── Hero orb breathe ────────────────────────────────────── */

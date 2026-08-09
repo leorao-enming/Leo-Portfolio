@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   const user = cookieStore.get("auth-token")?.value ?? "OPERATOR";
 
   return (
-    <div className="min-h-screen flex flex-col blueprint-bg scanline" style={{ backgroundColor: "var(--color-surface-0)" }}>
+    <div className="min-h-screen flex flex-col blueprint-bg" style={{ backgroundColor: "var(--color-surface-0)" }}>
       {/* Top bar */}
       <header
         style={{
