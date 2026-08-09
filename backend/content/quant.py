@@ -9,44 +9,84 @@ from schemas import (
     EngineLayer,
     FlowStep,
     FlowStepType,
+    GateCondition,
     ModuleHealth,
     ModuleStatus,
     QuantDashboard,
-    Signal,
-    SignalDirection,
-    SignalStatus,
+    SafetyGate,
     StatCard,
     Strategy,
     StrategyStatus,
     Tone,
 )
 
+# Headline figures describe the state of the build, not a live trading floor.
+# Position counts, signal counts, and latency figures were removed: the engine
+# has no live capital, no benchmark harness, and 0 of 4 validation gates
+# cleared, so any such number would have been invented.
 STATUS_CARDS = [
     StatCard(
-        label="ENGINE STATUS",
-        value="STANDBY",
-        sub="Awaiting live feed integration",
+        label="EXECUTION MODE",
+        value="PAPER ONLY",
+        sub="Live order routing disabled by design",
         tone=Tone.AMBER,
     ),
     StatCard(
-        label="ACTIVE SIGNALS",
-        value="14",
-        sub="Momentum + Mean-Reversion",
-        tone=Tone.GREEN,
-    ),
-    StatCard(
-        label="OPEN POSITIONS",
-        value="3",
-        sub="Risk-managed exposure",
-        tone=Tone.GREEN,
-    ),
-    StatCard(
-        label="RISK MODE",
-        value="CONSERVATIVE",
-        sub="Max drawdown: 2% per session",
+        label="PROJECT PHASE",
+        value="BACKTEST VALIDATION",
+        sub="Strategy set not yet cleared for promotion",
         tone=Tone.CYAN,
     ),
+    StatCard(
+        label="SAFETY GATE",
+        value="0 / 4 CLEARED",
+        sub="Live execution stays gated until all four pass",
+        tone=Tone.AMBER,
+    ),
+    StatCard(
+        label="STRATEGY MODELS",
+        value="4",
+        sub="Implemented in the registry, all pre-promotion",
+        tone=Tone.GREEN,
+    ),
 ]
+
+# Mirrors the "Keep LQC Live Trading Disabled" decision record. Live execution
+# is gated behind measurable criteria rather than a ship date, so the dashboard
+# publishes the gate instead of implying the engine trades real capital.
+SAFETY_GATE = SafetyGate(
+    flag="ENABLE_ORDER_EXECUTION",
+    flag_value="false",
+    mode="PAPER / RESEARCH",
+    summary=(
+        "Live order execution stays off until the strategy set clears validation. "
+        "This is a standing engineering decision, not an unfinished feature — the "
+        "order path is implemented and tested against the paper gateway."
+    ),
+    conditions=[
+        GateCondition(
+            label="Full-universe backtest",
+            target="Sharpe > 1.5",
+            met=False,
+        ),
+        GateCondition(
+            label="Risk module stress test",
+            target="Pass under simulated shock scenarios",
+            met=False,
+        ),
+        GateCondition(
+            label="Paper trading track record",
+            target="90 consecutive profitable days",
+            met=False,
+        ),
+        GateCondition(
+            label="Capital management rules",
+            target="Documented and version-controlled",
+            met=False,
+        ),
+    ],
+    review_date="2026-Q4",
+)
 
 ENGINE_LAYERS = [
     EngineLayer(
@@ -58,7 +98,7 @@ ENGINE_LAYERS = [
             "data into a unified internal schema before dispatch."
         ),
         status=ModuleStatus.HEALTHY,
-        latency="< 5ms",
+        implementation="Implemented",
     ),
     EngineLayer(
         layer="02",
@@ -69,7 +109,7 @@ ENGINE_LAYERS = [
             "statistical arbitrage. Outputs scored signal objects with confidence metrics."
         ),
         status=ModuleStatus.HEALTHY,
-        latency="< 12ms",
+        implementation="Implemented",
     ),
     EngineLayer(
         layer="03",
@@ -80,18 +120,19 @@ ENGINE_LAYERS = [
             "correlation constraints, and Kelly fraction sizing before any order is dispatched."
         ),
         status=ModuleStatus.HEALTHY,
-        latency="< 2ms",
+        implementation="Implemented",
     ),
     EngineLayer(
         layer="04",
         name="EXECUTION ENGINE",
-        tech="Python / ib_insync / IBKR TWS API",
+        tech="Python / ib_insync / IBKR paper gateway",
         description=(
-            "Translates approved signal objects into IBKR order types (MKT, LMT, VWAP). "
-            "Handles partial fills, re-queuing, and execution confirmation acknowledgement."
+            "Translates approved signal objects into IBKR order types (MKT, LMT, VWAP) and "
+            "handles partial fills, re-queuing, and confirmation acknowledgement. Routes to "
+            "the paper gateway only — ENABLE_ORDER_EXECUTION gates the live path."
         ),
         status=ModuleStatus.STANDBY,
-        latency="N/A",
+        implementation="Paper gateway only",
     ),
     EngineLayer(
         layer="05",
@@ -102,7 +143,7 @@ ENGINE_LAYERS = [
             "Exposes internal REST API consumed by the LEOLOGIC OS dashboard."
         ),
         status=ModuleStatus.HEALTHY,
-        latency="< 8ms",
+        implementation="Implemented",
     ),
     EngineLayer(
         layer="06",
@@ -113,7 +154,7 @@ ENGINE_LAYERS = [
             "with defined alpha logic, parameter space, and backtest metadata."
         ),
         status=ModuleStatus.HEALTHY,
-        latency="—",
+        implementation="Implemented",
     ),
 ]
 
@@ -156,8 +197,8 @@ IBKR_FLOW = [
         node="ORDER ROUTER",
         type=FlowStepType.OUTPUT,
         detail=(
-            "Approved signals → construct IBKR Order object → place via ib_insync "
-            "placeOrder() → await fill event"
+            "Approved signals → construct IBKR Order object → ENABLE_ORDER_EXECUTION check → "
+            "placeOrder() against the paper gateway (live path gated off)"
         ),
     ),
     FlowStep(
@@ -168,26 +209,28 @@ IBKR_FLOW = [
     ),
 ]
 
+# No strategy is marked ACTIVE: nothing has cleared the safety gate, so the
+# strongest honest status is STAGED — implemented and running in backtest.
 STRATEGIES = [
     Strategy(
         name="momentum_v3",
-        version="3.2.1",
+        version="0.3.0",
         universe="Crypto / Equities",
         lookback="20 bars",
         params="ema_fast=8, ema_slow=21",
-        status=StrategyStatus.ACTIVE,
+        status=StrategyStatus.STAGED,
     ),
     Strategy(
         name="mean_rev_zscore",
-        version="1.4.0",
+        version="0.2.0",
         universe="Equity Pairs",
         lookback="60 bars",
         params="z_entry=2.0, z_exit=0.5",
-        status=StrategyStatus.ACTIVE,
+        status=StrategyStatus.STAGED,
     ),
     Strategy(
         name="breakout_vol",
-        version="2.0.0",
+        version="0.2.0",
         universe="Equities",
         lookback="14 bars",
         params="atr_mult=1.5, vol_filter=True",
@@ -195,7 +238,7 @@ STRATEGIES = [
     ),
     Strategy(
         name="stat_arb_pairs",
-        version="0.9.0",
+        version="0.1.0",
         universe="Crypto",
         lookback="120 bars",
         params="coint_pval=0.05",
@@ -203,56 +246,16 @@ STRATEGIES = [
     ),
 ]
 
-SIGNALS = [
-    Signal(
-        id="SIG-001",
-        type="MOMENTUM",
-        asset="BTC/USD",
-        direction=SignalDirection.LONG,
-        confidence="74%",
-        status=SignalStatus.ACTIVE,
-    ),
-    Signal(
-        id="SIG-002",
-        type="MEAN-REV",
-        asset="ETH/USD",
-        direction=SignalDirection.SHORT,
-        confidence="61%",
-        status=SignalStatus.ACTIVE,
-    ),
-    Signal(
-        id="SIG-003",
-        type="BREAKOUT",
-        asset="SPY",
-        direction=SignalDirection.LONG,
-        confidence="88%",
-        status=SignalStatus.TRIGGERED,
-    ),
-    Signal(
-        id="SIG-004",
-        type="MOMENTUM",
-        asset="QQQ",
-        direction=SignalDirection.LONG,
-        confidence="55%",
-        status=SignalStatus.PENDING,
-    ),
-    Signal(
-        id="SIG-005",
-        type="ARB",
-        asset="BTC-ETH",
-        direction=SignalDirection.NEUTRAL,
-        confidence="—",
-        status=SignalStatus.SCANNING,
-    ),
-]
-
+# "detail" carries build state. The project has no benchmark harness, so the
+# previous per-module millisecond figures were fabricated.
 MODULES = [
-    ModuleHealth(name="DATA INGESTION", status=ModuleStatus.HEALTHY, latency="< 5ms"),
-    ModuleHealth(name="SIGNAL PROCESSOR", status=ModuleStatus.HEALTHY, latency="< 12ms"),
-    ModuleHealth(name="EXECUTION ENGINE", status=ModuleStatus.STANDBY, latency="N/A"),
-    ModuleHealth(name="RISK MANAGER", status=ModuleStatus.HEALTHY, latency="< 2ms"),
-    ModuleHealth(name="PORTFOLIO TRACKER", status=ModuleStatus.HEALTHY, latency="< 8ms"),
-    ModuleHealth(name="LIVE FEED (EXT)", status=ModuleStatus.PENDING, latency="N/A"),
+    ModuleHealth(name="DATA INGESTION", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="SIGNAL PROCESSOR", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="RISK MANAGER", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="PORTFOLIO TRACKER", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="CONTAINER RUNTIME", status=ModuleStatus.HEALTHY, detail="Docker"),
+    ModuleHealth(name="BACKTEST VALIDATION", status=ModuleStatus.PENDING, detail="In progress"),
+    ModuleHealth(name="LIVE EXECUTION", status=ModuleStatus.STANDBY, detail="Gated off"),
 ]
 
 
@@ -260,9 +263,9 @@ def get_dashboard() -> QuantDashboard:
     """Assemble the full quant dashboard payload."""
     return QuantDashboard(
         status_cards=STATUS_CARDS,
+        safety_gate=SAFETY_GATE,
         engine_layers=ENGINE_LAYERS,
         ibkr_flow=IBKR_FLOW,
         strategies=STRATEGIES,
-        signals=SIGNALS,
         modules=MODULES,
     )

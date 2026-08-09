@@ -51,4 +51,10 @@ class ModuleHealth(BaseModel):
 
     name: str
     status: ModuleStatus
-    latency: str = Field("—", description="Human-readable latency, e.g. '< 5ms' or 'N/A'")
+    detail: str = Field(
+        "—",
+        description=(
+            "What is actually known about this module — implementation state or a "
+            "measured figure. Never a performance number the project has not measured."
+        ),
+    )

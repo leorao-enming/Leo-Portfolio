@@ -28,7 +28,8 @@ export type MetricPair = { key: string; value: string };
 export type ModuleHealth = {
   name: string;
   status: ModuleStatus;
-  latency: string;
+  /** Build state or a measured figure — never an unmeasured performance number. */
+  detail: string;
 };
 
 // ─── Quant ───────────────────────────────────────────────────────────────────
@@ -39,7 +40,8 @@ export type EngineLayer = {
   tech: string;
   description: string;
   status: ModuleStatus;
-  latency: string;
+  /** Build state, e.g. "Implemented" or "Paper gateway only". */
+  implementation: string;
 };
 
 export type FlowStepType =
@@ -66,21 +68,33 @@ export type Strategy = {
   status: "ACTIVE" | "STAGED" | "RESEARCH" | "RETIRED";
 };
 
-export type Signal = {
-  id: string;
-  type: string;
-  asset: string;
-  direction: "LONG" | "SHORT" | "NEUTRAL";
-  confidence: string;
-  status: "ACTIVE" | "TRIGGERED" | "PENDING" | "SCANNING";
+export type GateCondition = {
+  label: string;
+  target: string;
+  met: boolean;
 };
 
+/** The interlock standing between the engine and real capital. */
+export type SafetyGate = {
+  flag: string;
+  flag_value: string;
+  mode: string;
+  summary: string;
+  conditions: GateCondition[];
+  review_date: string;
+};
+
+/**
+ * No live-signal feed by design. The engine runs paper-only with execution
+ * gated off, so a table of scored signals would be fabricated telemetry
+ * contradicting the safety gate rendered beside it.
+ */
 export type QuantDashboard = {
   status_cards: StatCard[];
+  safety_gate: SafetyGate;
   engine_layers: EngineLayer[];
   ibkr_flow: FlowStep[];
   strategies: Strategy[];
-  signals: Signal[];
   modules: ModuleHealth[];
 };
 

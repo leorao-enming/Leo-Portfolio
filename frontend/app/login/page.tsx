@@ -53,10 +53,12 @@ export default function LoginPage() {
             LEOLOGIC OS
           </p>
           <h1 className="text-4xl font-bold tracking-tight mb-2" style={{ color: "#e0e0e0" }}>
-            AUTH<span className="terminal-text">_</span>GATE
+            OPERATOR <span className="terminal-text">CONSOLE</span>
           </h1>
-          <p className="text-xs tracking-widest" style={{ color: "#444" }}>
-            RESTRICTED ZONE — OPERATOR ACCESS ONLY
+          <p className="text-xs leading-relaxed" style={{ color: "#555" }}>
+            The subsystem dashboards behind this screen are a read-only demo. Sign in
+            with the shared token below — there are no personal accounts and no
+            private data here.
           </p>
         </div>
 
@@ -132,10 +134,14 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Hint */}
+        {/* The token is published on purpose — this gate exists to scope the demo,
+            not to protect anything. Pretending otherwise would be theatre. */}
         <div className="mt-8 pt-6" style={{ borderTop: "1px solid #111" }}>
-          <p className="text-xs text-center" style={{ color: "#222" }}>
-            DEMO TOKEN: leologic-access-2024
+          <p className="text-xs text-center" style={{ color: "#3f3f46" }}>
+            Shared demo token —{" "}
+            <span className="font-mono" style={{ color: "#71717a" }}>
+              leologic-access-2024
+            </span>
           </p>
         </div>
 
