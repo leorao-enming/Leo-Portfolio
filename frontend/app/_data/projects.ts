@@ -87,89 +87,90 @@ export const PROJECTS: Project[] = [
     status: "ACTIVE",
     statusLabel: "In Development",
     summary:
-      "Containerised Python research stack for market analysis and systematic strategy " +
-      "development, wired to Interactive Brokers. Runs paper only — live order execution " +
-      "is gated off behind measurable validation criteria.",
-    stack: ["Python", "Docker", "IBKR API", "FastAPI"],
+      "A remote operator console for Interactive Brokers, built as a private Discord bot — " +
+      "market data, signals, and backtests all run from a chat command, not a web dashboard. " +
+      "Live order execution is gated off behind measurable validation criteria.",
+    stack: ["Python", "Discord Bot", "IBKR API", "ib_insync"],
     accent: "var(--color-terminal-green)",
     showOnLanding: true,
     landingFeatured: true,
     registry: {
       displayType: "Architecture Only",
       longDescription:
-        "LQC is a quantitative analysis system built in Python and deployed via Docker, " +
-        "interfacing with the Interactive Brokers API for market data and strategy research. " +
-        "The order path is implemented and exercised against the paper gateway, but live " +
-        "execution is held behind an explicit flag — ENABLE_ORDER_EXECUTION stays false until " +
-        "the strategy set clears full-universe backtesting, risk-module stress testing, and a " +
-        "90-day profitable paper record. Treating the safety interlock as a first-class, " +
-        "documented decision matters more here than shipping the feature early. Strategy logic " +
-        "is closed; the architecture below reflects the real component design.",
+        "LQC is operated entirely through a private Discord bot — the interaction model is " +
+        "deliberately conversational: an operator command in a chat channel is the interface, " +
+        "not a web UI. The bot connects to Interactive Brokers' paper gateway via ib_insync, " +
+        "runs a technical-indicator signal engine, and drives a backtesting framework with " +
+        "parameter sweeps and trade-level diagnostics — all reachable from chat. The order " +
+        "path is implemented and exercised against the paper gateway, but live execution is " +
+        "held behind an explicit flag — ENABLE_ORDER_EXECUTION stays false until the strategy " +
+        "set clears full-universe backtesting, risk-module stress testing, and a 90-day " +
+        "profitable paper record. Treating the safety interlock as a first-class, documented " +
+        "decision matters more here than shipping the feature early. Command surface and " +
+        "strategy logic are closed; the architecture below reflects the real component design.",
       techStack: [
         { label: "Python", tone: "green" },
-        { label: "Docker", tone: "green" },
-        { label: "IBKR API", tone: "green" },
+        { label: "discord.py", tone: "green" },
+        { label: "ib_insync", tone: "green" },
         { label: "pandas", tone: "cyan" },
-        { label: "NumPy", tone: "cyan" },
-        { label: "FastAPI", tone: "cyan" },
         { label: "SQLite", tone: "amber" },
-        { label: "asyncio", tone: "amber" },
+        { label: "Docker", tone: "amber" },
       ],
       metrics: [
-        { label: "RUNTIME", value: "Python · Docker" },
-        { label: "BROKER", value: "Interactive Brokers" },
+        { label: "INTERFACE", value: "Private Discord bot" },
+        { label: "BROKER", value: "Interactive Brokers — paper gateway" },
         { label: "EXECUTION", value: "Paper only — live gated" },
         { label: "SAFETY FLAG", value: "ENABLE_ORDER_EXECUTION=false" },
         { label: "UNLOCK BAR", value: "Sharpe > 1.5 · 90d paper" },
         { label: "NEXT REVIEW", value: "2026-Q4" },
       ],
       architecture: {
-        title: "LQC — RESEARCH & EXECUTION STACK",
+        title: "LQC — REMOTE OPERATOR STACK",
         layers: [
           {
-            label: "MARKET DATA FEED",
-            sublabel: "IBKR API — price, volume, and bar normalisation",
+            label: "DISCORD OPERATOR CONSOLE",
+            sublabel: "Chat-driven command surface — the entire remote-operate interface",
             tone: "cyan",
           },
           {
-            label: "SIGNAL PROCESSOR",
-            sublabel: "Indicator evaluation across configurable alpha models",
+            label: "IBKR CONNECTION LAYER",
+            sublabel: "ib_insync paper-gateway session — quotes, bars, account state",
             tone: "cyan",
-          },
-          {
-            label: "BACKTEST FRAMEWORK",
-            sublabel: "Historical replay · strategy validation before promotion",
-            tone: "green",
-          },
-          {
-            label: "RISK MODULE",
-            sublabel: "Position limits · drawdown caps · exposure constraints",
-            tone: "amber",
           },
           {
             label: "SAFETY INTERLOCK",
-            sublabel: "ENABLE_ORDER_EXECUTION gate — blocks the live order path",
+            sublabel: "Input validation + persistent kill switch, gates the engine before any order path",
             tone: "amber",
           },
           {
-            label: "PAPER ORDER ROUTER",
-            sublabel: "IBKR paper gateway — order construction and fill handling",
+            label: "SIGNAL ENGINE",
+            sublabel: "Technical-indicator strategy logic, iterated across versions",
             tone: "green",
           },
           {
-            label: "AUDIT LEDGER",
-            sublabel: "Trade log · execution timestamps · P&L attribution",
+            label: "BACKTEST FRAMEWORK",
+            sublabel: "Historical replay, parameter sweeps, trade-level diagnostics",
+            tone: "green",
+          },
+          {
+            label: "JOURNAL LEDGER",
+            sublabel: "Local SQLite trade and account log",
+            tone: "amber",
+          },
+          {
+            label: "ORDER GATE",
+            sublabel: "ENABLE_ORDER_EXECUTION flag — live path implemented but held closed",
             tone: "amber",
           },
         ],
       },
       tags: [
         "QUANT_RESEARCH",
-        "PYTHON_AUTOMATION",
-        "DOCKER",
+        "DISCORD_BOT",
+        "REMOTE_OPS",
         "IBKR_API",
         "BACKTESTING",
-        "RISK_MANAGEMENT",
+        "SIGNAL_PROCESSING",
         "SAFETY_ENGINEERING",
       ],
       links: [

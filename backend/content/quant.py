@@ -44,9 +44,9 @@ STATUS_CARDS = [
         tone=Tone.AMBER,
     ),
     StatCard(
-        label="STRATEGY MODELS",
-        value="4",
-        sub="Implemented in the registry, all pre-promotion",
+        label="SIGNAL ENGINE",
+        value="v0.2",
+        sub="SwingSniper — one strategy lineage, iterated twice, pre-promotion",
         tone=Tone.GREEN,
     ),
 ]
@@ -88,173 +88,166 @@ SAFETY_GATE = SafetyGate(
     review_date="2026-Q4",
 )
 
+# The real interaction model is a private Discord bot, not a web dashboard —
+# this page visualizes that architecture, it isn't the operator interface
+# itself. Layer names and descriptions match the actual LQC_Core modules.
 ENGINE_LAYERS = [
     EngineLayer(
         layer="01",
-        name="DATA INGESTION LAYER",
-        tech="Python / asyncio / aiohttp",
+        name="DISCORD OPERATOR CONSOLE",
+        tech="Python / discord.py",
         description=(
-            "Streams live OHLCV, order book depth, and macro event feeds. Normalises tick "
-            "data into a unified internal schema before dispatch."
+            "The entire remote-operate interface. Commands like !price, !signal, !backtest, "
+            "!kill and !unlock are typed into a private Discord channel; the bot replies with "
+            "text or Embeds. There is no separate web front end."
         ),
         status=ModuleStatus.HEALTHY,
         implementation="Implemented",
     ),
     EngineLayer(
         layer="02",
-        name="SIGNAL PROCESSOR",
-        tech="Python / NumPy / pandas",
+        name="IBKR CONNECTION LAYER",
+        tech="Python / ib_insync",
         description=(
-            "Runs configurable alpha models — momentum, mean-reversion, breakout, and "
-            "statistical arbitrage. Outputs scored signal objects with confidence metrics."
+            "Maintains the paper-gateway session to Interactive Brokers — live quotes, "
+            "historical bars, and account summary, with duration/bar-size validation and "
+            "connection timeouts. Read-only; does not place orders on its own."
         ),
         status=ModuleStatus.HEALTHY,
         implementation="Implemented",
     ),
     EngineLayer(
         layer="03",
-        name="RISK MANAGER",
-        tech="Python / scipy",
+        name="SAFETY INTERLOCK",
+        tech="Python / DataGuard + SafetyState",
         description=(
-            "Pre-trade risk gate. Enforces position limits, max drawdown thresholds, "
-            "correlation constraints, and Kelly fraction sizing before any order is dispatched."
+            "DataGuard grades every incoming bar PASS/WARN/FAIL — blacklisted tickers, "
+            "non-positive volume or OHLC values, and snapshot-price deviation over 1% all "
+            "fail closed. SafetyState is a persistent kill switch (atomic write to a local "
+            "JSON file, survives restarts) that sits in front of the trading logic."
         ),
         status=ModuleStatus.HEALTHY,
         implementation="Implemented",
     ),
     EngineLayer(
         layer="04",
-        name="EXECUTION ENGINE",
-        tech="Python / ib_insync / IBKR paper gateway",
+        name="SIGNAL ENGINE",
+        tech="Python / pandas",
         description=(
-            "Translates approved signal objects into IBKR order types (MKT, LMT, VWAP) and "
-            "handles partial fills, re-queuing, and confirmation acknowledgement. Routes to "
-            "the paper gateway only — ENABLE_ORDER_EXECUTION gates the live path."
+            "SwingSniper technical-indicator strategy — EMA, RSI, MACD, and ATR-based entry "
+            "logic. Iterated from v0.1 to a stricter-filter v0.2; both versions remain "
+            "backtest-only, neither has been promoted to paper execution."
         ),
-        status=ModuleStatus.STANDBY,
-        implementation="Paper gateway only",
+        status=ModuleStatus.HEALTHY,
+        implementation="Implemented",
     ),
     EngineLayer(
         layer="05",
-        name="PORTFOLIO TRACKER",
-        tech="Python / SQLite / FastAPI",
+        name="BACKTEST FRAMEWORK",
+        tech="Python / pandas",
         description=(
-            "Maintains real-time P&L ledger, position register, and attribution analytics. "
-            "Exposes internal REST API consumed by the LEOLOGIC OS dashboard."
+            "Historical replay with ATR trailing stops, sample-size grading "
+            "(INSUFFICIENT / WEAK / PASS / FAIL), 81-combination parameter sweeps, and "
+            "per-trade MFE/MAE diagnostics that flag entry, exit, or over-filtering problems."
         ),
         status=ModuleStatus.HEALTHY,
         implementation="Implemented",
     ),
     EngineLayer(
         layer="06",
-        name="STRATEGY REGISTRY",
-        tech="Python / YAML config",
+        name="JOURNAL LEDGER",
+        tech="Python / SQLite",
         description=(
-            "Version-controlled strategy library. Each strategy is a self-contained module "
-            "with defined alpha logic, parameter space, and backtest metadata."
+            "Local, append-only trade and account log. No external database or hosted "
+            "service — the ledger lives on the same machine that runs the bot."
         ),
         status=ModuleStatus.HEALTHY,
         implementation="Implemented",
     ),
+    EngineLayer(
+        layer="07",
+        name="ORDER GATE",
+        tech="Python / ib_insync",
+        description=(
+            "Order construction against the IBKR paper gateway is implemented, but every "
+            "path checks ENABLE_ORDER_EXECUTION first. The flag has stayed false through "
+            "every commit — the live order path exists in code but has never fired."
+        ),
+        status=ModuleStatus.STANDBY,
+        implementation="Paper gateway only",
+    ),
 ]
 
-IBKR_FLOW = [
+COMMAND_FLOW = [
     FlowStep(
         step="01",
-        node="MARKET FEED",
+        node="DISCORD MESSAGE",
         type=FlowStepType.INPUT,
-        detail="IBKR TWS Market Data → ib_insync subscription → normalised tick/bar objects",
+        detail="Operator types a command in a private channel — e.g. !signal AAPL, !backtest SwingSniper_v0.2",
     ),
     FlowStep(
         step="02",
-        node="DATA BUS",
+        node="COMMAND ROUTER",
         type=FlowStepType.INTERNAL,
-        detail=(
-            "asyncio queue dispatches normalised data to Signal Processor and Portfolio "
-            "Tracker concurrently"
-        ),
+        detail="discord.py dispatches to the matching handler — connection, journal, safety, signal, or backtest",
     ),
     FlowStep(
         step="03",
-        node="ALPHA MODEL",
-        type=FlowStepType.COMPUTE,
-        detail=(
-            "Strategy modules consume bar data → compute indicators → emit "
-            "ScoredSignal(asset, dir, confidence, expiry)"
-        ),
+        node="DATA GUARD",
+        type=FlowStepType.CONTROL,
+        detail="Any bar pulled via ib_insync is graded PASS/WARN/FAIL before it reaches strategy logic",
     ),
     FlowStep(
         step="04",
-        node="RISK GATE",
-        type=FlowStepType.CONTROL,
-        detail=(
-            "RiskManager validates ScoredSignal against portfolio state, drawdown limits, "
-            "and position caps"
-        ),
+        node="SIGNAL / BACKTEST",
+        type=FlowStepType.COMPUTE,
+        detail="SwingSniper evaluates indicators, or SniperBacktester replays history with the requested parameters",
     ),
     FlowStep(
         step="05",
-        node="ORDER ROUTER",
+        node="ORDER GATE",
         type=FlowStepType.OUTPUT,
-        detail=(
-            "Approved signals → construct IBKR Order object → ENABLE_ORDER_EXECUTION check → "
-            "placeOrder() against the paper gateway (live path gated off)"
-        ),
+        detail="If a command would place a live order: ENABLE_ORDER_EXECUTION check → blocked while false → nothing sent to IBKR",
     ),
     FlowStep(
         step="06",
-        node="FILL HANDLER",
+        node="DISCORD REPLY",
         type=FlowStepType.CONFIRM,
-        detail="On execDetails event: update position ledger, log execution, emit to Portfolio Tracker",
+        detail="Result formatted as text/Embed and posted back to the channel; journal entry written to SQLite",
     ),
 ]
 
-# No strategy is marked ACTIVE: nothing has cleared the safety gate, so the
-# strongest honest status is STAGED — implemented and running in backtest.
+# One real strategy lineage (Sniper -> SwingSniper), not several independent
+# alpha models. v0.1 is superseded by v0.2's stricter entry filters; neither
+# has cleared the safety gate, so neither is ACTIVE.
 STRATEGIES = [
     Strategy(
-        name="momentum_v3",
-        version="0.3.0",
-        universe="Crypto / Equities",
-        lookback="20 bars",
-        params="ema_fast=8, ema_slow=21",
-        status=StrategyStatus.STAGED,
+        name="SwingSniper_v0.1",
+        version="0.1.0",
+        universe="Equities",
+        lookback="Not recorded",
+        params="EMA / RSI / MACD / ATR — baseline entry filters",
+        status=StrategyStatus.RETIRED,
     ),
     Strategy(
-        name="mean_rev_zscore",
-        version="0.2.0",
-        universe="Equity Pairs",
-        lookback="60 bars",
-        params="z_entry=2.0, z_exit=0.5",
-        status=StrategyStatus.STAGED,
-    ),
-    Strategy(
-        name="breakout_vol",
+        name="SwingSniper_v0.2",
         version="0.2.0",
         universe="Equities",
-        lookback="14 bars",
-        params="atr_mult=1.5, vol_filter=True",
+        lookback="Not recorded",
+        params="EMA / RSI / MACD / ATR — stricter filters, tuned via 81-combination sweep",
         status=StrategyStatus.STAGED,
-    ),
-    Strategy(
-        name="stat_arb_pairs",
-        version="0.1.0",
-        universe="Crypto",
-        lookback="120 bars",
-        params="coint_pval=0.05",
-        status=StrategyStatus.RESEARCH,
     ),
 ]
 
 # "detail" carries build state. The project has no benchmark harness, so the
 # previous per-module millisecond figures were fabricated.
 MODULES = [
-    ModuleHealth(name="DATA INGESTION", status=ModuleStatus.HEALTHY, detail="Implemented"),
-    ModuleHealth(name="SIGNAL PROCESSOR", status=ModuleStatus.HEALTHY, detail="Implemented"),
-    ModuleHealth(name="RISK MANAGER", status=ModuleStatus.HEALTHY, detail="Implemented"),
-    ModuleHealth(name="PORTFOLIO TRACKER", status=ModuleStatus.HEALTHY, detail="Implemented"),
-    ModuleHealth(name="CONTAINER RUNTIME", status=ModuleStatus.HEALTHY, detail="Docker"),
-    ModuleHealth(name="BACKTEST VALIDATION", status=ModuleStatus.PENDING, detail="In progress"),
+    ModuleHealth(name="DISCORD CONSOLE", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="IBKR CONNECTION", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="SAFETY INTERLOCK", status=ModuleStatus.HEALTHY, detail="Implemented"),
+    ModuleHealth(name="SIGNAL ENGINE", status=ModuleStatus.HEALTHY, detail="v0.2"),
+    ModuleHealth(name="JOURNAL LEDGER", status=ModuleStatus.HEALTHY, detail="SQLite, local"),
+    ModuleHealth(name="BACKTEST VALIDATION", status=ModuleStatus.PENDING, detail="No out-of-sample run yet"),
     ModuleHealth(name="LIVE EXECUTION", status=ModuleStatus.STANDBY, detail="Gated off"),
 ]
 
@@ -265,7 +258,7 @@ def get_dashboard() -> QuantDashboard:
         status_cards=STATUS_CARDS,
         safety_gate=SAFETY_GATE,
         engine_layers=ENGINE_LAYERS,
-        ibkr_flow=IBKR_FLOW,
+        ibkr_flow=COMMAND_FLOW,
         strategies=STRATEGIES,
         modules=MODULES,
     )

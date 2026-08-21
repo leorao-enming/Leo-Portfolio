@@ -66,9 +66,10 @@ export default async function QuantPage() {
           QUANT <span className="terminal-text">TRADING ENGINE</span>
         </h1>
         <p className="text-xs mt-2 leading-relaxed max-w-xl" style={{ color: "#555" }}>
-          LeoLogic Quantitative Core — containerised Python research stack for market
-          analysis and systematic strategy development, wired to IBKR. Runs paper only:
-          live order execution is gated off until the strategy set clears validation.
+          LeoLogic Quantitative Core — a private Discord bot as the remote operator
+          console for Interactive Brokers. Market data, signals, and backtests all run
+          from a chat command. Runs paper only: live order execution is gated off until
+          the strategy set clears validation.
         </p>
       </div>
 
@@ -161,7 +162,7 @@ export default async function QuantPage() {
           {/* Python engine architecture */}
           <div className="mb-10">
             <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
-              ── PYTHON ENGINE ARCHITECTURE
+              ── REMOTE OPERATOR ARCHITECTURE
             </p>
             <div className="space-y-2">
               {result.data.engine_layers.map((layer) => (
@@ -204,10 +205,10 @@ export default async function QuantPage() {
             </div>
           </div>
 
-          {/* IBKR API integration flow */}
+          {/* Operator command flow */}
           <div className="mb-10">
             <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
-              ── IBKR API INTEGRATION FLOW
+              ── OPERATOR COMMAND FLOW
             </p>
             <div className="card-surface overflow-hidden">
               <div
@@ -216,7 +217,7 @@ export default async function QuantPage() {
               >
                 <span className="status-dot status-dot-idle" />
                 <span className="text-xs tracking-widest terminal-amber">
-                  ib_insync → TWS Paper / Live Gateway → Order Lifecycle
+                  Discord message → command router → IBKR paper gateway → journal
                 </span>
               </div>
               <div>
