@@ -322,7 +322,7 @@ function CardFront() {
                 Systems Engineer
               </div>
               <div style={{ fontSize: 8, color: "#777", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "monospace" }}>
-                Quant Research · ChemEng
+                Process Engineering · ChemEng
               </div>
               <Chip />
               <div

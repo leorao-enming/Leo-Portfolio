@@ -102,7 +102,7 @@ export function Hero() {
   const reduced = useReducedMotion();
 
   /* scramble the three lines with staggered delays */
-  const line1 = useScramble("By day, I build quant systems.", 200);
+  const line1 = useScramble("By day, I study process systems.", 200);
   const line2 = useScramble("By night, I write precision code.", 600);
   const line3 = useScramble("Same machine. Different rules.", 1000);
 
@@ -190,7 +190,7 @@ export function Hero() {
       >
         {[
           "AI Systems Engineer.",
-          "Quant Research.",
+          "Process Engineer.",
           "A studio of one.",
         ].map((line, i) => (
           <div

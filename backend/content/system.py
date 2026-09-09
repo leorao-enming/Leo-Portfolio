@@ -22,34 +22,35 @@ from schemas import (
 SUBSYSTEMS = [
     SubsystemSummary(
         id="LQC-CORE",
-        label="QUANT TRADING ENGINE",
+        label="QUANT RESEARCH BOT",
         description=(
-            "LeoLogic Quantitative Core — Systematic execution, signal routing, and live "
-            "portfolio metrics."
+            "LeoLogic Quantitative Core — a private Discord-bot operator console for "
+            "Interactive Brokers. Parked since May 2026; live execution stays gated off by "
+            "design, not by incompleteness."
         ),
         href="/dashboard/quant",
-        status_label="LIVE",
-        tone=Tone.GREEN,
+        status_label="PARKED",
+        tone=Tone.AMBER,
         metrics=[
-            MetricPair(key="SIGNALS", value="14 ACTIVE"),
-            MetricPair(key="POSITIONS", value="3 OPEN"),
-            MetricPair(key="DRAWDOWN", value="—"),
+            MetricPair(key="STATUS", value="Parked since 2026-05"),
+            MetricPair(key="EXECUTION", value="Paper only"),
+            MetricPair(key="SAFETY GATE", value="0 / 4 cleared"),
         ],
     ),
     SubsystemSummary(
         id="HALFLIFE",
         label="BIO-METRICS TRACKER",
         description=(
-            "Half-Life protocol — Metabolic decay modeling, training stress load, and "
-            "physiological optimization."
+            "Half-Life protocol — models caffeine intake against sleep timing as first-order "
+            "exponential decay."
         ),
         href="/dashboard/biometrics",
-        status_label="TRACKING",
+        status_label="RELEASE CANDIDATE",
         tone=Tone.CYAN,
         metrics=[
-            MetricPair(key="FATIGUE", value="NOMINAL"),
-            MetricPair(key="READINESS", value="—"),
-            MetricPair(key="LAST LOG", value="—"),
+            MetricPair(key="MODEL", value="A(t) = A0 · e^(-0.693t/t1/2)"),
+            MetricPair(key="TRACKED", value="Caffeine · sodium · sugar"),
+            MetricPair(key="APP STATUS", value="Signed archive built"),
         ],
     ),
 ]
@@ -97,6 +98,45 @@ ACTIVITY_LOG: list[ActivityEntry] = [
             "CORS policy with an explicit origin list."
         ),
         tags=["refactor", "auth", "security", "nextjs"],
+    ),
+    ActivityEntry(
+        date="2026-09-09",
+        category=ActivityCategory.BUILD,
+        title="Content sync with the Obsidian knowledge vault, plus site restructure",
+        detail=(
+            "Corrected two content gaps the vault had already flagged: LQC's status changed "
+            "from 'In Development' to 'Parked' (idle since May 2026), and the Half-Life "
+            "biometrics dashboard/decay simulator were switched from an unrelated supplement "
+            "stack (creatine, vitamin D3) to the substances the real app actually tracks "
+            "(caffeine, sodium, sugar). Added Trace and Tiny Trials as project registry "
+            "entries and FabTwin & FabChem to the Lab build queue. Split Engineering and Lab "
+            "out of the single-page scroll into standalone routes (/engineering, /lab) to "
+            "match /projects, with condensed teasers left on the landing page and the nav "
+            "cleaned up to one link per destination."
+        ),
+        tags=["content", "obsidian-sync", "nextjs", "ia"],
+    ),
+    ActivityEntry(
+        date="2026-09-09",
+        category=ActivityCategory.BUILD,
+        title="Mobile nav, /about page, honest identity copy, and basic SEO",
+        detail=(
+            "Added a mobile menu — the nav had no fallback below 768px. Split About out into "
+            "its own page (/about) to match Projects/Engineering/Lab, with a teaser left on "
+            "the landing page. Labeled the dashboard CTA and the login screen as a demo rather "
+            "than an operational tool, since the personal-use login-panel idea behind it was "
+            "abandoned once the activity log moved to this chat-to-content workflow. Removed a "
+            "false 'quant research experience' identity claim that had spread across the site "
+            "(Hero headline and tagline, an About stat card, a Capabilities pillar sized as the "
+            "largest card, a fabricated Timeline milestone, the employee ID card, marquee copy, "
+            "and page metadata) — LQC is a real parked side project, not professional quant "
+            "experience, and the copy now says that. Fixed the /dashboard command-center cards "
+            "still showing invented LQC numbers (14 active signals, 3 open positions, LIVE "
+            "status) that contradicted the parked status and the already-honest /dashboard/quant "
+            "page. Added sitemap.ts, robots.ts, and a generated OG image; deleted the unused "
+            "default Next.js starter SVGs from public/."
+        ),
+        tags=["content", "honesty", "nextjs", "seo", "ia"],
     ),
 ]
 

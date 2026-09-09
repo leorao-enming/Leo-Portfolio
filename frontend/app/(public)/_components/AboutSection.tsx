@@ -26,7 +26,7 @@ function useCountUp(target: number, inView: boolean, duration = 1400) {
 
 const stats = [
   { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#60a5fa" },
-  { raw: 2,   display: (n: number) => `${n}+`,  label: "Yrs Quant Res.",    accent: "var(--color-terminal-green)" },
+  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-terminal-green)" },
   { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#c084fc" },
   { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#fb923c" },
 ];
@@ -139,7 +139,7 @@ export function AboutSection() {
               I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
             </p>
             <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.3)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
-              From quant trading engines to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.
+              From plant-floor process control to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -173,7 +173,7 @@ export function AboutSection() {
                 Currently Building
               </div>
               <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-                <span style={{ color: "var(--color-terminal-green)", fontWeight: 600 }}>LQC</span> — a containerised Python research stack for market analysis and strategy validation, wired to IBKR and deliberately running paper-only until the numbers earn otherwise.
+                <span style={{ color: "var(--color-terminal-green)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
               </div>
             </div>
           </motion.div>

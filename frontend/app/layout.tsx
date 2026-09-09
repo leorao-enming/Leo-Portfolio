@@ -27,17 +27,18 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://leologic.org"),
   title: {
     default: "LeoLogic — Leo Rao",
     template: "%s — LeoLogic",
   },
   description:
     "LeoLogic. Building precision systems at the intersection of chemical engineering and artificial intelligence.",
-  keywords: ["LeoLogic", "Leo Rao", "AI systems", "quant trading", "chemical engineering", "automation"],
+  keywords: ["LeoLogic", "Leo Rao", "AI systems", "process engineering", "chemical engineering", "manufacturing engineering", "automation"],
   openGraph: {
     title: "LeoLogic — Leo Rao",
     description:
-      "Precision systems at the intersection of chemical engineering, quantitative research, and artificial intelligence.",
+      "Precision systems at the intersection of chemical engineering, process engineering, and artificial intelligence.",
     type: "website",
   },
 };

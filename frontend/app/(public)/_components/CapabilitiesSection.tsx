@@ -9,32 +9,22 @@ const ease = [0.16, 1, 0.3, 1] as const;
 // the competency matrix's "next step" column, not here.
 const capabilities = [
   {
-    id: "quant",
-    label: "Quantitative Systems",
-    tags: ["Market Data Pipelines", "Backtesting", "Signal Research", "Risk Modeling"],
-    accent: "var(--color-terminal-green)",
-    span: "col-span-1 row-span-2",
+    id: "chem",
+    label: "Process Engineering",
+    tags: ["P&ID Reading", "Process Instrumentation", "DCS Operations", "SOP & HSE"],
+    accent: "#c084fc",
   },
   {
     id: "ai",
     label: "AI & Agents",
     tags: ["LLM Orchestration", "Agent Workflows", "AI-Assisted Authoring"],
     accent: "#60a5fa",
-    span: "col-span-1",
-  },
-  {
-    id: "chem",
-    label: "Process Engineering",
-    tags: ["P&ID Reading", "Process Instrumentation", "DCS Operations", "SOP & HSE"],
-    accent: "#c084fc",
-    span: "col-span-1",
   },
   {
     id: "sys",
     label: "Full-Stack Systems",
     tags: ["Next.js", "FastAPI", "React Native", "Supabase", "Docker"],
     accent: "#fb923c",
-    span: "col-span-1 sm:col-span-2",
   },
 ];
 
@@ -104,11 +94,6 @@ export function CapabilitiesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : i * 0.07, ease }}
-            className={
-              cap.id === "quant" ? "lg:row-span-2" :
-              cap.id === "sys" ? "sm:col-span-2 lg:col-span-2" :
-              ""
-            }
           >
             <TiltCard
               intensity={6}
@@ -120,7 +105,7 @@ export function CapabilitiesSection() {
                 style={{
                   padding: "clamp(22px, 3vw, 32px)",
                   height: "100%",
-                  minHeight: cap.id === "quant" ? 280 : cap.id === "sys" ? 140 : 180,
+                  minHeight: 180,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
