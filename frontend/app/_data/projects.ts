@@ -186,10 +186,11 @@ export const PROJECTS: Project[] = [
     title: "Half-Life",
     tag: "Mobile",
     status: "ACTIVE",
-    statusLabel: "In Development",
+    statusLabel: "Release candidate — 1.0.4 (6)",
     summary:
-      "iOS health and metabolism app built on Expo and React Native, reading Apple HealthKit " +
-      "data and modelling physiological recovery as first-order exponential decay.",
+      "Local-first iOS app that helps make sense of the relationship between caffeine intake " +
+      "and sleep — built on Expo and React Native, reading Apple HealthKit data and modelling " +
+      "caffeine as first-order exponential decay.",
     stack: ["Expo", "React Native", "HealthKit", "Supabase"],
     accent: "var(--color-terminal-cyan)",
     showOnLanding: true,
@@ -197,14 +198,18 @@ export const PROJECTS: Project[] = [
     registry: {
       displayType: "Live System",
       longDescription:
-        "Half-Life is an iOS application built with Expo and React Native that reads Apple " +
-        "HealthKit data and models metabolic load, recovery, and supplement pharmacokinetics " +
-        "as first-order decay: A(t) = A₀ · e^(−0.693t / t½). Supabase backs sync and " +
-        "persistence. The architecture deliberately runs on the stable React Native core — " +
-        "Skia, Reanimated, and Worklets were removed after they proved to be a recurring " +
-        "source of build fragility, and stability now takes priority over animation ceiling. " +
-        "The decay model itself is exposed through a Python service, and the simulator below " +
-        "calls that live endpoint.",
+        "Half-Life is a local-first iOS app built with Expo and React Native that helps make " +
+        "sense of caffeine intake against sleep timing, modelled as first-order decay: " +
+        "A(t) = A₀ · e^(−0.693t / t½). HealthKit access is user-triggered and only feeds " +
+        "suggestions — it never silently overwrites a manually-set sleep or wake time, and raw " +
+        "sleep samples are never persisted or synced to the cloud. Supabase is optional " +
+        "account/sync only; the core logging flow works fully local-first. The architecture " +
+        "deliberately runs on the stable React Native core — Skia, Reanimated, and Worklets " +
+        "were removed after they proved to be a recurring source of build fragility, and " +
+        "stability now takes priority over animation ceiling. The decay model itself is " +
+        "exposed through a Python service, and the simulator below calls that live endpoint. " +
+        "A signed 1.0.4 (6) release archive is built and locally exported; device acceptance " +
+        "and TestFlight remain open.",
       techStack: [
         { label: "Expo", tone: "green" },
         { label: "React Native", tone: "green" },
@@ -221,6 +226,7 @@ export const PROJECTS: Project[] = [
         { label: "MODEL", value: "A(t) = A₀ · e^(−λt)" },
         { label: "ARCH CHOICE", value: "Stable core — no Skia/Reanimated" },
         { label: "DECAY API", value: "Python · live endpoint" },
+        { label: "BUILD", value: "1.0.4 (6) — signed archive exported" },
       ],
       architecture: {
         title: "HALF-LIFE — DECAY ENGINE",
@@ -273,6 +279,7 @@ export const PROJECTS: Project[] = [
       ],
       links: [
         { label: "LIVE MODULE — OPERATOR ACCESS", href: "/dashboard/biometrics", requiresAuth: true },
+        { label: "GITHUB — half-life-app", href: "https://github.com/leorao-enming/half-life-app" },
       ],
     },
   },
@@ -297,9 +304,13 @@ export const PROJECTS: Project[] = [
         "owns long-term knowledge, project context, and decision records. The split is a " +
         "documented scope boundary rather than an accident — neither system duplicates what " +
         "the other already does well, which is what keeps maintenance cost from doubling. " +
-        "Development runs in phases, each with an explicit acceptance checklist and a " +
-        "test → commit → tag → changelog cycle. This site and its FastAPI backend are the " +
-        "public surface of that system.",
+        "The real leologic-os repository is private, has its own Vite + React + TypeScript " +
+        "client with a Vitest test suite, and has shipped Phase 1 through 9 plus a separate " +
+        "\"Adventure Mode\" feature line, each phase with its own written acceptance " +
+        "checklist — and its daily/ and weekly/ directories hold real dated review files, " +
+        "not templates, which is the evidence the phase cadence is actually lived in rather " +
+        "than just designed. This site's Command Center below is a separate, public-facing " +
+        "Next.js + FastAPI surface that visualizes a slice of that state — not the OS itself.",
       techStack: [
         { label: "Next.js 16", tone: "green" },
         { label: "React 19", tone: "green" },
@@ -310,11 +321,11 @@ export const PROJECTS: Project[] = [
         { label: "Obsidian", tone: "amber" },
       ],
       metrics: [
-        { label: "EXECUTION LAYER", value: "LeoLogic OS" },
+        { label: "REAL CLIENT STACK", value: "Vite + React + TypeScript + Vitest" },
+        { label: "PHASES SHIPPED", value: "Phase 1–9 + Adventure Mode (A–C)" },
+        { label: "USAGE EVIDENCE", value: "Real daily/ and weekly/ review files" },
         { label: "KNOWLEDGE LAYER", value: "Obsidian vault" },
-        { label: "CODE LAYER", value: "Git — commit history" },
         { label: "METHOD", value: "Phase-based · acceptance checklists" },
-        { label: "RELEASE CYCLE", value: "test → commit → tag → changelog" },
         { label: "SCOPE RULE", value: "No duplicated responsibility" },
       ],
       architecture: {
@@ -467,9 +478,11 @@ export const PROJECTS: Project[] = [
         "backed by an AI cost-control layer (unified router, per-request and daily budgets, " +
         "circuit breakers, audited usage events) and multi-tenant infrastructure (RBAC, credit " +
         "ledger, cross-tenant isolation, deletion pipelines). A research track (Pipeline v3) " +
-        "ran a 30-drawing benchmark against a frozen gold set; its quality gate correctly " +
-        "returned rollback_required, so production stays on the v2 pipeline until extraction " +
-        "accuracy clears the bar — a fail-closed rollout decision documented rather than hidden.",
+        "ran a 30-drawing bootstrap benchmark — the gold annotations are still pending human " +
+        "double-review, not yet frozen — and the quality gate correctly returned " +
+        "rollback_required on the extraction scores, so production stays on the v2 pipeline " +
+        "until accuracy clears the bar: a fail-closed rollout decision documented rather than " +
+        "hidden.",
       techStack: [
         { label: "TypeScript", tone: "green" },
         { label: "React", tone: "green" },
@@ -485,7 +498,8 @@ export const PROJECTS: Project[] = [
         { label: "AI COST CONTROL", value: "Budgets, circuit breaker, audit trail" },
         { label: "QUALITY GATE", value: "v3 → rollback_required, v2 stays production" },
         { label: "BENCHMARK", value: "30/30 drawings, 270 standard regions" },
-        { label: "PHASE", value: "Gold annotation + deterministic extraction" },
+        { label: "EXTRACTION SCORES", value: "Object F1 0.25 / Relation F1 0.01 — below gate" },
+        { label: "PHASE", value: "Gold double-review + deterministic extraction fixes" },
       ],
       architecture: {
         title: "TRACE — EVIDENCE GRAPH STACK",
@@ -517,7 +531,7 @@ export const PROJECTS: Project[] = [
           },
           {
             label: "PIPELINE V3 RESEARCH",
-            sublabel: "Frozen gold benchmark + automatic rollback on failed quality gate",
+            sublabel: "Bootstrap gold benchmark (pending double-review) + automatic rollback on failed quality gate",
             tone: "green",
           },
         ],

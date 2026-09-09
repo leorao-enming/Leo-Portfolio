@@ -99,10 +99,14 @@ export const COMPETENCIES: Competency[] = [
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    name: "EIT — Engineer in Training",
+    name: "FE Exam (US)",
     body: "NCEES",
-    target: "2027",
-    rationale: "First step toward North American professional engineering licensure",
+    target: "2027–2028, conditional",
+    rationale:
+      "First step toward US P.E. licensure if target roles land US-side. Canadian EIT/" +
+      "licensure is a separate, province-specific track — not an NCEES credential, and " +
+      "not the same thing as passing the FE. Exact path decided after Fall 2026 " +
+      "target-role research, not committed yet.",
     tier: 1,
   },
 ];

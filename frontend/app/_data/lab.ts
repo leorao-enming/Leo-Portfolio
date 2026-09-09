@@ -20,7 +20,6 @@ export type LabEntry = {
   title: string;
   /** What is being replicated, and from where. */
   upstream: string;
-  upstreamUrl?: string;
   status: LabStatus;
   /** Why this build is worth the time, in capability terms. */
   objective: string;
@@ -28,6 +27,10 @@ export type LabEntry = {
   capabilities: string[];
   /** The honest link back to the process engineering track. */
   transfer: string;
+  /** One-line, verifiable build state — test counts, CI status, dates. Omit until there's something real to report. */
+  evidence?: string;
+  /** Clickable, verifiable references — public repos, CI runs. */
+  links?: { label: string; href: string }[];
 };
 
 export const LAB_ENTRIES: LabEntry[] = [
@@ -75,10 +78,15 @@ export const LAB_ENTRIES: LabEntry[] = [
       "separation flowsheet optimizer (FabChem), cross-validated against public fab datasets",
     status: "IN PROGRESS",
     objective:
-      "Build two evidence-first engineering projects aimed at process/manufacturing New Grad " +
-      "roles: a plasma-etch SPC and fault-detection simulator validated against real public " +
-      "fab data (SECOM, LAM9600), and a chemical separation techno-economic optimizer " +
-      "cross-checked against independent thermodynamic sources and an independent solver.",
+      "Two evidence-first engineering projects built for process/manufacturing New Grad " +
+      "roles, on a 2027-06-30 deadline. FabTwin is a plasma-etch SPC and fault-detection " +
+      "simulator whose real differentiator isn't the model — it's validating that model " +
+      "against two real public fab datasets (SECOM, LAM9600) with the correct statistics, " +
+      "including a deliberate reproduction of the common evaluation mistakes (like reporting " +
+      "raw accuracy on a 1:14 class imbalance) as a documented contrast. FabChem is an " +
+      "IPA/water separation techno-economic optimizer cross-checked against two independent " +
+      "literature NRTL parameter sources, Monte Carlo cost uncertainty, and an independent " +
+      "DWSIM solver run.",
     capabilities: [
       "Statistical process control (SPC)",
       "Multivariate fault detection — PCA / Hotelling T² / SPE",
@@ -89,6 +97,14 @@ export const LAB_ENTRIES: LabEntry[] = [
       "This is the direct target skill set for process and manufacturing engineering roles — " +
       "SPC, capability analysis, and flowsheet optimization are the daily tools of the " +
       "internship track this site already documents.",
+    evidence:
+      "FabTwin: 42/42 unit tests passing (local + CI), ruff/mypy clean, simulator core " +
+      "(config/effects/faults/metrics) implemented and pushed. FabChem: repo scaffolded, " +
+      "environment setup still pending. Gate T1 window: 2026-09-07 – 2026-10-04.",
+    links: [
+      { label: "fabtwin", href: "https://github.com/leorao-enming/fabtwin" },
+      { label: "fabchem-optimizer", href: "https://github.com/leorao-enming/fabchem-optimizer" },
+    ],
   },
 ];
 

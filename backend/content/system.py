@@ -138,6 +138,33 @@ ACTIVITY_LOG: list[ActivityEntry] = [
         ),
         tags=["content", "honesty", "nextjs", "seo", "ia"],
     ),
+    ActivityEntry(
+        date="2026-09-09",
+        category=ActivityCategory.BUILD,
+        title="Fixed logo/ID-card bug, mined the vault for more project detail",
+        detail=(
+            "Fixed the NavBar logo: clicking it from another page navigated home but also "
+            "popped the employee ID card at the same time, since the same onClick handled "
+            "both. Now the card only toggles when already on the home page. Pulled fresh "
+            "detail from project overview files that had accumulated more evidence than the "
+            "site reflected: Trace's 'frozen gold set' claim was wrong (the gold set is still "
+            "pending human double-review, not frozen) and now says so, plus a real extraction-"
+            "score metric (Object F1 0.25 / Relation F1 0.01) was added instead of hiding the "
+            "gap. LeoLogic OS's tech-stack pills were conflating this portfolio's Next.js/"
+            "FastAPI stack with the actual private leologic-os repo's Vite+React+TypeScript+"
+            "Vitest client — split apart, with real evidence added (Phase 1-9 + Adventure Mode "
+            "shipped, real daily/weekly review files, not templates). Half-Life's project card "
+            "now names its real build (1.0.4 (6)) and links its public repo. FabTwin & FabChem's "
+            "Lab entry got real evidence (42/42 tests passing, CI green) and links to both public "
+            "repos, via a new evidence/links field on lab entries. Also caught and fixed a real "
+            "conflation on /engineering: the certification card had called the FE exam an 'EIT' "
+            "credential 'via NCEES' — NCEES administers the FE, not EIT, and Canadian EIT/"
+            "licensure is a separate province-specific track; the vault explicitly flags this "
+            "exact mistake. ECCC NPRI PFAS was deliberately left off the site — it's a pre-"
+            "application research plan with zero execution evidence yet, not a project."
+        ),
+        tags=["content", "obsidian-sync", "honesty", "bugfix"],
+    ),
 ]
 
 

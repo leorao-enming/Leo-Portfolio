@@ -102,6 +102,8 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
               <a
                 key={i}
                 href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150"
                 style={{
                   background: i === 0 ? "#0891b2" : "transparent",
@@ -206,6 +208,8 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
               <a
                 key={i}
                 href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150"
                 style={{
                   color: i === 0 ? "#a1a1aa" : "#71717a",

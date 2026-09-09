@@ -183,6 +183,43 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
               {entry.transfer}
             </p>
           </div>
+
+          {entry.evidence && (
+            <p
+              style={{
+                marginTop: 14,
+                fontSize: 11,
+                color: "var(--color-terminal-green)",
+                opacity: 0.7,
+                fontFamily: "var(--font-mono)",
+                lineHeight: 1.6,
+              }}
+            >
+              {entry.evidence}
+            </p>
+          )}
+
+          {entry.links && entry.links.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 12 }}>
+              {entry.links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.5)",
+                    fontFamily: "var(--font-mono)",
+                    textDecoration: "underline",
+                    textUnderlineOffset: 3,
+                  }}
+                >
+                  {l.label} ↗
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </TiltCard>
     </motion.div>
