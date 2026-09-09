@@ -1,9 +1,17 @@
 """
 Half-Life bio-metrics content.
 
-Edit this file to change what /dashboard/biometrics shows. TRAINING_LOG is the
-list that grows as sessions are actually logged — append newest entries at the
-end; the API serves them newest-first.
+Edit this file to change what /dashboard/biometrics shows. This is an
+architecture demo — it renders static content, not a connection to the real
+Half-Life app's database (see Leo-Portfolio Overview in the knowledge vault).
+The substances below match what the real app actually tracks: caffeine intake
+against sleep schedule, plus sodium and sugar as secondary intake checks — not
+a bodybuilding supplement stack. Caffeine is the only one of the three that is
+genuinely modelled as first-order decay; sodium and sugar are threshold checks
+(daily reset / per-dose cap), and are labelled as such rather than given a
+fabricated half-life. TRAINING_LOG is the list that grows as sessions are
+actually logged — append newest entries at the end; the API serves them
+newest-first.
 """
 
 from schemas import (
@@ -46,70 +54,52 @@ METRIC_CARDS = [
 
 SUPPLEMENTS = [
     Supplement(
-        name="Creatine Monohydrate",
-        dose="5000mg",
-        frequency="Daily",
-        half_life="36h",
-        purpose="ATP resynthesis, strength output",
+        name="Caffeine",
+        dose="Logged per intake",
+        frequency="Rolling 24h window",
+        half_life="~5h",
+        purpose="Primary tracked stimulant — modelled as first-order decay against sleep timing",
     ),
     Supplement(
-        name="Vitamin D3",
-        dose="5000 IU",
-        frequency="Daily",
-        half_life="720h",
-        purpose="Hormonal regulation, immune function",
+        name="Sodium",
+        dose="Logged per intake",
+        frequency="Resets each calendar day",
+        half_life="N/A — daily reset, not decay-modelled",
+        purpose="Secondary intake check, tracked against a calendar-day total rather than elimination",
     ),
     Supplement(
-        name="Artichoke Extract",
-        dose="320mg",
-        frequency="As needed",
-        half_life="4h",
-        purpose="PDE4 inhibition, cAMP elevation",
+        name="Sugar",
+        dose="Logged per intake",
+        frequency="Per-dose cap",
+        half_life="N/A — per-dose cap, not decay-modelled",
+        purpose="Secondary intake check, capped per dose rather than a daily limit",
     ),
 ]
 
 HALFLIFE_PARAMS = [
     HalfLifeParam(
-        param="COMPOUND",
-        half_life="48h",
-        category="CNS FATIGUE",
-        notes="Neurological recovery window",
+        param="CAFFEINE",
+        half_life="~5h",
+        category="STIMULANT",
+        notes="Rolling 24h window, not a calendar-day reset",
     ),
     HalfLifeParam(
-        param="GLYCOGEN",
-        half_life="24h",
+        param="SODIUM",
+        half_life="N/A",
+        category="ELECTROLYTE",
+        notes="Resets each calendar day — threshold check, not decay",
+    ),
+    HalfLifeParam(
+        param="SUGAR",
+        half_life="N/A",
         category="METABOLIC",
-        notes="Full repletion with nutrition",
+        notes="Single-dose cap, not a daily total — threshold check, not decay",
     ),
     HalfLifeParam(
-        param="MUSCLE DAMAGE",
-        half_life="72h",
-        category="STRUCTURAL",
-        notes="Eccentric-dominant sessions",
-    ),
-    HalfLifeParam(
-        param="HORMONAL STRESS",
-        half_life="6h",
-        category="ENDOCRINE",
-        notes="Cortisol acute response",
-    ),
-    HalfLifeParam(
-        param="CARDIO FATIGUE",
-        half_life="12h",
-        category="CARDIOVASCULAR",
-        notes="Aerobic system load",
-    ),
-    HalfLifeParam(
-        param="CREATINE SATURATION",
-        half_life="36h",
-        category="SUPPLEMENT",
-        notes="Phosphocreatine pool depletion",
-    ),
-    HalfLifeParam(
-        param="VITAMIN D3",
-        half_life="720h",
-        category="SUPPLEMENT",
-        notes="Stored in adipose; slow decay",
+        param="SLEEP LATENCY",
+        half_life="N/A",
+        category="SLEEP",
+        notes="Time-to-sleep, tracked against evening caffeine cutoff",
     ),
 ]
 

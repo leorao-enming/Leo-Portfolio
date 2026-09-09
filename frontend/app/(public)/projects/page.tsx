@@ -5,7 +5,8 @@ import { REGISTRY_PROJECTS } from "../../_data/projects";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Technical project portfolio: LeoLogic Quantitative Core, Project Catalyst, and Half-Life Bio-Metrics.",
+    "Technical project portfolio: quant systems, an evidence-grounded AI drawing assistant, and " +
+    "local-first mobile apps, each documented at the same evidence standard as the code itself.",
 };
 
 const LIVE_COUNT = REGISTRY_PROJECTS.filter(

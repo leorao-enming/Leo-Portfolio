@@ -126,11 +126,13 @@ async def update_physiological_parameter(payload: PhysiologicalUpdateRequest) ->
 # ---------------------------------------------------------------------------
 
 # Empirical half-lives (hours) sourced from published pharmacokinetic literature.
+# Caffeine and melatonin are the two compounds actually relevant to Half-Life's
+# real subject — caffeine intake weighed against sleep timing — so this demo
+# models substances the app's premise is actually about, rather than an
+# unrelated supplement stack.
 _SUBSTANCE_HALF_LIVES: dict[str, float] = {
-    "creatine":          3.0,   # plasma clearance post-loading (~2-4 h)
-    "vitamin d3":       24.0,   # initial distribution half-life (~24 h)
-    "omega-3":           1.5,   # EPA/DHA plasma half-life (~1-2 h)
-    "artichoke extract": 2.5,   # cynarin / luteolin clearance (~2-3 h)
+    "caffeine":  5.0,    # healthy-adult plasma half-life (~3-7 h, commonly cited as ~5 h)
+    "melatonin": 0.75,   # exogenous oral half-life (~40-60 min)
 }
 
 _PROJECTION_HOURS = list(range(0, 73, 12))   # [0, 12, 24, 36, 48, 60, 72]
@@ -139,8 +141,8 @@ _PROJECTION_HOURS = list(range(0, 73, 12))   # [0, 12, 24, 36, 48, 60, 72]
 class DecayRequest(BaseModel):
     substance: str = Field(
         ...,
-        examples=["Creatine", "Vitamin D3", "Omega-3", "Artichoke Extract"],
-        description="Supplement or compound to model. Case-insensitive.",
+        examples=["Caffeine", "Melatonin"],
+        description="Compound to model. Case-insensitive.",
     )
     dosage: float = Field(
         ...,
@@ -213,10 +215,10 @@ def _calculate_decay(
 )
 async def simulate_decay(payload: DecayRequest) -> DecayResponse:
     """
-    Projects the exponential metabolic decay of a supplement over **72 hours**,
+    Projects the exponential metabolic decay of a compound over **72 hours**,
     returning concentration estimates at 12-hour intervals.
 
-    Supported substances: `Creatine`, `Vitamin D3`, `Omega-3`, `Artichoke Extract`.
+    Supported substances: `Caffeine`, `Melatonin`.
 
     The `bone_weight_modifier` (default **4.5 kg**) acts as a physiological
     volume-of-distribution proxy.  Values above the baseline proportionally extend

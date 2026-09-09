@@ -62,7 +62,8 @@ export type Project = {
   title: string;
   /** Short label for the landing-page pill. */
   tag: string;
-  status: "ACTIVE" | "STABLE" | "WIP" | "ARCHIVED";
+  /** PARKED = intentionally paused, not abandoned — distinct from ARCHIVED. */
+  status: "ACTIVE" | "STABLE" | "WIP" | "ARCHIVED" | "PARKED";
   /** Human-readable status for the landing card. */
   statusLabel: string;
   /** One- or two-sentence summary used on the landing page. */
@@ -84,16 +85,17 @@ export const PROJECTS: Project[] = [
     codename: "LQC",
     title: "LeoLogic Quantitative Core",
     tag: "Flagship",
-    status: "ACTIVE",
-    statusLabel: "In Development",
+    status: "PARKED",
+    statusLabel: "Parked — idle since 2026-05",
     summary:
       "A remote operator console for Interactive Brokers, built as a private Discord bot — " +
       "market data, signals, and backtests all run from a chat command, not a web dashboard. " +
-      "Live order execution is gated off behind measurable validation criteria.",
+      "Live order execution is gated off behind measurable validation criteria. Intentionally " +
+      "paused since May 2026 while execution priority sits with Half-Life and LeoLogic OS; " +
+      "reactivation requires a runtime evidence refresh before any further build work.",
     stack: ["Python", "Discord Bot", "IBKR API", "ib_insync"],
     accent: "var(--color-terminal-green)",
     showOnLanding: true,
-    landingFeatured: true,
     registry: {
       displayType: "Architecture Only",
       longDescription:
@@ -191,6 +193,7 @@ export const PROJECTS: Project[] = [
     stack: ["Expo", "React Native", "HealthKit", "Supabase"],
     accent: "var(--color-terminal-cyan)",
     showOnLanding: true,
+    landingFeatured: true,
     registry: {
       displayType: "Live System",
       longDescription:
@@ -437,6 +440,181 @@ export const PROJECTS: Project[] = [
         "WORLDBUILDING",
         "CONTENT_OPERATIONS",
         "NARRATIVE_DESIGN",
+      ],
+    },
+  },
+  {
+    id: "P-05",
+    codename: "TRACE",
+    title: "Trace",
+    tag: "AI Engineering",
+    status: "ACTIVE",
+    statusLabel: "In Development",
+    summary:
+      "An evidence-driven AI system for engineering drawings — upload a PDF, extract objects " +
+      "and relationships with traceable source regions, and get grounded Q&A that highlights " +
+      "back to the exact area of the drawing it answered from.",
+    stack: ["TypeScript", "Cloudflare Workers", "D1", "R2", "OpenAI"],
+    accent: "#fb923c",
+    showOnLanding: true,
+    registry: {
+      displayType: "Architecture Only",
+      longDescription:
+        "Trace turns engineering drawings into a queryable evidence graph: a PDF is ingested, " +
+        "structured into objects, relations, and source page regions, and every chat answer is " +
+        "bound to evidenceIds and highlightIds that link back to the exact region it came from — " +
+        "when evidence is insufficient the system says so rather than guessing. Production is " +
+        "backed by an AI cost-control layer (unified router, per-request and daily budgets, " +
+        "circuit breakers, audited usage events) and multi-tenant infrastructure (RBAC, credit " +
+        "ledger, cross-tenant isolation, deletion pipelines). A research track (Pipeline v3) " +
+        "ran a 30-drawing benchmark against a frozen gold set; its quality gate correctly " +
+        "returned rollback_required, so production stays on the v2 pipeline until extraction " +
+        "accuracy clears the bar — a fail-closed rollout decision documented rather than hidden.",
+      techStack: [
+        { label: "TypeScript", tone: "green" },
+        { label: "React", tone: "green" },
+        { label: "Cloudflare Workers", tone: "cyan" },
+        { label: "D1", tone: "cyan" },
+        { label: "R2", tone: "cyan" },
+        { label: "OpenAI Files API", tone: "amber" },
+        { label: "PDF.js", tone: "amber" },
+      ],
+      metrics: [
+        { label: "INTERFACE", value: "Grounded PDF drawing Q&A" },
+        { label: "DEPLOYMENT", value: "Cloudflare Workers + D1 + R2" },
+        { label: "AI COST CONTROL", value: "Budgets, circuit breaker, audit trail" },
+        { label: "QUALITY GATE", value: "v3 → rollback_required, v2 stays production" },
+        { label: "BENCHMARK", value: "30/30 drawings, 270 standard regions" },
+        { label: "PHASE", value: "Gold annotation + deterministic extraction" },
+      ],
+      architecture: {
+        title: "TRACE — EVIDENCE GRAPH STACK",
+        layers: [
+          {
+            label: "PDF INGESTION",
+            sublabel: "Upload → R2 / OpenAI Files → structured DrawingGraph",
+            tone: "cyan",
+          },
+          {
+            label: "EVIDENCE GRAPH",
+            sublabel: "Objects, relations, and source page regions with provenance",
+            tone: "cyan",
+          },
+          {
+            label: "GROUNDED Q&A",
+            sublabel: "Answers bound to evidenceIds / highlightIds — no evidence, no guess",
+            tone: "green",
+          },
+          {
+            label: "AI COST ROUTER",
+            sublabel: "Budgets, rate limits, circuit breaker, usage audit",
+            tone: "amber",
+          },
+          {
+            label: "TENANT CORE",
+            sublabel: "Org/RBAC, credit ledger, cross-tenant isolation, deletion pipeline",
+            tone: "amber",
+          },
+          {
+            label: "PIPELINE V3 RESEARCH",
+            sublabel: "Frozen gold benchmark + automatic rollback on failed quality gate",
+            tone: "green",
+          },
+        ],
+      },
+      tags: [
+        "AI_ENGINEERING",
+        "EVIDENCE_GRAPH",
+        "GROUNDED_QA",
+        "CLOUDFLARE_WORKERS",
+        "COST_CONTROL",
+        "QUALITY_GATES",
+        "MULTI_TENANT",
+      ],
+    },
+  },
+  {
+    id: "P-06",
+    codename: "TINY-TRIALS",
+    title: "Tiny Trials",
+    tag: "Mobile",
+    status: "ACTIVE",
+    statusLabel: "In Development",
+    summary:
+      "A local-first iOS app for running one bounded, reviewable personal experiment at a " +
+      "time — caffeine cutoffs, screen wind-down, morning light — reporting results with " +
+      "honest confidence caveats instead of manufactured causal claims.",
+    stack: ["Expo", "React Native", "TypeScript"],
+    accent: "#fbbf24",
+    showOnLanding: true,
+    registry: {
+      displayType: "Architecture Only",
+      longDescription:
+        "Tiny Trials runs exactly one active experiment at a time from a small template set — " +
+        "caffeine cutoff, screen wind-down, morning light, steady wake — over a 7 to 90-day " +
+        "window with up to three tracked metrics. Completing an experiment is an archive-first " +
+        "transaction: the archive write happens before the active slot is released, so a failed " +
+        "write can never silently lose a finished experiment. Reports degrade to low confidence " +
+        "or 'no clear pattern yet' on sparse data rather than manufacturing a trend, and the app " +
+        "stores everything locally — no account, no cloud sync — with full JSON export and " +
+        "one-tap deletion under the user's control.",
+      techStack: [
+        { label: "Expo SDK 57", tone: "green" },
+        { label: "React Native 0.86", tone: "green" },
+        { label: "React 19", tone: "green" },
+        { label: "TypeScript", tone: "cyan" },
+        { label: "Local persistence", tone: "amber" },
+      ],
+      metrics: [
+        { label: "PLATFORM", value: "iOS — Expo / React Native" },
+        { label: "DATA MODEL", value: "One active experiment, archive-first completion" },
+        { label: "TEMPLATES", value: "Caffeine cutoff, wind-down, morning light, steady wake" },
+        { label: "PRIVACY", value: "No account, no cloud sync — local export + full delete" },
+        { label: "BUILD", value: "1.1.0 (3) signed archive, uploaded" },
+        { label: "STATUS", value: "Awaiting device acceptance + TestFlight" },
+      ],
+      architecture: {
+        title: "TINY TRIALS — EXPERIMENT ENGINE",
+        layers: [
+          {
+            label: "EXPERIMENT TEMPLATES",
+            sublabel: "Bounded 7-90 day windows, up to 3 tracked metrics",
+            tone: "cyan",
+          },
+          {
+            label: "LOCAL RECORD STORE",
+            sublabel: "Local-first persistence, legacy data migration on upgrade",
+            tone: "cyan",
+          },
+          {
+            label: "ARCHIVE-FIRST COMPLETION",
+            sublabel: "Archive write commits before the active slot is released",
+            tone: "green",
+          },
+          {
+            label: "REPORT ENGINE",
+            sublabel: "Confidence-graded, explicitly non-causal summaries",
+            tone: "green",
+          },
+          {
+            label: "SHARE CARD",
+            sublabel: "Native-rendered screenshot export — no private notes included",
+            tone: "amber",
+          },
+          {
+            label: "DATA CONTROL",
+            sublabel: "Local JSON export and full local deletion, user-triggered",
+            tone: "amber",
+          },
+        ],
+      },
+      tags: [
+        "IOS",
+        "REACT_NATIVE",
+        "EXPO",
+        "LOCAL_FIRST",
+        "PERSONAL_EXPERIMENTS",
+        "PRIVACY_BY_DESIGN",
       ],
     },
   },

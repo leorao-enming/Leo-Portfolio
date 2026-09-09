@@ -67,6 +67,29 @@ export const LAB_ENTRIES: LabEntry[] = [
       "Closed-loop control, sensor calibration, and drift handling are exactly the " +
       "mechanics behind DCS level, pressure, and flow control.",
   },
+  {
+    id: "L-03",
+    title: "FabTwin & FabChem",
+    upstream:
+      "Own build — hierarchical semiconductor process simulator (FabTwin) and an IPA/water " +
+      "separation flowsheet optimizer (FabChem), cross-validated against public fab datasets",
+    status: "IN PROGRESS",
+    objective:
+      "Build two evidence-first engineering projects aimed at process/manufacturing New Grad " +
+      "roles: a plasma-etch SPC and fault-detection simulator validated against real public " +
+      "fab data (SECOM, LAM9600), and a chemical separation techno-economic optimizer " +
+      "cross-checked against independent thermodynamic sources and an independent solver.",
+    capabilities: [
+      "Statistical process control (SPC)",
+      "Multivariate fault detection — PCA / Hotelling T² / SPE",
+      "Process simulation & validation",
+      "Thermodynamic modelling & flowsheet optimization",
+    ],
+    transfer:
+      "This is the direct target skill set for process and manufacturing engineering roles — " +
+      "SPC, capability analysis, and flowsheet optimization are the daily tools of the " +
+      "internship track this site already documents.",
+  },
 ];
 
 export const LAB_STATUS_TONE: Record<LabStatus, string> = {

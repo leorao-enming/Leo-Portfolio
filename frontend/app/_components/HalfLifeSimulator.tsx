@@ -14,7 +14,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-const SUBSTANCES = ["Creatine", "Vitamin D3", "Artichoke Extract"] as const;
+const SUBSTANCES = ["Caffeine", "Melatonin"] as const;
 type Substance = (typeof SUBSTANCES)[number];
 
 type DecayDataPoint = {
@@ -67,7 +67,7 @@ function DecayTooltip({
 
 export function HalfLifeSimulator() {
   const [substance, setSubstance] = useState<Substance>(SUBSTANCES[0]);
-  const [dosage, setDosage] = useState<number>(5000);
+  const [dosage, setDosage] = useState<number>(200);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DecayResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
