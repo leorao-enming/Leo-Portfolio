@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { EmployeeIdCard } from "./EmployeeIdCard";
@@ -14,6 +15,8 @@ const NAV_ITEMS = [
 ];
 
 export function NavBar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [cardOpen, setCardOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const close = useCallback(() => setCardOpen(false), []);
@@ -47,13 +50,14 @@ export function NavBar() {
             className="flex items-center justify-between gap-4 w-full"
             style={{ padding: "10px 16px 10px 20px" }}
           >
-            {/* Logo — always returns home; also toggles the ID card when already there */}
+            {/* Logo — always returns home. Only toggles the ID card when already
+                there, so navigating home from another page doesn't also pop it. */}
             <Link
               href="/"
-              onClick={() => setCardOpen(v => !v)}
+              onClick={() => { if (isHome) setCardOpen(v => !v); }}
               className="flex items-center gap-2 rounded-full focus:outline-none"
               style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              aria-label="Home — open ID card"
+              aria-label={isHome ? "Open ID card" : "Home"}
             >
               <span
                 className="font-display font-bold text-sm tracking-tight"
