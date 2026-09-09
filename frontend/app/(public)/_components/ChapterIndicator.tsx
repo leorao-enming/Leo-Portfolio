@@ -54,7 +54,7 @@ export function ChapterIndicator() {
           marginBottom: 3,
         }}
       >
-        CHAPTER {ch.num} / 06
+        CHAPTER {ch.num} / 08
       </div>
       <div
         style={{

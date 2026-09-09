@@ -1,8 +1,8 @@
 import { Hero }               from "./_components/Hero";
-import { AboutSection }       from "./_components/AboutSection";
+import { AboutTeaser }        from "./_components/AboutTeaser";
 import { ProjectsSection }    from "./_components/ProjectsSection";
-import { EngineeringSection } from "./_components/EngineeringSection";
-import { LabSection }         from "./_components/LabSection";
+import { EngineeringTeaser }  from "./_components/EngineeringTeaser";
+import { LabTeaser }          from "./_components/LabTeaser";
 import { CapabilitiesSection } from "./_components/CapabilitiesSection";
 import { TimelineSection }    from "./_components/TimelineSection";
 import { ContactSection }     from "./_components/ContactSection";
@@ -17,12 +17,12 @@ export default function LandingPage() {
       <ChapterIndicator />
       <Hero />
       <MarqueeStrip />
-      <AboutSection />
+      <AboutTeaser />
       <MarqueeStrip reverse />
       <ProjectsSection />
       <MarqueeStrip />
-      <EngineeringSection />
-      <LabSection />
+      <EngineeringTeaser />
+      <LabTeaser />
       <CapabilitiesSection />
       <MarqueeStrip />
       <TimelineSection />
