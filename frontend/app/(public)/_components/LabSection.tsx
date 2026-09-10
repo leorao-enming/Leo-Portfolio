@@ -261,7 +261,7 @@ export function LabSection() {
         >
           Lab — Build Queue
         </span>
-        <h2
+        <h1
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
@@ -273,7 +273,7 @@ export function LabSection() {
           }}
         >
           What I&apos;m building next.
-        </h2>
+        </h1>
         <p
           style={{
             fontSize: "clamp(14px, 1.2vw, 16px)",

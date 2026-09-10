@@ -46,9 +46,9 @@ export default async function DashboardPage() {
         <>
           {/* Subsystem cards */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── ACTIVE SUBSYSTEMS
-            </p>
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {overview.data.subsystems.map((sys) => (
                 <Link
@@ -104,9 +104,9 @@ export default async function DashboardPage() {
 
           {/* Activity feed */}
           <div>
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── RECENT ACTIVITY
-            </p>
+            </h2>
             <div className="card-surface p-4 font-mono text-xs">
               <div
                 className="flex items-center gap-3 pb-3 mb-3"

@@ -96,7 +96,7 @@ export function AboutSection() {
               The System
             </span>
 
-            <h2
+            <h1
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(32px, 4.5vw, 56px)",
@@ -111,7 +111,7 @@ export function AboutSection() {
               <span style={{ color: "var(--color-terminal-green)", textShadow: "0 0 40px rgba(0,255,65,0.22)" }}>
                 intelligence.
               </span>
-            </h2>
+            </h1>
 
             <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.45)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
               I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.

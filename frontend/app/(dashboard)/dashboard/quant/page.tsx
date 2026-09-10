@@ -79,9 +79,9 @@ export default async function QuantPage() {
         <>
           {/* Status cards */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── SYSTEM METRICS
-            </p>
+            </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {result.data.status_cards.map((card) => (
                 <div key={card.label} className="card-surface p-4">
@@ -104,9 +104,9 @@ export default async function QuantPage() {
 
           {/* Live-execution interlock */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── LIVE EXECUTION INTERLOCK
-            </p>
+            </h2>
             <div
               className="card-surface p-5"
               style={{ borderLeft: "2px solid var(--color-terminal-amber)" }}
@@ -161,9 +161,9 @@ export default async function QuantPage() {
 
           {/* Python engine architecture */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── REMOTE OPERATOR ARCHITECTURE
-            </p>
+            </h2>
             <div className="space-y-2">
               {result.data.engine_layers.map((layer) => (
                 <div key={layer.layer} className="card-surface p-5">
@@ -207,9 +207,9 @@ export default async function QuantPage() {
 
           {/* Operator command flow */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── OPERATOR COMMAND FLOW
-            </p>
+            </h2>
             <div className="card-surface overflow-hidden">
               <div
                 className="px-5 py-3 flex items-center gap-3"
@@ -266,9 +266,9 @@ export default async function QuantPage() {
 
           {/* Strategy registry */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── STRATEGY REGISTRY
-            </p>
+            </h2>
             <div className="card-surface overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
@@ -326,9 +326,9 @@ export default async function QuantPage() {
 
           {/* Module health */}
           <div>
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── MODULE HEALTH
-            </p>
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {result.data.modules.map((mod) => (
                 <div

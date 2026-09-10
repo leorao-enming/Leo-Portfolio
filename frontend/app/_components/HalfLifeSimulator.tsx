@@ -134,7 +134,6 @@ export function HalfLifeSimulator() {
               border: "1px solid rgba(0,212,255,0.22)",
               borderRadius: "1px",
               color: "#00d4ff",
-              outline: "none",
             }}
           >
             {SUBSTANCES.map((s) => (
@@ -161,7 +160,6 @@ export function HalfLifeSimulator() {
               border: "1px solid rgba(0,212,255,0.2)",
               borderRadius: "1px",
               color: "#e0e0e0",
-              outline: "none",
             }}
           />
         </div>

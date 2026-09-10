@@ -95,20 +95,12 @@ export default function LoginPage() {
               onChange={(e) => setToken(e.target.value)}
               placeholder="Enter operator token..."
               autoComplete="current-password"
-              className="w-full px-4 py-3 text-sm font-mono outline-none transition-all"
+              className="w-full px-4 py-3 text-sm font-mono transition-all"
               style={{
                 backgroundColor: "var(--color-surface-2)",
                 border: "1px solid var(--color-border)",
                 color: "#e0e0e0",
                 borderRadius: "2px",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "var(--color-terminal-green)";
-                e.target.style.boxShadow = "0 0 0 1px rgba(0,255,65,0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "var(--color-border)";
-                e.target.style.boxShadow = "none";
               }}
               disabled={loading}
             />

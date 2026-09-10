@@ -86,7 +86,7 @@ export function EngineeringSection() {
         >
           Process Engineering
         </span>
-        <h2
+        <h1
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
@@ -98,7 +98,7 @@ export function EngineeringSection() {
           }}
         >
           The other half of the stack.
-        </h2>
+        </h1>
         <p
           style={{
             fontSize: "clamp(14px, 1.2vw, 16px)",

@@ -55,8 +55,10 @@ export function NavBar() {
             <Link
               href="/"
               onClick={() => { if (isHome) setCardOpen(v => !v); }}
-              className="flex items-center gap-2 rounded-full focus:outline-none"
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              className="flex items-center gap-2 rounded-full"
+              /* Negative margin keeps the visual position identical while giving
+                 the link a real hit area — it was a 20px-tall target before. */
+              style={{ background: "none", border: "none", cursor: "pointer", padding: "8px 12px", margin: "-8px -12px" }}
               aria-label={isHome ? "Open ID card" : "Home"}
             >
               <span
@@ -69,29 +71,30 @@ export function NavBar() {
 
             {/* Nav links — hidden on small screens */}
             <div className="hidden md:flex items-center gap-1">
-              {/* One link per destination. Root-relative so the #anchors also resolve from other pages. */}
-              {NAV_ITEMS.map(({ label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="text-xs px-3 py-1.5 rounded-full transition-all duration-300 active:scale-95"
-                  style={{
-                    color: "rgba(255,255,255,0.45)",
-                    fontFamily: "var(--font-display)",
-                    letterSpacing: "0.02em",
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.9)";
-                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)";
-                    (e.currentTarget as HTMLElement).style.background = "transparent";
-                  }}
-                >
-                  {label}
-                </a>
-              ))}
+              {/* One link per destination. Root-relative so the #anchors also
+                  resolve from other pages. next/link handles hash targets fine,
+                  and avoids the full page reload a raw <a> forced on every nav. */}
+              {NAV_ITEMS.map(({ label, href }) => {
+                const active = pathname === href;
+                return (
+                  <Link
+                    key={label}
+                    href={href}
+                    aria-current={active ? "page" : undefined}
+                    className={
+                      "text-xs px-3 py-1.5 rounded-full transition-colors duration-300 active:scale-95 " +
+                      "hover:bg-white/[0.06] focus-visible:bg-white/[0.06] " +
+                      (active ? "text-white/90" : "text-white/45 hover:text-white/90")
+                    }
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="flex items-center gap-2">
@@ -200,25 +203,27 @@ export function NavBar() {
               >
                 <div style={{ padding: "8px 12px 14px", display: "flex", flexDirection: "column", gap: 2 }}>
                   {NAV_ITEMS.map(({ label, href }) => (
-                    <a
+                    <Link
                       key={label}
                       href={href}
                       onClick={closeMenu}
-                      className="text-sm px-4 py-2.5 rounded-xl transition-colors"
+                      aria-current={pathname === href ? "page" : undefined}
+                      className="flex items-center text-sm px-4 rounded-xl transition-colors text-white/70 hover:bg-white/[0.06]"
                       style={{
-                        color: "rgba(255,255,255,0.7)",
+                        minHeight: 44, /* comfortable touch target */
                         fontFamily: "var(--font-display)",
                         letterSpacing: "0.01em",
                       }}
                     >
                       {label}
-                    </a>
+                    </Link>
                   ))}
                   <Link
                     href="/dashboard"
                     onClick={closeMenu}
-                    className="flex items-center justify-between text-sm px-4 py-2.5 rounded-xl"
+                    className="flex items-center justify-between text-sm px-4 rounded-xl"
                     style={{
+                      minHeight: 44, /* comfortable touch target */
                       marginTop: 6,
                       background: "rgba(0,255,65,0.08)",
                       border: "1px solid rgba(0,255,65,0.18)",

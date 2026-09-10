@@ -43,9 +43,9 @@ export default async function BiometricsPage() {
         <>
           {/* Metric cards */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── PHYSIOLOGICAL METRICS
-            </p>
+            </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {result.data.metric_cards.map((card) => (
                 <div key={card.label} className="card-surface p-4">
@@ -68,17 +68,17 @@ export default async function BiometricsPage() {
 
           {/* Interactive decay simulator */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-2 font-sans font-normal" style={{ color: "#444" }}>
               ── DECAY SIMULATOR
-            </p>
+            </h2>
             <HalfLifeSimulator />
           </div>
 
           {/* Active supplement stack */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── ACTIVE SUPPLEMENT STACK
-            </p>
+            </h2>
             <div className="card-surface overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
@@ -132,9 +132,9 @@ export default async function BiometricsPage() {
 
           {/* Half-life parameters */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── HALF-LIFE DECAY PARAMETERS
-            </p>
+            </h2>
             <div className="card-surface overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
@@ -185,9 +185,9 @@ export default async function BiometricsPage() {
 
           {/* Training log */}
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── TRAINING LOG
-            </p>
+            </h2>
             {result.data.training_log.length === 0 ? (
               <div className="card-surface p-8 text-center">
                 <p className="text-xs tracking-widest mb-2" style={{ color: "#3f3f46" }}>
@@ -247,9 +247,9 @@ export default async function BiometricsPage() {
 
           {/* Module status */}
           <div>
-            <p className="text-xs tracking-[0.3em] mb-5" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
               ── MODULE STATUS
-            </p>
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {result.data.modules.map((mod) => (
                 <div
