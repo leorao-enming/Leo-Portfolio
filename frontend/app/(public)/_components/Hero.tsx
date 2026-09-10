@@ -289,9 +289,6 @@ export function Hero() {
               SCROLL TO EXPLORE
             </span>
           </div>
-          <span style={{ fontSize: 9, letterSpacing: "0.24em", color: "rgba(255,255,255,0.15)", fontFamily: "var(--font-mono)" }}>
-            01 / 06
-          </span>
         </motion.div>
       </div>
     </section>
