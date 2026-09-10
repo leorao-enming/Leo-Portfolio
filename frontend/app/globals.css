@@ -250,12 +250,6 @@
     text-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
   }
 
-  /* ── Hero orb breathe ────────────────────────────────────── */
-  @keyframes orb-breathe {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.12); }
-  }
-
   /* ── Pulse animations ────────────────────────────────────── */
   @keyframes blink {
     0%, 100% { opacity: 1; }
@@ -271,17 +265,6 @@
   @keyframes timeline-pulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4); }
     50% { box-shadow: 0 0 0 6px rgba(0, 255, 65, 0); }
-  }
-
-  /* ── Marquee (nirnor-style ticker) ───────────────────────── */
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  @keyframes marquee-reverse {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0); }
   }
 
   @media (prefers-reduced-motion: reduce) {

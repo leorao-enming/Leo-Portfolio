@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 import {
   LAB_DISCLOSURE,
   LAB_ENTRIES,
@@ -51,7 +50,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : index * 0.1, ease }}
     >
-      <TiltCard intensity={5} className="bezel-outer" style={{ height: "100%" }}>
+      <div className="bezel-outer" style={{ height: "100%" }}>
         <div
           className="bezel-inner"
           style={{
@@ -221,7 +220,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             </div>
           )}
         </div>
-      </TiltCard>
+      </div>
     </motion.div>
   );
 }

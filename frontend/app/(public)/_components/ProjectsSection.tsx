@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 import { LANDING_PROJECTS, type Project } from "../../_data/projects";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -36,7 +35,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: reduced ? 0 : 0.9, ease }}
     >
-      <TiltCard intensity={6} className="bezel-outer" style={{ height: "100%" }}>
+      <div className="bezel-outer" style={{ height: "100%" }}>
         <div
           className="bezel-inner"
           style={{
@@ -136,7 +135,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
             ))}
           </div>
         </div>
-      </TiltCard>
+      </div>
     </motion.div>
   );
 }
@@ -157,7 +156,7 @@ function SmallCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : index * 0.1, ease }}
     >
-      <TiltCard intensity={8} className="bezel-outer" style={{ height: "100%" }}>
+      <div className="bezel-outer" style={{ height: "100%" }}>
         <div
           className="bezel-inner"
           style={{
@@ -226,7 +225,7 @@ function SmallCard({
             ))}
           </div>
         </div>
-      </TiltCard>
+      </div>
     </motion.div>
   );
 }

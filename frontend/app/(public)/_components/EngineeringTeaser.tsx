@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 import {
   COMPETENCIES,
   INTERNSHIP,
@@ -56,7 +55,7 @@ export function EngineeringTeaser() {
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: reduced ? 0 : 0.7, ease }}
       >
-        <TiltCard intensity={5} className="bezel-outer">
+        <div className="bezel-outer">
           <div
             className="bezel-inner md:grid-cols-[1.3fr_1fr]"
             style={{
@@ -182,7 +181,7 @@ export function EngineeringTeaser() {
               </div>
             </div>
           </div>
-        </TiltCard>
+        </div>
       </motion.div>
     </section>
   );

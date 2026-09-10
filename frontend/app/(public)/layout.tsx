@@ -1,5 +1,4 @@
 import { NavBar } from "./_components/NavBar";
-import { CursorGlow } from "./_components/CursorGlow";
 
 // Title and description are inherited from the root layout. Re-declaring the
 // title here as a string re-applied the root's "%s — LeoLogic" template on top
@@ -18,7 +17,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       >
         Skip to content
       </a>
-      <CursorGlow />
       <NavBar />
       <main id="main-content">{children}</main>
     </div>

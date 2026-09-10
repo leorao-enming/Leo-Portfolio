@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -95,8 +94,7 @@ export function CapabilitiesSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : i * 0.07, ease }}
           >
-            <TiltCard
-              intensity={6}
+            <div
               className="bezel-outer"
               style={{ height: "100%" }}
             >
@@ -181,7 +179,7 @@ export function CapabilitiesSection() {
                   ))}
                 </div>
               </div>
-            </TiltCard>
+            </div>
           </motion.div>
         ))}
       </div>

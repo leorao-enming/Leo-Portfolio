@@ -1,28 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useReducedMotion, useInView } from "motion/react";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-
-/* ── Count-up hook (exebenus-style) ─────────────────────────────── */
-function useCountUp(target: number, inView: boolean, duration = 1400) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const start = Date.now();
-    let raf: number;
-    const tick = () => {
-      const t = Math.min((Date.now() - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setVal(Math.round(eased * target));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, target, duration]);
-  return val;
-}
 
 const stats = [
   { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#60a5fa" },
@@ -32,9 +13,6 @@ const stats = [
 ];
 
 function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inView: boolean; index: number; reduced: boolean | null }) {
-  const count = useCountUp(stat.raw, inView && !reduced);
-  const displayed = reduced ? stat.display(stat.raw) : (inView ? stat.display(count) : "0");
-
   return (
     <motion.div
       initial={{ opacity: 0, y: reduced ? 0 : 18 }}
@@ -56,7 +34,7 @@ function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inV
             letterSpacing: "-0.02em",
           }}
         >
-          {displayed}
+          {stat.display(stat.raw)}
         </div>
         <div
           style={{

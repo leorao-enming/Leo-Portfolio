@@ -1,47 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-
-/* ── Text scramble hook (lusion-style) ─────────────────────────── */
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234";
-
-function useScramble(text: string, startDelay = 0) {
-  const [display, setDisplay] = useState("".padEnd(text.length, " "));
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    if (reduced) return;
-
-    let frame = 0;
-    let raf: number;
-    const startAt = startDelay / 16;
-
-    const tick = () => {
-      frame++;
-      if (frame < startAt) { raf = requestAnimationFrame(tick); return; }
-
-      const elapsed = frame - startAt;
-      const revealed = Math.min(Math.floor((elapsed / 20) * text.length), text.length);
-
-      if (revealed >= text.length) { setDisplay(text); return; }
-
-      const out = text.split("").map((ch, i) => {
-        if (ch === " " || ch === "." || ch === ",") return ch;
-        if (i < revealed) return ch;
-        return CHARS[Math.floor(Math.random() * CHARS.length)];
-      }).join("");
-
-      setDisplay(out);
-      raf = requestAnimationFrame(tick);
-    };
-
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [text, startDelay, reduced]);
-
-  return reduced ? text : display;
-}
 
 /* ── Magnetic CTA button ─────────────────────────────────────────── */
 function MagneticBtn({
@@ -69,6 +29,7 @@ function MagneticBtn({
     alignItems: "center",
     gap: 10,
     padding: "13px 26px",
+    minHeight: 44, /* comfortable touch target on mobile */
     borderRadius: 9999,
     fontFamily: "var(--font-display)",
     fontWeight: 500,
@@ -101,11 +62,6 @@ function MagneticBtn({
 export function Hero() {
   const reduced = useReducedMotion();
 
-  /* scramble the three lines with staggered delays */
-  const line1 = useScramble("By day, I study process systems.", 200);
-  const line2 = useScramble("By night, I write precision code.", 600);
-  const line3 = useScramble("Same machine. Different rules.", 1000);
-
   return (
     <section
       id="hero"
@@ -134,48 +90,7 @@ export function Hero() {
         }}
       />
 
-      {/* ── Orb breathe ─────────────────────────────────────────── */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          top: "8%",
-          left: "-8%",
-          width: "clamp(400px, 55vw, 800px)",
-          height: "clamp(400px, 55vw, 800px)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,255,65,0.055) 0%, transparent 70%)",
-          filter: "blur(60px)",
-          animation: "orb-breathe 9s ease-in-out infinite",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* ── Giant backdrop word (Wang-13 / nirnor style) ───────── */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          fontFamily: "var(--font-display)",
-          fontSize: "clamp(120px, 22vw, 320px)",
-          fontWeight: 800,
-          letterSpacing: "-0.06em",
-          color: "rgba(255,255,255,0.025)",
-          whiteSpace: "nowrap",
-          pointerEvents: "none",
-          userSelect: "none",
-          zIndex: 0,
-          lineHeight: 1,
-        }}
-      >
-        LEOLOGIC
-      </div>
-
-      {/* ── Top-right descriptor (Wang-13 right-side small text) ── */}
+      {/* ── Location + status, top right ─────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -188,29 +103,8 @@ export function Hero() {
           zIndex: 2,
         }}
       >
-        {[
-          "AI Systems Engineer.",
-          "Process Engineer.",
-          "A studio of one.",
-        ].map((line, i) => (
-          <div
-            key={i}
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(13px, 1.4vw, 17px)",
-              color: i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.32)",
-              letterSpacing: "-0.01em",
-              lineHeight: 1.55,
-              fontWeight: i === 0 ? 500 : 400,
-            }}
-          >
-            {line}
-          </div>
-        ))}
-
-        {/* Status dot + label */}
-        <div style={{ display: "flex", alignItems: "center", gap: 7, justifyContent: "flex-end", marginTop: 16 }}>
-          <span style={{ fontSize: 9, letterSpacing: "0.3em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 7, justifyContent: "flex-end" }}>
+          <span style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(255,255,255,0.42)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
             TORONTO · CA
           </span>
           <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.7)", animation: "pulse-green 2s ease-in-out infinite" }} />
@@ -226,37 +120,60 @@ export function Hero() {
           maxWidth: "100%",
         }}
       >
-        {/* Scramble headline lines */}
-        <div style={{ marginBottom: "clamp(28px, 4vh, 44px)" }}>
-          {[line1, line2, line3].map((line, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: reduced ? 0 : i * 0.12 }}
+        {/* Headline — one h1 carrying name and discipline, so the server
+            sends a real headline to crawlers instead of animated placeholder. */}
+        <motion.div
+          initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: "clamp(20px, 3vh, 32px)" }}
+        >
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(34px, 6.5vw, 84px)",
+              fontWeight: 700,
+              letterSpacing: "-0.035em",
+              lineHeight: 1.04,
+              color: "rgba(255,255,255,0.94)",
+              margin: 0,
+              maxWidth: "18ch",
+            }}
+          >
+            Leo Rao
+            <span
+              style={{
+                display: "block",
+                fontSize: "clamp(17px, 2.4vw, 32px)",
+                fontWeight: 500,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.25,
+                color: "var(--color-terminal-green)",
+                marginTop: "0.35em",
+                maxWidth: "24ch",
+              }}
             >
-              <h1
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(28px, 5.5vw, 72px)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.08,
-                  color: i === 1
-                    ? "var(--color-terminal-green)"
-                    : i === 2
-                    ? "rgba(255,255,255,0.55)"
-                    : "rgba(255,255,255,0.92)",
-                  margin: 0,
-                  fontVariantNumeric: "tabular-nums",
-                  textShadow: i === 1 ? "0 0 60px rgba(104,242,154,0.2)" : undefined,
-                }}
-              >
-                {line}
-              </h1>
-            </motion.div>
-          ))}
-        </div>
+              Chemical engineering at Toronto — process systems, and the software that measures them.
+            </span>
+          </h1>
+        </motion.div>
+
+        {/* Tagline, demoted from the headline it used to occupy */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: reduced ? 0 : 0.35 }}
+          style={{
+            fontSize: "clamp(14px, 1.3vw, 17px)",
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.62)",
+            maxWidth: "48ch",
+            margin: "0 0 clamp(28px, 4vh, 44px)",
+          }}
+        >
+          By day, I study process systems. By night, I write precision code.
+          Same machine, different rules.
+        </motion.p>
 
         {/* CTA row */}
         <motion.div

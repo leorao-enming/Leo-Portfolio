@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 import { LAB_ENTRIES, LAB_STATUS_TONE, type LabEntry } from "../../_data/lab";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -49,7 +48,7 @@ export function LabTeaser() {
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: reduced ? 0 : 0.7, ease }}
       >
-        <TiltCard intensity={5} className="bezel-outer">
+        <div className="bezel-outer">
           <div
             className="bezel-inner"
             style={{
@@ -142,7 +141,7 @@ export function LabTeaser() {
               ))}
             </div>
           </div>
-        </TiltCard>
+        </div>
       </motion.div>
     </section>
   );

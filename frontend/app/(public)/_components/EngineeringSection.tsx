@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { TiltCard } from "./TiltCard";
 import {
   CAREER_TARGET,
   CERTIFICATIONS,
@@ -130,7 +129,7 @@ export function EngineeringSection() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: reduced ? 0 : 0.8, ease }}
         >
-          <TiltCard intensity={5} className="bezel-outer" style={{ height: "100%" }}>
+          <div className="bezel-outer" style={{ height: "100%" }}>
             <div
               className="bezel-inner"
               style={{
@@ -285,7 +284,7 @@ export function EngineeringSection() {
                 ))}
               </div>
             </div>
-          </TiltCard>
+          </div>
         </motion.div>
 
         {/* ── Competency matrix + trajectory ───────────────────── */}
@@ -303,7 +302,7 @@ export function EngineeringSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : 0.1, ease }}
           >
-            <TiltCard intensity={5} className="bezel-outer">
+            <div className="bezel-outer">
               <div
                 className="bezel-inner"
                 style={{ padding: "clamp(22px, 3vw, 30px)" }}
@@ -391,7 +390,7 @@ export function EngineeringSection() {
                   ))}
                 </ul>
               </div>
-            </TiltCard>
+            </div>
           </motion.div>
 
           <motion.div
@@ -400,7 +399,7 @@ export function EngineeringSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : 0.18, ease }}
           >
-            <TiltCard intensity={5} className="bezel-outer">
+            <div className="bezel-outer">
               <div
                 className="bezel-inner"
                 style={{ padding: "clamp(22px, 3vw, 30px)" }}
@@ -502,7 +501,7 @@ export function EngineeringSection() {
                   </div>
                 </div>
               </div>
-            </TiltCard>
+            </div>
           </motion.div>
         </div>
       </div>
