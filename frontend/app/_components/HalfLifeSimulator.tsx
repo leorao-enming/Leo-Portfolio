@@ -203,6 +203,17 @@ export function HalfLifeSimulator() {
         {loading ? "CALCULATING..." : "RUN SIMULATION"}
       </button>
 
+      {/* ── Status region — announced to screen readers ───────────────────── */}
+      <div aria-live="polite" className="sr-only">
+        {loading
+          ? "Running simulation."
+          : error
+            ? `Simulation failed: ${error}`
+            : result
+              ? `Simulation complete for ${result.substance}, ${result.dosage_mg} milligrams.`
+              : ""}
+      </div>
+
       {/* ── Error output ──────────────────────────────────────────────────── */}
       {error && (
         <p

@@ -62,10 +62,11 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Terminal log */}
+        {/* Terminal log — lines are appended as auth progresses, so announce them */}
         <div
           className="card-surface p-4 mb-6 font-mono text-xs"
           style={{ minHeight: "100px" }}
+          aria-live="polite"
         >
           {logs.map((log, i) => (
             <div

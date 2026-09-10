@@ -8,8 +8,14 @@
 
 const FALLBACK_API_URL = "https://leo-portfolio-f9vp.onrender.com";
 
-/** Free-tier hosting sleeps when idle; don't let a cold start hang a render. */
-const DEFAULT_TIMEOUT_MS = 6000;
+/**
+ * Free-tier hosting sleeps when idle, and waking it takes far longer than the
+ * 6s this used to allow — which meant a genuine cold start *always* timed out
+ * and fell through to the offline panel. Now that the dashboard streams behind
+ * a loading boundary, the page stays interactive during the wait, so a budget
+ * that can actually outlast a cold start is the useful choice.
+ */
+const DEFAULT_TIMEOUT_MS = 25000;
 
 /** How long Next may serve a cached payload before revalidating. */
 const DEFAULT_REVALIDATE_S = 120;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 
 interface Props {
   open: boolean;
@@ -656,6 +657,7 @@ function LanyardClip() {
 /* ─── MAIN COMPONENT ─────────────────────────────────────────────── */
 export function EmployeeIdCard({ open, onClose }: Props) {
   const [flipped, setFlipped] = useState(false);
+  const reduced = useReducedMotion();
 
   /* DOM refs for direct transform updates (no re-render per frame) */
   const wrapperRef = useRef<HTMLDivElement>(null); /* translateY */
@@ -679,13 +681,27 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   const openRef = useRef(open);
   useEffect(() => { openRef.current = open; }, [open]);
 
+  /* The RAF loop writes transforms directly, so the global
+     prefers-reduced-motion CSS override cannot reach it — it has to be
+     honoured here explicitly. */
+  const reducedRef = useRef(reduced);
+  useEffect(() => { reducedRef.current = reduced; }, [reduced]);
+
   /* Kick impulse when opening so card "drops" with momentum */
   useEffect(() => {
-    if (open) {
+    if (open && !reduced) {
       velYRef.current = 22;
       velXRef.current = 3;
     }
-  }, [open]);
+  }, [open, reduced]);
+
+  /* Escape → close */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
 
   /* Pointer events only active when open */
   useEffect(() => {
@@ -701,7 +717,13 @@ export function EmployeeIdCard({ open, onClose }: Props) {
     const tick = () => {
       const targetY = openRef.current ? OPEN_Y : CLOSE_Y;
 
-      if (!isDragging.current) {
+      if (reducedRef.current) {
+        /* Park at the target with no spring, swing, or momentum. */
+        yRef.current = targetY;
+        velYRef.current = 0;
+        angleRef.current = 0;
+        velXRef.current = 0;
+      } else if (!isDragging.current) {
         /* Y spring toward target */
         const dy = targetY - yRef.current;
         velYRef.current = velYRef.current * 0.78 + dy * 0.10;
@@ -787,6 +809,10 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   return (
     <div
       ref={wrapperRef}
+      /* Parked off-screen when closed — keep it out of the a11y tree and the
+         tab order entirely rather than exposing a card nobody can see. */
+      aria-hidden={!open}
+      inert={!open}
       style={{
         position: "fixed",
         top: 0,
@@ -830,20 +856,32 @@ export function EmployeeIdCard({ open, onClose }: Props) {
       >
         <LanyardClip />
 
-        <div
+        {/* A button, not a div: the flip has to be reachable and operable by
+            keyboard, and Enter/Space come free with the right element. */}
+        <button
+          type="button"
+          aria-pressed={flipped}
+          aria-label={flipped ? "Show front of ID card" : "Show back of ID card"}
           style={{
             width: 252,
             height: 400,
             position: "relative",
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)",
+            transition: reduced ? "none" : "transform 0.6s cubic-bezier(0.4,0,0.2,1)",
+            padding: 0,
+            border: "none",
+            background: "transparent",
+            cursor: "inherit",
+            font: "inherit",
+            color: "inherit",
+            textAlign: "inherit",
           }}
           onClick={() => !isDragging.current && setFlipped(f => !f)}
         >
           <CardFront />
           <CardBack />
-        </div>
+        </button>
       </div>
     </div>
   );
