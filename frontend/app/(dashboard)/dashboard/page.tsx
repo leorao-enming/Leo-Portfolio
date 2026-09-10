@@ -151,8 +151,10 @@ export default async function DashboardPage() {
                 ))
               )}
 
+              {/* A control-room status line, not a shell prompt: this is a
+                  read-only operator view of a process, not a terminal. */}
               <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--color-border)" }}>
-                <span style={{ color: "#8a8a90" }}>root@leologic:~# </span>
+                <span style={{ color: "#8a8a90" }}>LEOLOGIC · OPERATOR VIEW · READ ONLY </span>
                 <span className="cursor-blink" />
               </div>
             </div>

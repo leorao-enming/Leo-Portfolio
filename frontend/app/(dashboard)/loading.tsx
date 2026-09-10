@@ -36,7 +36,7 @@ export default function DashboardLoading() {
           &gt; Free-tier backends sleep when idle. A cold start can take a while.
         </div>
         <div className="mt-3">
-          <span style={{ color: "#8a8a90" }}>root@leologic:~# </span>
+          <span style={{ color: "#8a8a90" }}>LEOLOGIC · OPERATOR VIEW · READ ONLY </span>
           <span className="cursor-blink" />
         </div>
       </div>
