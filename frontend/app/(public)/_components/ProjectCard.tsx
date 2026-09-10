@@ -79,7 +79,7 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
 
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
-        <h2 className="text-base font-bold tracking-wide mb-2 text-white">{project.title}</h2>
+        <h1 className="font-bold tracking-tight mb-2 text-white" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
         <p className="text-xs leading-relaxed mb-1 text-zinc-300">{project.summary}</p>
         <p className="text-xs leading-relaxed mb-5 text-zinc-400">{registry.longDescription}</p>
 
@@ -175,7 +175,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
         <div className="flex items-start justify-between mb-2 gap-4">
-          <h2 className="text-base font-bold tracking-wide text-zinc-200">{project.title}</h2>
+          <h1 className="font-bold tracking-tight text-zinc-200" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
           {/* Architecture-only badge */}
           <span
             className="text-xs tracking-wider font-mono whitespace-nowrap px-2 py-0.5 mt-0.5 shrink-0"

@@ -56,6 +56,12 @@ export type ProjectRegistryDetail = {
 export type Project = {
   /** Registry id, e.g. "P-01". Stable — used as a React key and display label. */
   id: string;
+  /**
+   * URL segment for /projects/<slug>. Declared explicitly rather than derived
+   * from codename or title: this is a public URL that may end up in a job
+   * application, so renaming the project must not silently break the link.
+   */
+  slug: string;
   /** Short machine name, e.g. "LQC-CORE". Matches the dashboard subsystem id. */
   codename: string;
   /** Canonical display name. Never restate this anywhere else. */
@@ -82,6 +88,7 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     id: "P-01",
+    slug: "lqc",
     codename: "LQC",
     title: "LeoLogic Quantitative Core",
     tag: "Flagship",
@@ -182,6 +189,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-02",
+    slug: "half-life",
     codename: "HALFLIFE",
     title: "Half-Life",
     tag: "Mobile",
@@ -285,6 +293,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-03",
+    slug: "leologic-os",
     codename: "LEOLOGIC-OS",
     title: "LeoLogic OS",
     tag: "System",
@@ -374,6 +383,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-04",
+    slug: "anomaly-affairs",
     codename: "ANOMALY",
     title: "异常事务处",
     tag: "Creative IP",
@@ -456,6 +466,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-05",
+    slug: "trace",
     codename: "TRACE",
     title: "Trace",
     tag: "AI Engineering",
@@ -549,6 +560,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-06",
+    slug: "tiny-trials",
     codename: "TINY-TRIALS",
     title: "Tiny Trials",
     tag: "Mobile",
@@ -641,3 +653,8 @@ export const LANDING_PROJECTS = PROJECTS.filter((p) => p.showOnLanding);
 export const REGISTRY_PROJECTS = PROJECTS.filter(
   (p): p is Project & { registry: ProjectRegistryDetail } => p.registry !== undefined,
 );
+
+/** Look up a registry project by its URL slug. */
+export function getProjectBySlug(slug: string) {
+  return REGISTRY_PROJECTS.find((p) => p.slug === slug);
+}
