@@ -1,4 +1,5 @@
 import { NavBar } from "./_components/NavBar";
+import { SiteFooter } from "./_components/SiteFooter";
 
 // Title and description are inherited from the root layout. Re-declaring the
 // title here as a string re-applied the root's "%s — LeoLogic" template on top
@@ -19,6 +20,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </a>
       <NavBar />
       <main id="main-content">{children}</main>
+      <SiteFooter />
     </div>
   );
 }

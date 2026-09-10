@@ -245,46 +245,8 @@ export function ContactSection() {
         </div>
       </div>
 
-      {/* Footer strip */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: reduced ? 0 : 1, delay: reduced ? 0 : 0.4 }}
-        style={{
-          marginTop: "clamp(60px, 9vw, 120px)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 12,
-          paddingTop: 28,
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <span
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.22em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-          }}
-        >
-          LeoLogic © {new Date().getFullYear()}
-        </span>
-        <span
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.22em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-          }}
-        >
-          System Online
-        </span>
-      </motion.div>
+      {/* The copyright strip that used to sit here moved into SiteFooter,
+          which renders on every public page instead of only this one. */}
     </section>
   );
 }
