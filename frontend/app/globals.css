@@ -5,9 +5,9 @@
      Loaded and self-hosted by next/font in app/layout.tsx, so every
      platform renders the same typeface. The generic families are a
      safety net for the brief moment before the webfont is applied. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-plex-condensed), var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* ── Brand accent ─────────────────────────────────────────────
      Safety orange. Two different greens used to ship at once — a mint

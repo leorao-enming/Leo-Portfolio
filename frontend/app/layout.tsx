@@ -1,29 +1,36 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono, IBM_Plex_Sans_Condensed } from "next/font/google";
 import "./globals.css";
 
 // Self-hosted at build time by next/font — no runtime CDN request, and the
-// same bytes ship to every visitor. The previous stack led with Segoe UI,
-// Aptos Display, and Cascadia Code, which are Windows-only: everyone else
-// silently fell back to a different typeface. These are the closest open
-// variable equivalents, so the design reads identically on every platform.
+// same bytes ship to every visitor.
+//
+// IBM Plex, not Inter. Inter plus JetBrains Mono is the most common default
+// UI pairing there is, and it reads as templated no matter what sits on top
+// of it. Plex was commissioned for exactly this technical register — it
+// belongs to spec sheets and instrument panels, which is the subject here.
+// Condensed carries display type so headings get their own voice without
+// introducing a second unrelated family.
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-plex-sans",
 });
 
-const interTight = Inter_Tight({
+const plexCondensed = IBM_Plex_Sans_Condensed({
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
-  variable: "--font-inter-tight",
+  variable: "--font-plex-condensed",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-jetbrains-mono",
+  variable: "--font-plex-mono",
 });
 
 export const metadata: Metadata = {
@@ -47,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
+      className={`${plexSans.variable} ${plexCondensed.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>
