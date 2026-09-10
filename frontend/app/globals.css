@@ -9,9 +9,23 @@
   --font-display: var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 
-  /* ── Terminal / brand accent colors (dashboard compat) ──── */
-  --color-terminal-green: #68f29a;
-  --color-terminal-dim: #2fbf6b;
+  /* ── Brand accent ─────────────────────────────────────────────
+     Safety orange. Two different greens used to ship at once — a mint
+     token alongside 49 hardcoded acid-green values — so a glow and its
+     own glyph disagreed. One accent now, drawn from plant signage
+     rather than terminal cosplay.
+     Measures ~6.9:1 on --color-bg, comfortably clear of AA. */
+  --color-accent: #ff7a18;
+  --color-accent-dim: #c2590f;
+  --accent-a08: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  --accent-a16: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  --accent-a25: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  --accent-a40: color-mix(in srgb, var(--color-accent) 40%, transparent);
+
+  /* Kept so dashboard/registry markup that names the old token still
+     resolves; both now point at the single accent. */
+  --color-terminal-green: var(--color-accent);
+  --color-terminal-dim: #c2590f;
   --color-terminal-amber: #f2b84b;
   --color-terminal-cyan: #74d7ff;
   --color-terminal-red: #ff6b6b;
@@ -24,14 +38,18 @@
   --color-border: #27272a;
   --color-border-dim: #3f3f46;
 
-  /* ── Premium landing palette ──────────────────────────────── */
-  --color-bg: #060807;
+  /* ── Landing palette ──────────────────────────────────────────
+     Warm graphite rather than the near-black it was. Black plus a
+     bright green accent is a recognisable default that had nothing
+     to do with the subject; graphite reads as instrument panel and
+     shares a ground with the dashboard's blueprint grid. */
+  --color-bg: #121316;
   --color-card: rgba(255, 255, 255, 0.035);
   --color-card-hover: rgba(255, 255, 255, 0.06);
   --color-hairline: rgba(255, 255, 255, 0.075);
   --color-hairline-bright: rgba(255, 255, 255, 0.14);
   --color-text-primary: #f1f2ee;
-  --color-accent-glow: rgba(104, 242, 154, 0.14);
+  --color-accent-glow: color-mix(in srgb, var(--color-accent) 14%, transparent);
 
   /* ── Text scale ───────────────────────────────────────────────
      Contrast-audited against --color-bg. Opacity was doing the job
@@ -100,9 +118,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background:
-      radial-gradient(circle at 12% 8%, rgba(104, 242, 154, 0.075), transparent 34rem),
-      radial-gradient(circle at 82% 22%, rgba(116, 215, 255, 0.045), transparent 30rem),
-      linear-gradient(180deg, #060807 0%, #090b0a 45%, #060807 100%);
+      radial-gradient(circle at 12% 8%, rgba(255, 122, 24, 0.06), transparent 34rem),
+      radial-gradient(circle at 82% 22%, rgba(116, 215, 255, 0.035), transparent 30rem),
+      linear-gradient(180deg, #121316 0%, #16171b 45%, #121316 100%);
     background-color: var(--color-bg);
     overflow-x: hidden;
   }
@@ -138,7 +156,7 @@
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-terminal-green) 78%, white);
+    outline: 2px solid color-mix(in srgb, var(--color-accent) 78%, white);
     outline-offset: 4px;
   }
 
@@ -147,7 +165,7 @@
   }
 
   ::selection {
-    background-color: var(--color-terminal-green);
+    background-color: var(--color-accent);
     color: var(--color-bg);
   }
 
@@ -175,8 +193,8 @@
 
   /* ── Terminal text styles (dashboard compat) ────────────── */
   .terminal-text {
-    color: var(--color-terminal-green);
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+    color: var(--color-accent);
+    text-shadow: 0 0 8px rgba(255,122,24, 0.4);
   }
 
   .terminal-text-dim { color: var(--color-terminal-dim); }
@@ -211,7 +229,7 @@
   .cursor-blink::after {
     content: '█';
     animation: blink 1.2s step-end infinite;
-    color: var(--color-terminal-green);
+    color: var(--color-accent);
   }
 
   /* ── Status dots ─────────────────────────────────────────── */
@@ -223,8 +241,8 @@
   }
 
   .status-dot-online {
-    background-color: var(--color-terminal-green);
-    box-shadow: 0 0 6px var(--color-terminal-green);
+    background-color: var(--color-accent);
+    box-shadow: 0 0 6px var(--color-accent);
     animation: pulse-green 2s ease-in-out infinite;
   }
 
@@ -306,7 +324,7 @@
   }
 
   .bezel-outer:hover {
-    border-color: rgba(104, 242, 154, 0.22);
+    border-color: rgba(255,122,24, 0.22);
     box-shadow: 0 18px 80px rgba(0, 0, 0, 0.28);
   }
 
@@ -317,8 +335,8 @@
 
   /* ── Accent green glow for single words ─────────────────── */
   .accent-green {
-    color: var(--color-terminal-green);
-    text-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
+    color: var(--color-accent);
+    text-shadow: 0 0 40px rgba(255,122,24, 0.3);
   }
 
   /* ── Pulse animations ────────────────────────────────────── */
@@ -328,14 +346,14 @@
   }
 
   @keyframes pulse-green {
-    0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--color-terminal-green); }
-    50% { opacity: 0.6; box-shadow: 0 0 12px var(--color-terminal-green); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--color-accent); }
+    50% { opacity: 0.6; box-shadow: 0 0 12px var(--color-accent); }
   }
 
   /* ── Timeline dot pulse ──────────────────────────────────── */
   @keyframes timeline-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4); }
-    50% { box-shadow: 0 0 0 6px rgba(0, 255, 65, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,122,24, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(255,122,24, 0); }
   }
 
   @media (prefers-reduced-motion: reduce) {

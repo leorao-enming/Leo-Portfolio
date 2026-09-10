@@ -188,7 +188,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
               style={{
                 marginTop: 14,
                 fontSize: 11,
-                color: "var(--color-terminal-green)",
+                color: "var(--color-accent)",
                 opacity: 0.7,
                 fontFamily: "var(--font-mono)",
                 lineHeight: 1.6,

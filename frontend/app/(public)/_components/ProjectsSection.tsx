@@ -57,7 +57,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
               width: 280,
               height: 280,
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(0,255,65,0.06) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(255,122,24,0.06) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -68,7 +68,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
               style={{
                 fontSize: 12,
                 letterSpacing: "0.2em",
-                color: "rgba(0,255,65,0.6)",
+                color: "rgba(255,122,24,0.6)",
                 fontFamily: "var(--font-mono)",
                 textTransform: "uppercase",
                 display: "flex",
@@ -81,8 +81,8 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
                   width: 5,
                   height: 5,
                   borderRadius: "50%",
-                  background: "var(--color-terminal-green)",
-                  boxShadow: "0 0 6px rgba(0,255,65,0.6)",
+                  background: "var(--color-accent)",
+                  boxShadow: "0 0 6px rgba(255,122,24,0.6)",
                   animation: "pulse-green 2s ease-in-out infinite",
                 }}
               />

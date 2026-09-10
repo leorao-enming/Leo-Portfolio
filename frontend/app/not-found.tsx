@@ -38,8 +38,8 @@ export default function NotFound() {
             href="/"
             className="text-xs tracking-[0.2em] px-5 py-3 transition-colors"
             style={{
-              border: "1px solid var(--color-terminal-green)",
-              color: "var(--color-terminal-green)",
+              border: "1px solid var(--color-accent)",
+              color: "var(--color-accent)",
             }}
           >
             ← RETURN HOME

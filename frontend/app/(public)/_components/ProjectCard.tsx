@@ -255,13 +255,13 @@ function TechStackPanel({ tags, muted }: { tags: TechTag[]; muted?: boolean }) {
                   ? "rgba(0,212,255,0.07)"
                   : tag.tone === "amber"
                   ? "rgba(255,176,0,0.07)"
-                  : "rgba(0,255,65,0.05)",
+                  : "rgba(255,122,24,0.05)",
               border:
                 tag.tone === "cyan"
                   ? "1px solid rgba(0,212,255,0.2)"
                   : tag.tone === "amber"
                   ? "1px solid rgba(255,176,0,0.2)"
-                  : "1px solid rgba(0,255,65,0.18)",
+                  : "1px solid rgba(255,122,24,0.18)",
             }}
           >
             {tag.label}
@@ -343,7 +343,7 @@ function ArchitecturePanel({
                       ? "rgba(0,212,255,0.4)"
                       : layer.tone === "amber"
                       ? "rgba(255,176,0,0.4)"
-                      : "rgba(0,255,65,0.3)",
+                      : "rgba(255,122,24,0.3)",
                 }}
               >
                 <span className={`tracking-wider ${toneClass}`} style={{ opacity: 0.9 }}>

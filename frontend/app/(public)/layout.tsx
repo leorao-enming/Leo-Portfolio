@@ -11,7 +11,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         href="#main-content"
         className="sr-only focus:not-sr-only fixed left-4 top-4 z-[100000] rounded-md px-4 py-2 text-sm font-medium"
         style={{
-          background: "var(--color-terminal-green)",
+          background: "var(--color-accent)",
           color: "var(--color-bg)",
         }}
       >

@@ -7,7 +7,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const stats = [
   { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#60a5fa" },
-  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-terminal-green)" },
+  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-accent)" },
   { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#c084fc" },
   { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#fb923c" },
 ];
@@ -103,7 +103,7 @@ export function AboutSection() {
               }}
             >
               Engineering meets{" "}
-              <span style={{ color: "var(--color-terminal-green)", textShadow: "0 0 40px rgba(0,255,65,0.22)" }}>
+              <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.22)" }}>
                 intelligence.
               </span>
             </h1>
@@ -116,7 +116,7 @@ export function AboutSection() {
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.6)", animation: "pulse-green 2s ease-in-out infinite" }} />
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 8px rgba(255,122,24,0.6)", animation: "pulse-green 2s ease-in-out infinite" }} />
               <span style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--text-muted)", fontFamily: "var(--font-display)", textTransform: "uppercase" }}>
                 University of Toronto · 3T7
               </span>
@@ -142,11 +142,11 @@ export function AboutSection() {
             className="bezel-outer"
           >
             <div className="bezel-inner" style={{ padding: "20px 22px" }}>
-              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "rgba(104,242,154,0.85)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "rgba(255,122,24,0.85)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
                 Currently Building
               </div>
               <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-                <span style={{ color: "var(--color-terminal-green)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
+                <span style={{ color: "var(--color-accent)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
               </div>
             </div>
           </motion.div>

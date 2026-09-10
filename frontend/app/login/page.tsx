@@ -73,7 +73,7 @@ export default function LoginPage() {
               key={i}
               className="py-0.5"
               style={{
-                color: log.includes("ERROR") ? "var(--color-terminal-red)" : log.includes("granted") || log.includes("Routing") ? "var(--color-terminal-green)" : "#9a9aa0",
+                color: log.includes("ERROR") ? "var(--color-terminal-red)" : log.includes("granted") || log.includes("Routing") ? "var(--color-accent)" : "#9a9aa0",
               }}
             >
               {log}
@@ -118,8 +118,8 @@ export default function LoginPage() {
             style={{
               backgroundColor: loading || !token ? "transparent" : "transparent",
               border: "1px solid",
-              borderColor: loading || !token ? "#222" : "var(--color-terminal-green)",
-              color: loading || !token ? "#8a8a90" : "var(--color-terminal-green)",
+              borderColor: loading || !token ? "#222" : "var(--color-accent)",
+              color: loading || !token ? "#8a8a90" : "var(--color-accent)",
               cursor: loading || !token ? "not-allowed" : "pointer",
             }}
           >

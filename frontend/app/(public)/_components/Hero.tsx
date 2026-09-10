@@ -43,7 +43,7 @@ function MagneticBtn({
 
   if (variant === "primary") {
     return (
-      <a ref={ref} href={href} style={{ ...base, background: "var(--color-terminal-green)", color: "#050507", fontWeight: 600, boxShadow: "0 0 28px rgba(104,242,154,0.22)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <a ref={ref} href={href} style={{ ...base, background: "var(--color-accent)", color: "#050507", fontWeight: 600, boxShadow: "0 0 28px rgba(255,122,24,0.22)" }} onMouseMove={onMove} onMouseLeave={onLeave}>
         {children}
         <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(0,0,0,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10 }}>→</span>
       </a>
@@ -72,7 +72,7 @@ export function Hero() {
         flexDirection: "column",
         justifyContent: "flex-end",
         overflow: "hidden",
-        background: "#050507",
+        background: "var(--color-bg)",
       }}
     >
       {/* ── Cinematic gradient bg ───────────────────────────────── */}
@@ -82,8 +82,8 @@ export function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 80% 70% at 15% 55%, rgba(0,40,15,0.55) 0%, transparent 60%)," +
-            "radial-gradient(ellipse 50% 50% at 80% 20%, rgba(0,10,5,0.3) 0%, transparent 55%)," +
+            "radial-gradient(ellipse 80% 70% at 15% 55%, rgba(46,32,20,0.6) 0%, transparent 60%)," +
+            "radial-gradient(ellipse 50% 50% at 80% 20%, rgba(24,26,32,0.45) 0%, transparent 55%)," +
             "radial-gradient(ellipse 100% 80% at 50% 100%, rgba(0,0,0,0.7) 0%, transparent 60%)",
           pointerEvents: "none",
           zIndex: 1,
@@ -107,7 +107,7 @@ export function Hero() {
           <span style={{ fontSize: 11, letterSpacing: "0.3em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
             TORONTO · CA
           </span>
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.7)", animation: "pulse-green 2s ease-in-out infinite" }} />
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 8px rgba(255,122,24,0.7)", animation: "pulse-green 2s ease-in-out infinite" }} />
         </div>
       </motion.div>
 
@@ -148,7 +148,7 @@ export function Hero() {
                 fontWeight: 500,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.25,
-                color: "var(--color-terminal-green)",
+                color: "var(--color-accent)",
                 marginTop: "0.35em",
                 maxWidth: "24ch",
               }}
@@ -201,7 +201,7 @@ export function Hero() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 32, height: 1, background: "var(--color-terminal-green)", opacity: 0.4 }} />
+            <div style={{ width: 32, height: 1, background: "var(--color-accent)", opacity: 0.4 }} />
             <span style={{ fontSize: 11, letterSpacing: "0.36em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
               SCROLL TO EXPLORE
             </span>

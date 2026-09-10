@@ -63,7 +63,7 @@ export function NavBar() {
             >
               <span
                 className="font-display font-bold text-sm tracking-tight"
-                style={{ color: "var(--color-terminal-green)", textShadow: "0 0 12px rgba(0,255,65,0.35)" }}
+                style={{ color: "var(--color-accent)", textShadow: "0 0 12px rgba(255,122,24,0.35)" }}
               >
                 LeoLogic
               </span>
@@ -104,19 +104,19 @@ export function NavBar() {
                 className="hidden sm:flex items-center gap-2 text-xs font-medium rounded-full transition-all duration-300 active:scale-95 group"
                 style={{
                   padding: "8px 16px",
-                  background: "rgba(0,255,65,0.1)",
-                  border: "1px solid rgba(0,255,65,0.2)",
-                  color: "var(--color-terminal-green)",
+                  background: "rgba(255,122,24,0.1)",
+                  border: "1px solid rgba(255,122,24,0.2)",
+                  color: "var(--color-accent)",
                   fontFamily: "var(--font-display)",
                   letterSpacing: "0.02em",
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(0,255,65,0.16)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,65,0.35)";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(255,122,24,0.16)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,122,24,0.35)";
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(0,255,65,0.1)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,65,0.2)";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(255,122,24,0.1)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,122,24,0.2)";
                 }}
               >
                 Enter OS
@@ -124,8 +124,8 @@ export function NavBar() {
                   style={{
                     fontSize: 10,
                     letterSpacing: "0.14em",
-                    color: "rgba(0,255,65,0.5)",
-                    border: "1px solid rgba(0,255,65,0.25)",
+                    color: "rgba(255,122,24,0.5)",
+                    border: "1px solid rgba(255,122,24,0.25)",
                     borderRadius: 4,
                     padding: "1px 4px",
                   }}
@@ -138,7 +138,7 @@ export function NavBar() {
                     width: "18px",
                     height: "18px",
                     borderRadius: "50%",
-                    background: "rgba(0,255,65,0.15)",
+                    background: "rgba(255,122,24,0.15)",
                     fontSize: "10px",
                   }}
                 >
@@ -225,14 +225,14 @@ export function NavBar() {
                     style={{
                       minHeight: 44, /* comfortable touch target */
                       marginTop: 6,
-                      background: "rgba(0,255,65,0.08)",
-                      border: "1px solid rgba(0,255,65,0.18)",
-                      color: "var(--color-terminal-green)",
+                      background: "rgba(255,122,24,0.08)",
+                      border: "1px solid rgba(255,122,24,0.18)",
+                      color: "var(--color-accent)",
                       fontFamily: "var(--font-display)",
                     }}
                   >
                     <span>Enter OS</span>
-                    <span style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(104,242,154,0.8)" }}>DEMO →</span>
+                    <span style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,122,24,0.8)" }}>DEMO →</span>
                   </Link>
                 </div>
               </motion.div>

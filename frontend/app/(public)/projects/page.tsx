@@ -42,7 +42,7 @@ export default function ProjectsPage() {
           className="h-px w-full mb-6"
           style={{
             background:
-              "linear-gradient(to right, var(--color-terminal-green), rgba(0,212,255,0.3), transparent)",
+              "linear-gradient(to right, var(--color-accent), rgba(0,212,255,0.3), transparent)",
           }}
         />
         <p className="text-xs leading-relaxed max-w-2xl" style={{ color: "#9a9aa0" }}>

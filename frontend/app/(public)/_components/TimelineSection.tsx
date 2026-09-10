@@ -30,7 +30,7 @@ const events = [
     title: "First Commit",
     desc: "Began building the LeoLogic personal OS: unified dashboard for biometrics, quant signals, and AI command layers. The machine wakes up.",
     tag: "Build",
-    accent: "var(--color-terminal-green)",
+    accent: "var(--color-accent)",
     ch: "03",
   },
   {
@@ -48,7 +48,7 @@ const events = [
     title: "Half-Life & FabTwin",
     desc: "Half-Life is at release-candidate stage — signed iOS archive built, device acceptance next. FabTwin's simulator Gate just opened: a semiconductor SPC/fault-detection engine validated against real public fab data.",
     tag: "Build",
-    accent: "var(--color-terminal-green)",
+    accent: "var(--color-accent)",
     ch: "05",
   },
 ];
@@ -121,8 +121,8 @@ function TimelineEntry({
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1,
-            color: ev.year === "NOW" ? "var(--color-terminal-green)" : "rgba(255,255,255,0.12)",
-            textShadow: ev.year === "NOW" ? "0 0 60px rgba(0,255,65,0.25)" : undefined,
+            color: ev.year === "NOW" ? "var(--color-accent)" : "rgba(255,255,255,0.12)",
+            textShadow: ev.year === "NOW" ? "0 0 60px rgba(255,122,24,0.25)" : undefined,
           }}
         >
           {ev.year}
@@ -193,8 +193,8 @@ function TimelineEntry({
         {/* Active pulse for "NOW" */}
         {ev.year === "NOW" && (
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 10px rgba(0,255,65,0.7)", animation: "timeline-pulse 2s ease-in-out infinite" }} />
-            <span style={{ fontSize: 11, letterSpacing: "0.28em", color: "rgba(0,255,65,0.6)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 10px rgba(255,122,24,0.7)", animation: "timeline-pulse 2s ease-in-out infinite" }} />
+            <span style={{ fontSize: 11, letterSpacing: "0.28em", color: "var(--color-accent)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
               IN PROGRESS
             </span>
           </div>

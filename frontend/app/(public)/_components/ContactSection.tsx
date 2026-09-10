@@ -92,7 +92,7 @@ export function ContactSection() {
             >
               Let&apos;s build
               <br />
-              <span style={{ color: "var(--color-terminal-green)", textShadow: "0 0 40px rgba(0,255,65,0.25)" }}>
+              <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.25)" }}>
                 something real.
               </span>
             </h2>
@@ -125,23 +125,23 @@ export function ContactSection() {
                 gap: 10,
                 padding: "14px 28px",
                 borderRadius: "9999px",
-                background: "var(--color-terminal-green)",
+                background: "var(--color-accent)",
                 color: "#050507",
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
                 fontSize: 14,
                 letterSpacing: "0.02em",
                 textDecoration: "none",
-                boxShadow: "0 0 32px rgba(0,255,65,0.2)",
+                boxShadow: "0 0 32px rgba(255,122,24,0.2)",
                 transition: "box-shadow 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)",
                 cursor: "pointer",
               }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 48px rgba(0,255,65,0.35)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 48px rgba(255,122,24,0.35)";
                 (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(0,255,65,0.2)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(255,122,24,0.2)";
                 (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
               }}
             >

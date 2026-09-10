@@ -16,7 +16,7 @@ export default function Image() {
           justifyContent: "center",
           alignItems: "flex-start",
           padding: "80px 96px",
-          background: "#050507",
+          background: "#121316",
           backgroundImage:
             "radial-gradient(ellipse 80% 70% at 15% 55%, rgba(0,60,20,0.55) 0%, transparent 60%)," +
             "radial-gradient(ellipse 60% 60% at 85% 15%, rgba(0,20,10,0.4) 0%, transparent 55%)",
@@ -38,7 +38,7 @@ export default function Image() {
           style={{
             fontSize: 96,
             fontWeight: 800,
-            color: "#00ff41",
+            color: "#ff7a18",
             letterSpacing: -3,
             marginBottom: 24,
             display: "flex",

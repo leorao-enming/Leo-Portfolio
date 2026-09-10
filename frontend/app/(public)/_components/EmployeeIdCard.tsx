@@ -13,7 +13,7 @@ const OPEN_Y  =  20;   /* visible: 20px below top of viewport */
 const CLOSE_Y = -580;  /* fully hidden above viewport          */
 
 /* ─── Security pattern SVG (guilloché-style micro lines) ─────────── */
-const SECURITY_BG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23003a1a' stroke-width='0.4' opacity='0.18'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='20' cy='20' r='8'/%3E%3Cline x1='0' y1='20' x2='40' y2='20'/%3E%3Cline x1='20' y1='0' x2='20' y2='40'/%3E%3C/g%3E%3C/svg%3E")`;
+const SECURITY_BG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%233a2a14' stroke-width='0.4' opacity='0.18'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='20' cy='20' r='8'/%3E%3Cline x1='0' y1='20' x2='40' y2='20'/%3E%3Cline x1='20' y1='0' x2='20' y2='40'/%3E%3C/g%3E%3C/svg%3E")`;
 
 /* ─── Holographic shimmer overlay ────────────────────────────────── */
 const HOLO_GRADIENT =
@@ -117,7 +117,7 @@ function PhotoPlaceholder() {
           style={{
             fontSize: 14,
             fontWeight: 700,
-            color: "rgba(0,255,65,0.4)",
+            color: "rgba(255,122,24,0.4)",
             fontFamily: "monospace",
             letterSpacing: "0.1em",
           }}
@@ -243,9 +243,9 @@ function CardFront() {
         {/* Header band */}
         <div
           style={{
-            background: "linear-gradient(135deg, #001800 0%, #003020 50%, #004830 100%)",
+            background: "linear-gradient(135deg, #1a1206 0%, #3a2410 50%, #52320f 100%)",
             padding: "14px 16px 12px",
-            borderBottom: "2px solid rgba(0,255,65,0.5)",
+            borderBottom: "2px solid rgba(255,122,24,0.5)",
             position: "relative",
             overflow: "hidden",
           }}
@@ -254,19 +254,19 @@ function CardFront() {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: "repeating-linear-gradient(0deg, rgba(0,255,65,0.04) 0px, rgba(0,255,65,0.04) 1px, transparent 1px, transparent 3px)",
+              backgroundImage: "repeating-linear-gradient(0deg, rgba(255,122,24,0.04) 0px, rgba(255,122,24,0.04) 1px, transparent 1px, transparent 3px)",
               pointerEvents: "none",
             }}
           />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
             <div>
-              <div style={{ fontSize: 8, letterSpacing: "0.38em", color: "rgba(0,255,65,0.55)", marginBottom: 3, fontFamily: "monospace" }}>
+              <div style={{ fontSize: 8, letterSpacing: "0.38em", color: "rgba(255,122,24,0.55)", marginBottom: 3, fontFamily: "monospace" }}>
                 LEOLOGIC SYSTEMS
               </div>
-              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#00ff41", fontFamily: "monospace", lineHeight: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: "monospace", lineHeight: 1 }}>
                 EMPLOYEE
               </div>
-              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#00ff41", fontFamily: "monospace", lineHeight: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: "monospace", lineHeight: 1 }}>
                 CREDENTIAL
               </div>
             </div>
@@ -275,14 +275,14 @@ function CardFront() {
                 width: 28,
                 height: 28,
                 borderRadius: "50%",
-                border: "1.5px solid rgba(0,255,65,0.35)",
-                background: "rgba(0,255,65,0.08)",
+                border: "1.5px solid rgba(255,122,24,0.35)",
+                background: "rgba(255,122,24,0.08)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 11,
                 fontWeight: 700,
-                color: "rgba(0,255,65,0.7)",
+                color: "rgba(255,122,24,0.7)",
                 fontFamily: "monospace",
                 flexShrink: 0,
               }}
@@ -425,7 +425,7 @@ function CardFront() {
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: "auto",
-            borderTop: "1px solid rgba(0,255,65,0.15)",
+            borderTop: "1px solid rgba(255,122,24,0.15)",
           }}
         >
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -435,7 +435,7 @@ function CardFront() {
                 style={{
                   fontSize: 6.5,
                   letterSpacing: "0.18em",
-                  color: i === 0 ? "#00ff41" : "rgba(0,255,65,0.45)",
+                  color: i === 0 ? "#ff7a18" : "rgba(255,122,24,0.45)",
                   fontFamily: "monospace",
                   fontWeight: i === 0 ? 700 : 400,
                 }}
@@ -562,13 +562,13 @@ function CardBack() {
           flex: 1,
         }}
       >
-        <div style={{ fontSize: 10, letterSpacing: "0.28em", color: "rgba(104,242,154,0.85)", fontFamily: "monospace", textTransform: "uppercase" }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.28em", color: "rgba(255,122,24,0.85)", fontFamily: "monospace", textTransform: "uppercase" }}>
           LeoLogic · Access Control
         </div>
 
         <QrCode />
 
-        <div style={{ width: "100%", borderTop: "1px solid rgba(0,255,65,0.08)", paddingTop: 10 }}>
+        <div style={{ width: "100%", borderTop: "1px solid rgba(255,122,24,0.08)", paddingTop: 10 }}>
           {[
             ["CLEARANCE", "LEVEL 5 / ADMIN"],
             ["ZONES", "ALL SYSTEMS"],
@@ -587,7 +587,7 @@ function CardBack() {
               }}
             >
               <span style={{ fontSize: 7, letterSpacing: "0.2em", color: "#444", fontFamily: "monospace" }}>{k}</span>
-              <span style={{ fontSize: 8, color: "#00ff41", fontFamily: "monospace", fontWeight: 600 }}>{v}</span>
+              <span style={{ fontSize: 8, color: "#ff7a18", fontFamily: "monospace", fontWeight: 600 }}>{v}</span>
             </div>
           ))}
         </div>
@@ -598,8 +598,8 @@ function CardBack() {
           aria-hidden
           style={{
             width: "100%",
-            background: "rgba(0,255,65,0.03)",
-            border: "1px solid rgba(0,255,65,0.07)",
+            background: "rgba(255,122,24,0.03)",
+            border: "1px solid rgba(255,122,24,0.07)",
             borderRadius: 3,
             padding: "6px 8px",
           }}
@@ -617,7 +617,7 @@ function CardBack() {
         style={{
           padding: "6px 16px 8px",
           textAlign: "center",
-          borderTop: "1px solid rgba(0,255,65,0.06)",
+          borderTop: "1px solid rgba(255,122,24,0.06)",
         }}
       >
         {/* Decorative security-strip text, as on a real badge. */}

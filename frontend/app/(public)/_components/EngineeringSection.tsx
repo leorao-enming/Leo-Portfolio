@@ -183,7 +183,7 @@ export function EngineeringSection() {
                     gap: 6,
                     fontSize: 12,
                     letterSpacing: "0.2em",
-                    color: "rgba(0,255,65,0.6)",
+                    color: "rgba(255,122,24,0.6)",
                     fontFamily: "var(--font-mono)",
                     textTransform: "uppercase",
                   }}
@@ -193,8 +193,8 @@ export function EngineeringSection() {
                       width: 5,
                       height: 5,
                       borderRadius: "50%",
-                      background: "var(--color-terminal-green)",
-                      boxShadow: "0 0 6px rgba(0,255,65,0.6)",
+                      background: "var(--color-accent)",
+                      boxShadow: "0 0 6px rgba(255,122,24,0.6)",
                     }}
                   />
                   {formatMonth(INTERNSHIP.startDate)} — Present

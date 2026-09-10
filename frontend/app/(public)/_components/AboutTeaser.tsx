@@ -49,7 +49,7 @@ export function AboutTeaser() {
           }}
         >
           Engineering meets{" "}
-          <span style={{ color: "var(--color-terminal-green)", textShadow: "0 0 40px rgba(0,255,65,0.22)" }}>
+          <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.22)" }}>
             intelligence.
           </span>
         </h2>
