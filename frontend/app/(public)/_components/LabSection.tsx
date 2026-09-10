@@ -19,7 +19,7 @@ function StatusPill({ status }: { status: LabEntry["status"] }) {
         display: "inline-flex",
         alignItems: "center",
         gap: 6,
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: "0.2em",
         color,
         fontFamily: "var(--font-mono)",
@@ -72,9 +72,9 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
           >
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: "0.2em",
-                color: "rgba(255,255,255,0.26)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-mono)",
               }}
             >
@@ -99,7 +99,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
           <p
             style={{
               fontSize: 11,
-              color: "rgba(255,255,255,0.3)",
+              color: "var(--text-muted)",
               fontFamily: "var(--font-mono)",
               lineHeight: 1.6,
               marginBottom: 18,
@@ -111,7 +111,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
           <p
             style={{
               fontSize: "clamp(13px, 1.1vw, 15px)",
-              color: "rgba(255,255,255,0.48)",
+              color: "var(--text-body)",
               lineHeight: 1.7,
               marginBottom: 20,
             }}
@@ -121,9 +121,9 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
 
           <p
             style={{
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: "0.22em",
-              color: "rgba(255,255,255,0.3)",
+              color: "var(--text-muted)",
               fontFamily: "var(--font-display)",
               textTransform: "uppercase",
               marginBottom: 10,
@@ -159,9 +159,9 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
           >
             <p
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: "0.22em",
-                color: "rgba(255,255,255,0.3)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-display)",
                 textTransform: "uppercase",
                 marginBottom: 8,
@@ -231,12 +231,7 @@ export function LabSection() {
   return (
     <section
       id="lab"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -251,9 +246,9 @@ export function LabSection() {
             padding: "4px 12px",
             borderRadius: "9999px",
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: "0.24em",
-            color: "rgba(255,255,255,0.4)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 20,
@@ -277,7 +272,7 @@ export function LabSection() {
         <p
           style={{
             fontSize: "clamp(14px, 1.2vw, 16px)",
-            color: "rgba(255,255,255,0.45)",
+            color: "var(--text-body)",
             lineHeight: 1.7,
             maxWidth: "58ch",
             margin: 0,
@@ -310,7 +305,7 @@ export function LabSection() {
         style={{
           marginTop: "clamp(24px, 3vw, 36px)",
           fontSize: 12,
-          color: "rgba(255,255,255,0.3)",
+          color: "var(--text-muted)",
           fontFamily: "var(--font-mono)",
           lineHeight: 1.7,
           maxWidth: "62ch",

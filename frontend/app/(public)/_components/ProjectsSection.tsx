@@ -14,7 +14,7 @@ function ProjectTag({ label, accent }: { label: string; accent: string }) {
         borderRadius: "9999px",
         border: `1px solid ${accent}33`,
         background: `${accent}0d`,
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: "0.18em",
         color: accent,
         fontFamily: "var(--font-display)",
@@ -66,7 +66,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
             <ProjectTag label={project.tag} accent={project.accent} />
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: "0.2em",
                 color: "rgba(0,255,65,0.6)",
                 fontFamily: "var(--font-mono)",
@@ -107,7 +107,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
           <p
             style={{
               fontSize: "clamp(14px, 1.2vw, 16px)",
-              color: "rgba(255,255,255,0.48)",
+              color: "var(--text-body)",
               lineHeight: 1.7,
               marginBottom: "auto",
               paddingBottom: 28,
@@ -197,7 +197,7 @@ function SmallCard({
           <p
             style={{
               fontSize: 13,
-              color: "rgba(255,255,255,0.4)",
+              color: "var(--text-muted)",
               lineHeight: 1.65,
               marginBottom: "auto",
               paddingBottom: 16,
@@ -215,8 +215,8 @@ function SmallCard({
                   borderRadius: 4,
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.06)",
-                  fontSize: 10,
-                  color: "rgba(255,255,255,0.4)",
+                  fontSize: 12,
+                  color: "var(--text-muted)",
                   fontFamily: "var(--font-mono)",
                 }}
               >
@@ -239,12 +239,7 @@ export function ProjectsSection() {
   return (
     <section
       id="projects"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -267,9 +262,9 @@ export function ProjectsSection() {
             padding: "4px 12px",
             borderRadius: "9999px",
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: "0.24em",
-            color: "rgba(255,255,255,0.4)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 20,

@@ -110,7 +110,7 @@ function TimelineEntry({
         transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
         style={{ position: "relative", zIndex: 1, paddingTop: 4, paddingBottom: 12 }}
       >
-        <div style={{ fontSize: 8, letterSpacing: "0.3em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", marginBottom: 8, textTransform: "uppercase" }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", marginBottom: 8, textTransform: "uppercase" }}>
           CHAPTER {ev.ch} / 05
         </div>
 
@@ -128,7 +128,7 @@ function TimelineEntry({
           {ev.year}
         </div>
 
-        <div style={{ fontSize: 8, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", marginTop: 8, textTransform: "uppercase" }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", marginTop: 8, textTransform: "uppercase" }}>
           {ev.label}
         </div>
       </motion.div>
@@ -154,7 +154,7 @@ function TimelineEntry({
             borderRadius: 9999,
             border: `1px solid ${ev.accent}30`,
             background: `${ev.accent}0d`,
-            fontSize: 9,
+            fontSize: 11,
             letterSpacing: "0.2em",
             color: ev.accent,
             fontFamily: "var(--font-display)",
@@ -182,7 +182,7 @@ function TimelineEntry({
         <p
           style={{
             fontSize: "clamp(13px, 1.1vw, 15px)",
-            color: "rgba(255,255,255,0.38)",
+            color: "var(--text-muted)",
             lineHeight: 1.75,
             maxWidth: 480,
           }}
@@ -194,7 +194,7 @@ function TimelineEntry({
         {ev.year === "NOW" && (
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16 }}>
             <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 10px rgba(0,255,65,0.7)", animation: "timeline-pulse 2s ease-in-out infinite" }} />
-            <span style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(0,255,65,0.6)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 11, letterSpacing: "0.28em", color: "rgba(0,255,65,0.6)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
               IN PROGRESS
             </span>
           </div>
@@ -224,12 +224,7 @@ export function TimelineSection() {
   return (
     <section
       id="timeline"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -244,9 +239,9 @@ export function TimelineSection() {
             padding: "4px 12px",
             borderRadius: 9999,
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 9,
+            fontSize: 11,
             letterSpacing: "0.26em",
-            color: "rgba(255,255,255,0.35)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 20,

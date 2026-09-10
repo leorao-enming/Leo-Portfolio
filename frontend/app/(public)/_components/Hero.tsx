@@ -104,7 +104,7 @@ export function Hero() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 7, justifyContent: "flex-end" }}>
-          <span style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(255,255,255,0.42)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+          <span style={{ fontSize: 11, letterSpacing: "0.3em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
             TORONTO · CA
           </span>
           <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.7)", animation: "pulse-green 2s ease-in-out infinite" }} />
@@ -202,7 +202,7 @@ export function Hero() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 32, height: 1, background: "var(--color-terminal-green)", opacity: 0.4 }} />
-            <span style={{ fontSize: 9, letterSpacing: "0.36em", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 11, letterSpacing: "0.36em", color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
               SCROLL TO EXPLORE
             </span>
           </div>

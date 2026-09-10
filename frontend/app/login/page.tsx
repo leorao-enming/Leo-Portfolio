@@ -49,13 +49,13 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-10 text-center">
-          <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#333" }}>
+          <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#8a8a90" }}>
             LEOLOGIC OS
           </p>
           <h1 className="text-4xl font-bold tracking-tight mb-2" style={{ color: "#e0e0e0" }}>
             OPERATOR <span className="terminal-text">CONSOLE</span>
           </h1>
-          <p className="text-xs leading-relaxed" style={{ color: "#555" }}>
+          <p className="text-xs leading-relaxed" style={{ color: "#9a9aa0" }}>
             The subsystem dashboards behind this screen are a read-only demo. Sign in
             with the shared token below — there are no personal accounts and no
             private data here.
@@ -73,7 +73,7 @@ export default function LoginPage() {
               key={i}
               className="py-0.5"
               style={{
-                color: log.includes("ERROR") ? "var(--color-terminal-red)" : log.includes("granted") || log.includes("Routing") ? "var(--color-terminal-green)" : "#555",
+                color: log.includes("ERROR") ? "var(--color-terminal-red)" : log.includes("granted") || log.includes("Routing") ? "var(--color-terminal-green)" : "#9a9aa0",
               }}
             >
               {log}
@@ -87,7 +87,7 @@ export default function LoginPage() {
         {/* Login form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs tracking-widest mb-2" style={{ color: "#444" }}>
+            <label className="block text-xs tracking-widest mb-2" style={{ color: "#8a8a90" }}>
               ACCESS TOKEN
             </label>
             <input
@@ -119,7 +119,7 @@ export default function LoginPage() {
               backgroundColor: loading || !token ? "transparent" : "transparent",
               border: "1px solid",
               borderColor: loading || !token ? "#222" : "var(--color-terminal-green)",
-              color: loading || !token ? "#333" : "var(--color-terminal-green)",
+              color: loading || !token ? "#8a8a90" : "var(--color-terminal-green)",
               cursor: loading || !token ? "not-allowed" : "pointer",
             }}
           >
@@ -130,9 +130,9 @@ export default function LoginPage() {
         {/* The token is published on purpose — this gate exists to scope the demo,
             not to protect anything. Pretending otherwise would be theatre. */}
         <div className="mt-8 pt-6" style={{ borderTop: "1px solid #111" }}>
-          <p className="text-xs text-center" style={{ color: "#3f3f46" }}>
+          <p className="text-xs text-center" style={{ color: "#8a8a90" }}>
             Shared demo token —{" "}
-            <span className="font-mono" style={{ color: "#71717a" }}>
+            <span className="font-mono" style={{ color: "#a1a1aa" }}>
               leologic-access-2024
             </span>
           </p>
@@ -143,7 +143,7 @@ export default function LoginPage() {
           <Link
             href="/"
             className="text-xs tracking-widest transition-colors hover:text-white"
-            style={{ color: "#2a2a2a" }}
+            style={{ color: "#8a8a90" }}
           >
             ← RETURN TO PUBLIC SITE
           </Link>

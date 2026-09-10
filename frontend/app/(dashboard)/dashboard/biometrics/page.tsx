@@ -22,17 +22,17 @@ export default async function BiometricsPage() {
     <div className="p-8 max-w-6xl">
       {/* Header */}
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#8a8a90" }}>
           SUBSYSTEM // HALFLIFE
         </p>
         <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#e0e0e0" }}>
           BIO-METRICS <span className="terminal-cyan">TRACKER</span>
         </h1>
-        <p className="text-xs mt-2 leading-relaxed max-w-xl" style={{ color: "#555" }}>
+        <p className="text-xs mt-2 leading-relaxed max-w-xl" style={{ color: "#9a9aa0" }}>
           Half-Life protocol — Models physiological fatigue as exponential decay functions.
           Tracks metabolic stressors, training load, and recovery state across time.
         </p>
-        <p className="mt-3 text-xs font-mono" style={{ color: "#3f3f46" }}>
+        <p className="mt-3 text-xs font-mono" style={{ color: "#8a8a90" }}>
           R(t) = R₀ · e^(−λt) &nbsp;·&nbsp; λ = ln(2) / t½ &nbsp;·&nbsp; bone_weight_modifier = 4.5
         </p>
       </div>
@@ -43,13 +43,13 @@ export default async function BiometricsPage() {
         <>
           {/* Metric cards */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── PHYSIOLOGICAL METRICS
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {result.data.metric_cards.map((card) => (
                 <div key={card.label} className="card-surface p-4">
-                  <p className="text-xs mb-3 tracking-wider" style={{ color: "#444" }}>
+                  <p className="text-xs mb-3 tracking-wider" style={{ color: "#8a8a90" }}>
                     {card.label}
                   </p>
                   <p
@@ -58,7 +58,7 @@ export default async function BiometricsPage() {
                   >
                     {card.value}
                   </p>
-                  <p className="text-xs" style={{ color: "#444" }}>
+                  <p className="text-xs" style={{ color: "#8a8a90" }}>
                     {card.sub}
                   </p>
                 </div>
@@ -68,7 +68,7 @@ export default async function BiometricsPage() {
 
           {/* Interactive decay simulator */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-2 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-2 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── DECAY SIMULATOR
             </h2>
             <HalfLifeSimulator />
@@ -76,7 +76,7 @@ export default async function BiometricsPage() {
 
           {/* Active supplement stack */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── ACTIVE SUPPLEMENT STACK
             </h2>
             <div className="card-surface overflow-x-auto">
@@ -87,7 +87,7 @@ export default async function BiometricsPage() {
                       <th
                         key={h}
                         className="px-4 py-3 text-left tracking-widest font-medium whitespace-nowrap"
-                        style={{ color: "#333" }}
+                        style={{ color: "#8a8a90" }}
                       >
                         {h}
                       </th>
@@ -115,12 +115,12 @@ export default async function BiometricsPage() {
                       </td>
                       <td
                         className="px-4 py-3 tracking-wider whitespace-nowrap"
-                        style={{ color: "#555" }}
+                        style={{ color: "#9a9aa0" }}
                       >
                         {row.frequency}
                       </td>
                       <td className="px-4 py-3 terminal-amber font-bold">{row.half_life}</td>
-                      <td className="px-4 py-3" style={{ color: "#555" }}>
+                      <td className="px-4 py-3" style={{ color: "#9a9aa0" }}>
                         {row.purpose}
                       </td>
                     </tr>
@@ -132,7 +132,7 @@ export default async function BiometricsPage() {
 
           {/* Half-life parameters */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── HALF-LIFE DECAY PARAMETERS
             </h2>
             <div className="card-surface overflow-x-auto">
@@ -143,7 +143,7 @@ export default async function BiometricsPage() {
                       <th
                         key={h}
                         className="px-4 py-3 text-left tracking-widest font-medium whitespace-nowrap"
-                        style={{ color: "#333" }}
+                        style={{ color: "#8a8a90" }}
                       >
                         {h}
                       </th>
@@ -167,10 +167,10 @@ export default async function BiometricsPage() {
                         {row.param}
                       </td>
                       <td className="px-4 py-3 terminal-cyan font-bold">{row.half_life}</td>
-                      <td className="px-4 py-3 tracking-wider" style={{ color: "#555" }}>
+                      <td className="px-4 py-3 tracking-wider" style={{ color: "#9a9aa0" }}>
                         {row.category}
                       </td>
-                      <td className="px-4 py-3" style={{ color: "#444" }}>
+                      <td className="px-4 py-3" style={{ color: "#8a8a90" }}>
                         {row.notes}
                       </td>
                     </tr>
@@ -178,22 +178,22 @@ export default async function BiometricsPage() {
                 </tbody>
               </table>
             </div>
-            <p className="mt-3 text-xs" style={{ color: "#3f3f46" }}>
+            <p className="mt-3 text-xs" style={{ color: "#8a8a90" }}>
               Decay formula: R(t) = R₀ · e^(−λt) where λ = ln(2) / t½
             </p>
           </div>
 
           {/* Training log */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── TRAINING LOG
             </h2>
             {result.data.training_log.length === 0 ? (
               <div className="card-surface p-8 text-center">
-                <p className="text-xs tracking-widest mb-2" style={{ color: "#3f3f46" }}>
+                <p className="text-xs tracking-widest mb-2" style={{ color: "#8a8a90" }}>
                   NO ENTRIES LOGGED
                 </p>
-                <p className="text-xs" style={{ color: "#2a2a2a" }}>
+                <p className="text-xs" style={{ color: "#8a8a90" }}>
                   Sessions appear here once they are recorded in the training log.
                 </p>
               </div>
@@ -206,7 +206,7 @@ export default async function BiometricsPage() {
                         <th
                           key={h}
                           className="px-4 py-3 text-left tracking-widest font-medium whitespace-nowrap"
-                          style={{ color: "#333" }}
+                          style={{ color: "#8a8a90" }}
                         >
                           {h}
                         </th>
@@ -229,10 +229,10 @@ export default async function BiometricsPage() {
                         <td className="px-4 py-3" style={{ color: "#ccc" }}>
                           {row.type}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap" style={{ color: "#777" }}>
+                        <td className="px-4 py-3 whitespace-nowrap" style={{ color: "#a1a1aa" }}>
                           {row.duration}
                         </td>
-                        <td className="px-4 py-3" style={{ color: "#777" }}>
+                        <td className="px-4 py-3" style={{ color: "#a1a1aa" }}>
                           {row.load}
                         </td>
                         <td className="px-4 py-3 terminal-cyan">{row.half_life}</td>
@@ -247,7 +247,7 @@ export default async function BiometricsPage() {
 
           {/* Module status */}
           <div>
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── MODULE STATUS
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -258,7 +258,7 @@ export default async function BiometricsPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span className={`status-dot ${statusDotClass(mod.status)}`} />
-                    <span className="text-xs tracking-wider" style={{ color: "#777" }}>
+                    <span className="text-xs tracking-wider" style={{ color: "#a1a1aa" }}>
                       {mod.name}
                     </span>
                   </div>

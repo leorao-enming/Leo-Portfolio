@@ -33,12 +33,7 @@ export function CapabilitiesSection() {
   return (
     <section
       id="capabilities"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -53,9 +48,9 @@ export function CapabilitiesSection() {
             padding: "4px 12px",
             borderRadius: "9999px",
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: "0.24em",
-            color: "rgba(255,255,255,0.4)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 20,

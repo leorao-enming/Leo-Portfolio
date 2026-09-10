@@ -42,12 +42,7 @@ export function EngineeringTeaser() {
   return (
     <section
       id="engineering"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -74,7 +69,7 @@ export function EngineeringTeaser() {
                   padding: "4px 12px",
                   borderRadius: "9999px",
                   border: `1px solid ${ACCENT}33`,
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: "0.24em",
                   color: ACCENT,
                   fontFamily: "var(--font-display)",
@@ -100,7 +95,7 @@ export function EngineeringTeaser() {
               <p
                 style={{
                   fontSize: "clamp(13px, 1.1vw, 15px)",
-                  color: "rgba(255,255,255,0.48)",
+                  color: "var(--text-body)",
                   lineHeight: 1.75,
                   maxWidth: "52ch",
                   marginBottom: 20,
@@ -161,9 +156,9 @@ export function EngineeringTeaser() {
             >
               <p
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: "0.22em",
-                  color: "rgba(255,255,255,0.3)",
+                  color: "var(--text-muted)",
                   fontFamily: "var(--font-display)",
                   textTransform: "uppercase",
                   marginBottom: 16,

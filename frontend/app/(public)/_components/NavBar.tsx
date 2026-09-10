@@ -84,7 +84,7 @@ export function NavBar() {
                     className={
                       "text-xs px-3 py-1.5 rounded-full transition-colors duration-300 active:scale-95 " +
                       "hover:bg-white/[0.06] focus-visible:bg-white/[0.06] " +
-                      (active ? "text-white/90" : "text-white/45 hover:text-white/90")
+                      (active ? "text-white/90" : "text-white/60 hover:text-white/90")
                     }
                     style={{
                       fontFamily: "var(--font-display)",
@@ -122,7 +122,7 @@ export function NavBar() {
                 Enter OS
                 <span
                   style={{
-                    fontSize: 8,
+                    fontSize: 10,
                     letterSpacing: "0.14em",
                     color: "rgba(0,255,65,0.5)",
                     border: "1px solid rgba(0,255,65,0.25)",
@@ -232,7 +232,7 @@ export function NavBar() {
                     }}
                   >
                     <span>Enter OS</span>
-                    <span style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(0,255,65,0.5)" }}>DEMO →</span>
+                    <span style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(104,242,154,0.8)" }}>DEMO →</span>
                   </Link>
                 </div>
               </motion.div>

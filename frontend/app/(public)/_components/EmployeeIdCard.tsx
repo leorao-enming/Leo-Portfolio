@@ -322,7 +322,9 @@ function CardFront() {
               >
                 Systems Engineer
               </div>
-              <div style={{ fontSize: 8, color: "#777", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "monospace" }}>
+              {/* Sits on the card's near-white face, so this needs dark ink —
+                  the previous #777 measured 4.07:1, just under AA. */}
+              <div style={{ fontSize: 10, color: "#5f5f5f", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "monospace" }}>
                 Process Engineering · ChemEng
               </div>
               <Chip />
@@ -374,7 +376,7 @@ function CardFront() {
                 <div style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#aaa", fontFamily: "monospace", marginBottom: 1.5, textTransform: "uppercase" }}>
                   {k}
                 </div>
-                <div style={{ fontSize: 8, color: "#222", fontWeight: 600, lineHeight: 1.3, fontFamily: "system-ui, sans-serif" }}>
+                <div style={{ fontSize: 8, color: "#8a8a90", fontWeight: 600, lineHeight: 1.3, fontFamily: "system-ui, sans-serif" }}>
                   {v}
                 </div>
               </div>
@@ -406,7 +408,9 @@ function CardFront() {
                 />
               ))}
             </div>
-            <div style={{ fontSize: 6.5, letterSpacing: "0.35em", color: "#ccc", fontFamily: "monospace", marginTop: 2 }}>
+            {/* Simulated barcode serial — decorative microprint, like the real
+                thing it imitates. Carries no information a reader needs. */}
+            <div aria-hidden style={{ fontSize: 6.5, letterSpacing: "0.35em", color: "#ccc", fontFamily: "monospace", marginTop: 2 }}>
               0 7 2 3 · 2 0 0 4 · S Y S
             </div>
           </div>
@@ -440,7 +444,8 @@ function CardFront() {
               </span>
             ))}
           </div>
-          <span style={{ fontSize: 6.5, color: "rgba(255,255,255,0.2)", fontFamily: "monospace" }}>CLICK TO FLIP</span>
+          {/* A real affordance, not chrome — it has to be readable. */}
+          <span style={{ fontSize: 9, letterSpacing: "0.08em", color: "rgba(255,255,255,0.75)", fontFamily: "monospace" }}>CLICK TO FLIP</span>
         </div>
       </div>
     </div>
@@ -557,7 +562,7 @@ function CardBack() {
           flex: 1,
         }}
       >
-        <div style={{ fontSize: 7.5, letterSpacing: "0.32em", color: "rgba(0,255,65,0.4)", fontFamily: "monospace", textTransform: "uppercase" }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.28em", color: "rgba(104,242,154,0.85)", fontFamily: "monospace", textTransform: "uppercase" }}>
           LeoLogic · Access Control
         </div>
 
@@ -587,7 +592,10 @@ function CardBack() {
           ))}
         </div>
 
+        {/* Simulated machine-readable zone. Pure decoration — it imitates the
+            microprint on a physical badge, and reads as gibberish aloud. */}
         <div
+          aria-hidden
           style={{
             width: "100%",
             background: "rgba(0,255,65,0.03)",
@@ -612,7 +620,8 @@ function CardBack() {
           borderTop: "1px solid rgba(0,255,65,0.06)",
         }}
       >
-        <div style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#333", fontFamily: "monospace" }}>
+        {/* Decorative security-strip text, as on a real badge. */}
+        <div aria-hidden style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#333", fontFamily: "monospace" }}>
           NOT TRANSFERABLE · VOID IF ALTERED · PROPERTY OF LEOLOGIC
         </div>
       </div>

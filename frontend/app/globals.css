@@ -31,9 +31,52 @@
   --color-hairline: rgba(255, 255, 255, 0.075);
   --color-hairline-bright: rgba(255, 255, 255, 0.14);
   --color-text-primary: #f1f2ee;
-  --color-text-secondary: rgba(241, 242, 238, 0.58);
-  --color-text-tertiary: rgba(241, 242, 238, 0.28);
   --color-accent-glow: rgba(104, 242, 154, 0.14);
+
+  /* ── Text scale ───────────────────────────────────────────────
+     Contrast-audited against --color-bg. Opacity was doing the job
+     of hierarchy here, which pushed body prose to 3.4–4.5:1 — under
+     the 4.5:1 WCAG AA floor for normal text. Size and weight carry
+     hierarchy now (see the type scale below), so these can be legible.
+
+       strong  ~15:1   body ~11:1   muted ~7:1   faint ~3.8:1
+     --text-faint is DECORATIVE ONLY: it fails AA at normal sizes and
+     may be used solely on >=24px text or non-informational elements. */
+  --text-strong: rgba(255, 255, 255, 0.94);
+  --text-body:   rgba(255, 255, 255, 0.74);
+  --text-muted:  rgba(255, 255, 255, 0.58);
+  --text-faint:  rgba(255, 255, 255, 0.40);
+
+  /* Kept as aliases so existing dashboard usage stays valid. Both were
+     below AA before (0.58 marginal, 0.28 badly failing). */
+  --color-text-secondary: var(--text-muted);
+  --color-text-tertiary: var(--text-faint);
+
+  /* ── Type scale ───────────────────────────────────────────────
+     Replaces ~17 ad-hoc clamp() expressions and 13 loose px values.
+     Floored at 12px: the site previously rendered 159 elements at
+     <=10px on mobile, some as small as 6px. */
+  --text-micro: 0.75rem;                        /* 12px — labels, eyebrows */
+  --text-sm:    0.8125rem;                      /* 13px — dense UI, tags   */
+  --text-base:  clamp(0.9375rem, 1.1vw, 1rem);  /* 15-16px — body prose    */
+  --text-lg:    clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-xl:    clamp(1.25rem, 2vw, 1.5rem);
+  --text-2xl:   clamp(1.5rem, 2.6vw, 2rem);     /* card titles             */
+  --text-3xl:   clamp(1.875rem, 4vw, 3rem);     /* section headings        */
+  --text-4xl:   clamp(2.125rem, 6.5vw, 5.25rem);/* hero                    */
+
+  /* ── Section rhythm ───────────────────────────────────────────
+     These three replace a padding string that was copy-pasted
+     verbatim into ten separate components. */
+  --section-py: clamp(80px, 12vw, 160px);
+  --section-px: clamp(24px, 5vw, 80px);
+  --container-max: 1280px;
+
+  /* ── Radius scale ─────────────────────────────────────────── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -215,6 +258,34 @@
 
   .dim-label { color: #71717a; }
   .text-secondary { color: #a1a1aa; }
+
+  /* ── Section rhythm ──────────────────────────────────────────
+     One class instead of the same padding/max-width object pasted
+     into ten components. Being a class rather than an inline style
+     is also what lets .page-shell below override it. */
+  .section-shell {
+    padding: var(--section-py) var(--section-px);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── Standalone page shell ───────────────────────────────────
+     /about, /engineering and /lab reuse a landing section component
+     inside a wrapper that also pads. Both paddings stacked to ~282px,
+     pushing the first heading past half a viewport. The wrapper clears
+     the fixed nav; the section drops its own top padding here. */
+  .page-shell {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: clamp(88px, 9vw, 104px) var(--section-px) 0;
+  }
+
+  .page-shell > .section-shell {
+    padding-top: clamp(24px, 3vw, 40px);
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   /* ── Double-bezel outer shell ───────────────────────────── */
   .bezel-outer {

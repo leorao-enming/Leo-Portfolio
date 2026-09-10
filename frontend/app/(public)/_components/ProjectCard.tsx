@@ -104,18 +104,18 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
                 href={link.href}
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150"
+                /* Hover lives in CSS so it also fires on keyboard focus and
+                   cannot leave a stuck state on touch. */
+                className={
+                  "text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150 " +
+                  (i === 0
+                    ? "bg-cyan-700 hover:bg-cyan-800 focus-visible:bg-cyan-800 text-white"
+                    : "hover:bg-cyan-400/10 focus-visible:bg-cyan-400/10")
+                }
                 style={{
-                  background: i === 0 ? "#0891b2" : "transparent",
-                  color: i === 0 ? "#ffffff" : "#00d4ff",
+                  color: i === 0 ? undefined : "#00d4ff",
                   border: i === 0 ? "1px solid #06b6d4" : "1px solid rgba(0,212,255,0.3)",
                   borderRadius: "1px",
-                }}
-                onMouseEnter={(e) => {
-                  if (i === 0) (e.currentTarget as HTMLAnchorElement).style.background = "#0e7490";
-                }}
-                onMouseLeave={(e) => {
-                  if (i === 0) (e.currentTarget as HTMLAnchorElement).style.background = "#0891b2";
                 }}
               >
                 {link.label}
@@ -154,7 +154,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
       >
         <div className="flex items-center gap-3">
           <span className="text-xs font-mono dim-label">[{project.id}]</span>
-          <span className="text-xs tracking-[0.25em] text-zinc-500">{project.codename}</span>
+          <span className="text-xs tracking-[0.25em] text-zinc-400">{project.codename}</span>
         </div>
         <div className="flex items-center gap-2">
           <LockIcon />
@@ -180,7 +180,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
           <span
             className="text-xs tracking-wider font-mono whitespace-nowrap px-2 py-0.5 mt-0.5 shrink-0"
             style={{
-              color: "#71717a",
+              color: "#a1a1aa",
               background: "rgba(255,255,255,0.03)",
               border: "1px solid #3f3f46",
             }}
@@ -190,7 +190,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
         </div>
 
         <p className="text-xs leading-relaxed mb-1 text-zinc-400">{project.summary}</p>
-        <p className="text-xs leading-relaxed mb-5 text-zinc-500">{registry.longDescription}</p>
+        <p className="text-xs leading-relaxed mb-5 text-zinc-400">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics (slightly muted) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
@@ -212,7 +212,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
                 rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150"
                 style={{
-                  color: i === 0 ? "#a1a1aa" : "#71717a",
+                  color: i === 0 ? "#a1a1aa" : "#a1a1aa",
                   background: "transparent",
                   border: i === 0 ? "1px solid #52525b" : "1px solid #3f3f46",
                   borderRadius: "1px",
@@ -243,7 +243,7 @@ function TechStackPanel({ tags, muted }: { tags: TechTag[]; muted?: boolean }) {
         opacity: muted ? 0.75 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-500">TECH STACK</p>
+      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-400">TECH STACK</p>
       <div className="flex flex-wrap gap-1.5">
         {tags.map((tag) => (
           <span
@@ -282,7 +282,7 @@ function MetricsPanel({ metrics, muted }: { metrics: ProjectMetric[]; muted?: bo
         opacity: muted ? 0.75 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-500">SYSTEM SPECS</p>
+      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-400">SYSTEM SPECS</p>
       <div className="space-y-0">
         {metrics.map((m, i) => (
           <div
@@ -317,7 +317,7 @@ function ArchitecturePanel({
         opacity: muted ? 0.85 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-4 text-zinc-500">SYSTEM ARCHITECTURE</p>
+      <p className="text-xs tracking-[0.2em] mb-4 text-zinc-400">SYSTEM ARCHITECTURE</p>
       <div
         className="text-xs font-mono text-center py-2 mb-3 tracking-widest text-zinc-400"
         style={{ border: "1px solid var(--color-border-dim)" }}
@@ -350,7 +350,7 @@ function ArchitecturePanel({
                   {layer.label}
                 </span>
                 {layer.sublabel && (
-                  <span className="ml-3 text-zinc-500">— {layer.sublabel}</span>
+                  <span className="ml-3 text-zinc-400">— {layer.sublabel}</span>
                 )}
               </div>
             </div>
@@ -380,7 +380,7 @@ function TagStrip({
       }}
     >
       {tags.map((tag) => (
-        <span key={tag} className="text-xs tracking-wider text-zinc-600">
+        <span key={tag} className="text-xs tracking-wider text-zinc-400">
           #{tag}
         </span>
       ))}

@@ -38,12 +38,12 @@ export function FeedOffline({
         <span className="tracking-widest terminal-red">DATA FEED OFFLINE</span>
       </div>
 
-      <div style={{ color: "#555" }}>&gt; GET {subsystem}</div>
+      <div style={{ color: "#9a9aa0" }}>&gt; GET {subsystem}</div>
       <div className="terminal-red">&gt; ERROR: {error}</div>
-      <div style={{ color: "#555" }}>
+      <div style={{ color: "#9a9aa0" }}>
         &gt; The API is unreachable. Nothing is shown rather than stale data.
       </div>
-      <div style={{ color: "#3f3f46" }} className="mt-3">
+      <div style={{ color: "#8a8a90" }} className="mt-3">
         Free-tier backends sleep when idle, so the first request after a quiet
         spell can time out even though the service is healthy.
       </div>

@@ -31,12 +31,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       {/* Divider */}
       <div
@@ -72,9 +67,9 @@ export function ContactSection() {
                 padding: "4px 12px",
                 borderRadius: "9999px",
                 border: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: "0.24em",
-                color: "rgba(255,255,255,0.4)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-display)",
                 textTransform: "uppercase",
                 marginBottom: 24,
@@ -105,7 +100,7 @@ export function ContactSection() {
             <p
               style={{
                 fontSize: "clamp(14px, 1.3vw, 17px)",
-                color: "rgba(255,255,255,0.42)",
+                color: "var(--text-muted)",
                 lineHeight: 1.75,
                 maxWidth: 400,
               }}
@@ -209,9 +204,9 @@ export function ContactSection() {
               <div>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     letterSpacing: "0.2em",
-                    color: "rgba(255,255,255,0.25)",
+                    color: "var(--text-muted)",
                     fontFamily: "var(--font-display)",
                     textTransform: "uppercase",
                     marginBottom: 4,
@@ -239,7 +234,7 @@ export function ContactSection() {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 12,
-                  color: "rgba(255,255,255,0.4)",
+                  color: "var(--text-muted)",
                   flexShrink: 0,
                 }}
               >
@@ -271,7 +266,7 @@ export function ContactSection() {
           style={{
             fontSize: 11,
             letterSpacing: "0.22em",
-            color: "rgba(255,255,255,0.18)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
           }}
@@ -282,7 +277,7 @@ export function ContactSection() {
           style={{
             fontSize: 11,
             letterSpacing: "0.22em",
-            color: "rgba(255,255,255,0.18)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
           }}

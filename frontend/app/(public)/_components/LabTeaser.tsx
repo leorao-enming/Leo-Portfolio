@@ -15,7 +15,7 @@ function StatusPill({ status }: { status: LabEntry["status"] }) {
         display: "inline-flex",
         alignItems: "center",
         gap: 6,
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: "0.2em",
         color,
         fontFamily: "var(--font-mono)",
@@ -35,12 +35,7 @@ export function LabTeaser() {
   return (
     <section
       id="lab"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
@@ -66,9 +61,9 @@ export function LabTeaser() {
                     padding: "4px 12px",
                     borderRadius: "9999px",
                     border: "1px solid rgba(255,255,255,0.1)",
-                    fontSize: 10,
+                    fontSize: 12,
                     letterSpacing: "0.24em",
-                    color: "rgba(255,255,255,0.4)",
+                    color: "var(--text-muted)",
                     fontFamily: "var(--font-display)",
                     textTransform: "uppercase",
                     marginBottom: 16,
@@ -129,7 +124,7 @@ export function LabTeaser() {
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "baseline", gap: 12, minWidth: 0 }}>
-                    <span style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.26)", fontFamily: "var(--font-mono)" }}>
+                    <span style={{ fontSize: 12, letterSpacing: "0.2em", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
                       [{entry.id}]
                     </span>
                     <span style={{ fontSize: "clamp(14px, 1.3vw, 16px)", color: "rgba(255,255,255,0.75)", fontWeight: 500 }}>

@@ -11,13 +11,13 @@ export default function DashboardLoading() {
   return (
     <div className="p-8 max-w-6xl">
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#8a8a90" }}>
           COMMAND CENTER
         </p>
         <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#e0e0e0" }}>
           <span className="terminal-amber">CONNECTING…</span>
         </h1>
-        <p className="text-xs mt-2 tracking-widest" style={{ color: "#444" }}>
+        <p className="text-xs mt-2 tracking-widest" style={{ color: "#8a8a90" }}>
           REQUESTING SUBSYSTEM DATA
         </p>
       </div>
@@ -28,15 +28,15 @@ export default function DashboardLoading() {
           style={{ borderBottom: "1px solid var(--color-border)" }}
         >
           <span className="status-dot status-dot-idle" />
-          <span className="tracking-wider" style={{ color: "#555" }}>
+          <span className="tracking-wider" style={{ color: "#9a9aa0" }}>
             AWAITING RESPONSE
           </span>
         </div>
-        <div style={{ color: "#3f3f46" }}>
+        <div style={{ color: "#8a8a90" }}>
           &gt; Free-tier backends sleep when idle. A cold start can take a while.
         </div>
         <div className="mt-3">
-          <span style={{ color: "#3f3f46" }}>root@leologic:~# </span>
+          <span style={{ color: "#8a8a90" }}>root@leologic:~# </span>
           <span className="cursor-blink" />
         </div>
       </div>

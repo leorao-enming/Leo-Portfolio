@@ -29,7 +29,7 @@ export default async function DashboardLayout({
           <Link href="/" className="terminal-text font-bold text-sm tracking-widest hover:opacity-80 transition-opacity">
             LEOLOGIC
           </Link>
-          <span className="text-xs text-zinc-700">/</span>
+          <span className="text-xs text-zinc-400">/</span>
           <span className="text-xs tracking-widest terminal-amber">COMMAND CENTER</span>
         </div>
 

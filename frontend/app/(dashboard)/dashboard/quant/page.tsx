@@ -37,7 +37,7 @@ function Badge({ label, className }: { label: string; className: string }) {
   return (
     <span
       className={`text-xs tracking-wider ${className}`}
-      style={!className ? { color: "#555" } : undefined}
+      style={!className ? { color: "#9a9aa0" } : undefined}
     >
       {label}
     </span>
@@ -59,13 +59,13 @@ export default async function QuantPage() {
     <div className="p-8 max-w-6xl">
       {/* Header */}
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#8a8a90" }}>
           SUBSYSTEM // LQC-CORE
         </p>
         <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#e0e0e0" }}>
           QUANT <span className="terminal-text">TRADING ENGINE</span>
         </h1>
-        <p className="text-xs mt-2 leading-relaxed max-w-xl" style={{ color: "#555" }}>
+        <p className="text-xs mt-2 leading-relaxed max-w-xl" style={{ color: "#9a9aa0" }}>
           LeoLogic Quantitative Core — a private Discord bot as the remote operator
           console for Interactive Brokers. Market data, signals, and backtests all run
           from a chat command. Runs paper only: live order execution is gated off until
@@ -79,13 +79,13 @@ export default async function QuantPage() {
         <>
           {/* Status cards */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── SYSTEM METRICS
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {result.data.status_cards.map((card) => (
                 <div key={card.label} className="card-surface p-4">
-                  <p className="text-xs mb-3 tracking-wider" style={{ color: "#444" }}>
+                  <p className="text-xs mb-3 tracking-wider" style={{ color: "#8a8a90" }}>
                     {card.label}
                   </p>
                   <p
@@ -94,7 +94,7 @@ export default async function QuantPage() {
                   >
                     {card.value}
                   </p>
-                  <p className="text-xs" style={{ color: "#444" }}>
+                  <p className="text-xs" style={{ color: "#8a8a90" }}>
                     {card.sub}
                   </p>
                 </div>
@@ -104,7 +104,7 @@ export default async function QuantPage() {
 
           {/* Live-execution interlock */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── LIVE EXECUTION INTERLOCK
             </h2>
             <div
@@ -116,7 +116,7 @@ export default async function QuantPage() {
                 <code className="text-xs font-mono terminal-amber">
                   {result.data.safety_gate.flag}={result.data.safety_gate.flag_value}
                 </code>
-                <span className="text-xs tracking-widest" style={{ color: "#555" }}>
+                <span className="text-xs tracking-widest" style={{ color: "#9a9aa0" }}>
                   MODE: {result.data.safety_gate.mode}
                 </span>
               </div>
@@ -125,7 +125,7 @@ export default async function QuantPage() {
                 {result.data.safety_gate.summary}
               </p>
 
-              <p className="text-xs tracking-[0.2em] mb-3" style={{ color: "#444" }}>
+              <p className="text-xs tracking-[0.2em] mb-3" style={{ color: "#8a8a90" }}>
                 UNLOCK CONDITIONS
               </p>
               <ul className="space-y-2 mb-4">
@@ -133,18 +133,18 @@ export default async function QuantPage() {
                   <li
                     key={c.label}
                     className="flex items-start gap-3 text-xs"
-                    style={{ color: "#777" }}
+                    style={{ color: "#a1a1aa" }}
                   >
                     <span
                       className="font-mono shrink-0 mt-px"
-                      style={{ color: c.met ? TONE_COLOR.green : "#3f3f46" }}
+                      style={{ color: c.met ? TONE_COLOR.green : "#8a8a90" }}
                       aria-hidden
                     >
                       [{c.met ? "x" : " "}]
                     </span>
                     <span className="flex-1 min-w-0">
                       <span style={{ color: "#ccc" }}>{c.label}</span>
-                      <span style={{ color: "#555" }}> — {c.target}</span>
+                      <span style={{ color: "#9a9aa0" }}> — {c.target}</span>
                     </span>
                   </li>
                 ))}
@@ -152,7 +152,7 @@ export default async function QuantPage() {
 
               <p
                 className="text-xs pt-3"
-                style={{ color: "#444", borderTop: "1px solid var(--color-border)" }}
+                style={{ color: "#8a8a90", borderTop: "1px solid var(--color-border)" }}
               >
                 Next review: {result.data.safety_gate.review_date}
               </p>
@@ -161,7 +161,7 @@ export default async function QuantPage() {
 
           {/* Python engine architecture */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── REMOTE OPERATOR ARCHITECTURE
             </h2>
             <div className="space-y-2">
@@ -171,7 +171,7 @@ export default async function QuantPage() {
                     <div className="flex items-start gap-4 flex-1 min-w-0">
                       <span
                         className="text-xs font-mono tracking-widest shrink-0 mt-0.5"
-                        style={{ color: "#3f3f46" }}
+                        style={{ color: "#8a8a90" }}
                       >
                         [{layer.layer}]
                       </span>
@@ -188,14 +188,14 @@ export default async function QuantPage() {
                         <p className="text-xs font-mono mb-2 terminal-text tracking-wider">
                           {layer.tech}
                         </p>
-                        <p className="text-xs leading-relaxed" style={{ color: "#555" }}>
+                        <p className="text-xs leading-relaxed" style={{ color: "#9a9aa0" }}>
                           {layer.description}
                         </p>
                       </div>
                     </div>
                     <div className="shrink-0 text-right">
                       <ModuleBadge status={layer.status} />
-                      <p className="text-xs font-mono mt-1" style={{ color: "#3f3f46" }}>
+                      <p className="text-xs font-mono mt-1" style={{ color: "#8a8a90" }}>
                         {layer.implementation}
                       </p>
                     </div>
@@ -207,7 +207,7 @@ export default async function QuantPage() {
 
           {/* Operator command flow */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── OPERATOR COMMAND FLOW
             </h2>
             <div className="card-surface overflow-hidden">
@@ -232,7 +232,7 @@ export default async function QuantPage() {
                   >
                     <span
                       className="text-xs font-mono tracking-widest shrink-0 mt-0.5"
-                      style={{ color: "#3f3f46" }}
+                      style={{ color: "#8a8a90" }}
                     >
                       {item.step}
                     </span>
@@ -242,12 +242,12 @@ export default async function QuantPage() {
                       </p>
                       <span
                         className={`text-[10px] tracking-widest font-mono ${FLOW_TYPE_CLASS[item.type]}`}
-                        style={!FLOW_TYPE_CLASS[item.type] ? { color: "#555" } : undefined}
+                        style={!FLOW_TYPE_CLASS[item.type] ? { color: "#9a9aa0" } : undefined}
                       >
                         {item.type}
                       </span>
                     </div>
-                    <p className="text-xs leading-relaxed font-mono" style={{ color: "#555" }}>
+                    <p className="text-xs leading-relaxed font-mono" style={{ color: "#9a9aa0" }}>
                       {item.detail}
                     </p>
                   </div>
@@ -255,18 +255,18 @@ export default async function QuantPage() {
               </div>
             </div>
             <div className="mt-3 px-5 py-3 card-surface font-mono text-xs">
-              <span style={{ color: "#444" }}>lqc@leologic:~# </span>
+              <span style={{ color: "#8a8a90" }}>lqc@leologic:~# </span>
               <span className="terminal-text">
                 ib_insync.connect(&apos;127.0.0.1&apos;, 7497, clientId=1)
               </span>
-              <span style={{ color: "#444" }}> → </span>
+              <span style={{ color: "#8a8a90" }}> → </span>
               <span className="terminal-amber">awaiting TWS heartbeat...</span>
             </div>
           </div>
 
           {/* Strategy registry */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── STRATEGY REGISTRY
             </h2>
             <div className="card-surface overflow-x-auto">
@@ -278,7 +278,7 @@ export default async function QuantPage() {
                         <th
                           key={h}
                           className="px-4 py-3 text-left tracking-widest font-medium whitespace-nowrap"
-                          style={{ color: "#333" }}
+                          style={{ color: "#8a8a90" }}
                         >
                           {h}
                         </th>
@@ -299,7 +299,7 @@ export default async function QuantPage() {
                       <td className="px-4 py-3 font-semibold terminal-text whitespace-nowrap">
                         {row.name}
                       </td>
-                      <td className="px-4 py-3" style={{ color: "#555" }}>
+                      <td className="px-4 py-3" style={{ color: "#9a9aa0" }}>
                         {row.version}
                       </td>
                       <td
@@ -308,10 +308,10 @@ export default async function QuantPage() {
                       >
                         {row.universe}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap" style={{ color: "#555" }}>
+                      <td className="px-4 py-3 whitespace-nowrap" style={{ color: "#9a9aa0" }}>
                         {row.lookback}
                       </td>
-                      <td className="px-4 py-3" style={{ color: "#555" }}>
+                      <td className="px-4 py-3" style={{ color: "#9a9aa0" }}>
                         {row.params}
                       </td>
                       <td className="px-4 py-3">
@@ -326,7 +326,7 @@ export default async function QuantPage() {
 
           {/* Module health */}
           <div>
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── MODULE HEALTH
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -337,13 +337,13 @@ export default async function QuantPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span className={`status-dot ${statusDotClass(mod.status)}`} />
-                    <span className="text-xs tracking-wider" style={{ color: "#777" }}>
+                    <span className="text-xs tracking-wider" style={{ color: "#a1a1aa" }}>
                       {mod.name}
                     </span>
                   </div>
                   <div className="flex items-center gap-6">
                     <ModuleBadge status={mod.status} />
-                    <span className="text-xs font-mono" style={{ color: "#3f3f46" }}>
+                    <span className="text-xs font-mono" style={{ color: "#8a8a90" }}>
                       {mod.detail}
                     </span>
                   </div>

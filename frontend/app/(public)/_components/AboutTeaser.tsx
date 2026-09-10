@@ -11,12 +11,7 @@ export function AboutTeaser() {
   return (
     <section
       id="about"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 24 }}
@@ -31,9 +26,9 @@ export function AboutTeaser() {
             padding: "4px 12px",
             borderRadius: 9999,
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 9,
+            fontSize: 11,
             letterSpacing: "0.26em",
-            color: "rgba(255,255,255,0.35)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 24,
@@ -59,7 +54,7 @@ export function AboutTeaser() {
           </span>
         </h2>
 
-        <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.45)", lineHeight: 1.78, marginBottom: 28 }}>
+        <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "var(--text-body)", lineHeight: 1.78, marginBottom: 28 }}>
           I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
         </p>
 

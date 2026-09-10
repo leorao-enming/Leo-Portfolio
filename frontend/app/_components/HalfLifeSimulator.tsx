@@ -54,10 +54,10 @@ function DecayTooltip({
         color: "#a1a1aa",
       }}
     >
-      <p style={{ color: "#555", marginBottom: "4px" }}>T+{label}h</p>
+      <p style={{ color: "#9a9aa0", marginBottom: "4px" }}>T+{label}h</p>
       <p>
         <span style={{ color: "#00d4ff" }}>{payload[0].value.toFixed(2)}</span>
-        <span style={{ color: "#3f3f46" }}> mg remaining</span>
+        <span style={{ color: "#8a8a90" }}> mg remaining</span>
       </p>
     </div>
   );
@@ -114,7 +114,7 @@ export function HalfLifeSimulator() {
       }}
     >
       {/* ── Section label ─────────────────────────────────────────────────── */}
-      <p className="text-xs tracking-[0.25em] mb-4 text-zinc-500">
+      <p className="text-xs tracking-[0.25em] mb-4 text-zinc-400">
         DECAY SIMULATOR — INTERACTIVE
       </p>
 
@@ -122,7 +122,7 @@ export function HalfLifeSimulator() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
         {/* Substance selector */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-600 mb-1.5">
+          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
             SUBSTANCE
           </label>
           <select
@@ -146,7 +146,7 @@ export function HalfLifeSimulator() {
 
         {/* Initial dosage */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-600 mb-1.5">
+          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
             INITIAL DOSAGE (mg)
           </label>
           <input
@@ -166,7 +166,7 @@ export function HalfLifeSimulator() {
 
         {/* Bone weight baseline — readonly system variable */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-600 mb-1.5">
+          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
             BONE WEIGHT BASELINE
           </label>
           <input
@@ -179,7 +179,7 @@ export function HalfLifeSimulator() {
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
               borderRadius: "1px",
-              color: "#3f3f46",
+              color: "#8a8a90",
             }}
           />
         </div>
@@ -239,11 +239,11 @@ export function HalfLifeSimulator() {
               {result.substance.toUpperCase()} — {result.dosage_mg}mg
             </span>
             <div className="flex items-center gap-4">
-              <span className="text-xs font-mono text-zinc-600">
+              <span className="text-xs font-mono text-zinc-400">
                 t½ base:{" "}
                 <span className="text-cyan-400">{result.half_life_hours}h</span>
               </span>
-              <span className="text-xs font-mono text-zinc-600">
+              <span className="text-xs font-mono text-zinc-400">
                 t½ eff:{" "}
                 <span className="text-cyan-400">
                   {result.effective_half_life_hours}h
@@ -265,13 +265,13 @@ export function HalfLifeSimulator() {
               />
               <XAxis
                 dataKey="time_hours"
-                tick={{ fill: "#3f3f46", fontSize: 10, fontFamily: "monospace" }}
+                tick={{ fill: "#8a8a90", fontSize: 10, fontFamily: "monospace" }}
                 tickFormatter={(v: number) => `${v}h`}
                 axisLine={{ stroke: "rgba(255,255,255,0.05)" }}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fill: "#3f3f46", fontSize: 10, fontFamily: "monospace" }}
+                tick={{ fill: "#8a8a90", fontSize: 10, fontFamily: "monospace" }}
                 axisLine={{ stroke: "rgba(255,255,255,0.05)" }}
                 tickLine={false}
                 tickFormatter={(v: number) =>
@@ -308,7 +308,7 @@ export function HalfLifeSimulator() {
                     <th
                       key={pt.time_hours}
                       className="px-2 py-1.5 text-center font-normal"
-                      style={{ color: "#3f3f46", whiteSpace: "nowrap" }}
+                      style={{ color: "#8a8a90", whiteSpace: "nowrap" }}
                     >
                       T+{pt.time_hours}h
                     </th>

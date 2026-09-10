@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function EngineeringPage() {
   return (
-    <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "clamp(96px, 11vw, 128px) clamp(24px, 5vw, 80px) 0" }}>
+    <div className="page-shell">
       <Link
         href="/"
         className="text-xs tracking-widest font-mono inline-flex items-center gap-2"
-        style={{ color: "rgba(255,255,255,0.32)" }}
+        style={{ color: "var(--text-muted)" }}
       >
         ← LEOLOGIC.ORG
       </Link>

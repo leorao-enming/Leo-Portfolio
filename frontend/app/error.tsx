@@ -20,7 +20,7 @@ export default function Error({
       style={{ background: "var(--color-bg)" }}
     >
       <div className="w-full max-w-md text-center">
-        <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#333" }}>
+        <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#8a8a90" }}>
           LEOLOGIC OS
         </p>
         <h1
@@ -29,19 +29,19 @@ export default function Error({
         >
           SUBSYSTEM <span className="terminal-red">FAULT</span>
         </h1>
-        <p className="text-xs tracking-widest mb-8" style={{ color: "#555" }}>
+        <p className="text-xs tracking-widest mb-8" style={{ color: "#9a9aa0" }}>
           AN UNHANDLED EXCEPTION INTERRUPTED THIS ROUTE
         </p>
 
         <div className="card-surface p-4 mb-8 font-mono text-xs text-left">
-          <div style={{ color: "#555" }}>&gt; Executing route handler...</div>
+          <div style={{ color: "#9a9aa0" }}>&gt; Executing route handler...</div>
           <div className="terminal-red break-words">
             &gt; ERROR: {error.message || "Unknown exception."}
           </div>
           {error.digest && (
-            <div style={{ color: "#3f3f46" }}>&gt; digest: {error.digest}</div>
+            <div style={{ color: "#8a8a90" }}>&gt; digest: {error.digest}</div>
           )}
-          <div style={{ color: "#555" }}>
+          <div style={{ color: "#9a9aa0" }}>
             &gt; Awaiting operator input <span className="cursor-blink" />
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function Error({
           <Link
             href="/"
             className="text-xs tracking-[0.2em] px-5 py-3 transition-colors"
-            style={{ border: "1px solid var(--color-border-dim)", color: "#71717a" }}
+            style={{ border: "1px solid var(--color-border-dim)", color: "#a1a1aa" }}
           >
             RETURN HOME
           </Link>

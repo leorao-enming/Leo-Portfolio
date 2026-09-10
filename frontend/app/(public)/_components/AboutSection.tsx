@@ -38,9 +38,9 @@ function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inV
         </div>
         <div
           style={{
-            fontSize: 9,
+            fontSize: 11,
             letterSpacing: "0.22em",
-            color: "rgba(255,255,255,0.3)",
+            color: "var(--text-muted)",
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
           }}
@@ -60,12 +60,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      style={{
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px)",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        width: "100%",
-      }}
+      className="section-shell"
     >
       <div
         style={{ display: "grid", gridTemplateColumns: "1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "start" }}
@@ -85,9 +80,9 @@ export function AboutSection() {
                 padding: "4px 12px",
                 borderRadius: 9999,
                 border: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 9,
+                fontSize: 11,
                 letterSpacing: "0.26em",
-                color: "rgba(255,255,255,0.35)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-display)",
                 textTransform: "uppercase",
                 marginBottom: 24,
@@ -113,16 +108,16 @@ export function AboutSection() {
               </span>
             </h1>
 
-            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.45)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
+            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "var(--text-body)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
               I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
             </p>
-            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(255,255,255,0.3)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
+            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "var(--text-muted)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
               From plant-floor process control to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-terminal-green)", boxShadow: "0 0 8px rgba(0,255,65,0.6)", animation: "pulse-green 2s ease-in-out infinite" }} />
-              <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-display)", textTransform: "uppercase" }}>
+              <span style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--text-muted)", fontFamily: "var(--font-display)", textTransform: "uppercase" }}>
                 University of Toronto · 3T7
               </span>
             </div>
@@ -147,7 +142,7 @@ export function AboutSection() {
             className="bezel-outer"
           >
             <div className="bezel-inner" style={{ padding: "20px 22px" }}>
-              <div style={{ fontSize: 8.5, letterSpacing: "0.28em", color: "rgba(0,255,65,0.45)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "rgba(104,242,154,0.85)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
                 Currently Building
               </div>
               <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>

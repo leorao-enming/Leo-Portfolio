@@ -27,13 +27,13 @@ export default async function DashboardPage() {
     <div className="p-8 max-w-6xl">
       {/* Header */}
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#444" }}>
+        <p className="text-xs tracking-[0.3em] mb-2" style={{ color: "#8a8a90" }}>
           COMMAND CENTER // OVERVIEW
         </p>
         <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#e0e0e0" }}>
           SYSTEM <span className="terminal-amber">DASHBOARD</span>
         </h1>
-        <p className="text-xs mt-2 tracking-widest" style={{ color: "#444" }}>
+        <p className="text-xs mt-2 tracking-widest" style={{ color: "#8a8a90" }}>
           {overview.ok
             ? `${overview.data.subsystems.length} SUBSYSTEMS REGISTERED`
             : "SUBSYSTEM REGISTRY UNAVAILABLE"}
@@ -46,7 +46,7 @@ export default async function DashboardPage() {
         <>
           {/* Subsystem cards */}
           <div className="mb-10">
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── ACTIVE SUBSYSTEMS
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
                 >
                   <div className="flex items-start justify-between mb-4 gap-4">
                     <div>
-                      <p className="text-xs tracking-widest mb-1" style={{ color: "#444" }}>
+                      <p className="text-xs tracking-widest mb-1" style={{ color: "#8a8a90" }}>
                         [{sys.id}]
                       </p>
                       <h2 className="text-sm font-semibold tracking-wider" style={{ color: "#ccc" }}>
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
                     </span>
                   </div>
 
-                  <p className="text-xs leading-relaxed mb-5" style={{ color: "#555" }}>
+                  <p className="text-xs leading-relaxed mb-5" style={{ color: "#9a9aa0" }}>
                     {sys.description}
                   </p>
 
@@ -84,10 +84,10 @@ export default async function DashboardPage() {
                   >
                     {sys.metrics.map((m) => (
                       <div key={m.key}>
-                        <p className="text-xs mb-1" style={{ color: "#3f3f46" }}>
+                        <p className="text-xs mb-1" style={{ color: "#8a8a90" }}>
                           {m.key}
                         </p>
-                        <p className="text-xs font-medium tracking-wider" style={{ color: "#777" }}>
+                        <p className="text-xs font-medium tracking-wider" style={{ color: "#a1a1aa" }}>
                           {m.value}
                         </p>
                       </div>
@@ -104,7 +104,7 @@ export default async function DashboardPage() {
 
           {/* Activity feed */}
           <div>
-            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#444" }}>
+            <h2 className="text-xs tracking-[0.3em] mb-5 font-sans font-normal" style={{ color: "#8a8a90" }}>
               ── RECENT ACTIVITY
             </h2>
             <div className="card-surface p-4 font-mono text-xs">
@@ -113,13 +113,13 @@ export default async function DashboardPage() {
                 style={{ borderBottom: "1px solid var(--color-border)" }}
               >
                 <span className="status-dot status-dot-online" />
-                <span className="tracking-wider" style={{ color: "#555" }}>
+                <span className="tracking-wider" style={{ color: "#9a9aa0" }}>
                   ACTIVITY LOG — {overview.data.activity.length} ENTRIES
                 </span>
               </div>
 
               {overview.data.activity.length === 0 ? (
-                <p style={{ color: "#3f3f46" }}>No activity recorded yet.</p>
+                <p style={{ color: "#8a8a90" }}>No activity recorded yet.</p>
               ) : (
                 overview.data.activity.map((evt) => (
                   <div
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
                     style={{ borderBottom: "1px solid #0d0d0d" }}
                   >
                     <div className="flex items-start gap-4">
-                      <span className="shrink-0" style={{ color: "#3f3f46" }}>
+                      <span className="shrink-0" style={{ color: "#8a8a90" }}>
                         {evt.date}
                       </span>
                       <span
@@ -142,7 +142,7 @@ export default async function DashboardPage() {
                     {evt.detail && (
                       <p
                         className="mt-1 leading-relaxed"
-                        style={{ color: "#555", paddingLeft: "12.5rem" }}
+                        style={{ color: "#9a9aa0", paddingLeft: "12.5rem" }}
                       >
                         {evt.detail}
                       </p>
@@ -152,7 +152,7 @@ export default async function DashboardPage() {
               )}
 
               <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--color-border)" }}>
-                <span style={{ color: "#3f3f46" }}>root@leologic:~# </span>
+                <span style={{ color: "#8a8a90" }}>root@leologic:~# </span>
                 <span className="cursor-blink" />
               </div>
             </div>

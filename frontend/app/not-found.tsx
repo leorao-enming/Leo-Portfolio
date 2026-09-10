@@ -12,7 +12,7 @@ export default function NotFound() {
       style={{ background: "var(--color-bg)" }}
     >
       <div className="w-full max-w-md text-center">
-        <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#333" }}>
+        <p className="text-xs tracking-[0.4em] mb-4" style={{ color: "#8a8a90" }}>
           LEOLOGIC OS
         </p>
         <h1
@@ -21,14 +21,14 @@ export default function NotFound() {
         >
           4<span className="terminal-text">0</span>4
         </h1>
-        <p className="text-xs tracking-widest mb-8" style={{ color: "#555" }}>
+        <p className="text-xs tracking-widest mb-8" style={{ color: "#9a9aa0" }}>
           ROUTE NOT FOUND — NO SUBSYSTEM AT THIS ADDRESS
         </p>
 
         <div className="card-surface p-4 mb-8 font-mono text-xs text-left">
-          <div style={{ color: "#555" }}>&gt; Resolving route...</div>
+          <div style={{ color: "#9a9aa0" }}>&gt; Resolving route...</div>
           <div className="terminal-red">&gt; ERROR: 404 — no handler registered.</div>
-          <div style={{ color: "#555" }}>
+          <div style={{ color: "#9a9aa0" }}>
             &gt; Returning to known-good state <span className="cursor-blink" />
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function NotFound() {
           <Link
             href="/projects"
             className="text-xs tracking-[0.2em] px-5 py-3 transition-colors"
-            style={{ border: "1px solid var(--color-border-dim)", color: "#71717a" }}
+            style={{ border: "1px solid var(--color-border-dim)", color: "#a1a1aa" }}
           >
             PROJECT REGISTRY
           </Link>

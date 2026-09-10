@@ -27,7 +27,7 @@ export default function ProjectsPage() {
     >
       {/* ── Page header ─────────────────────────────────────────── */}
       <header className="mb-14">
-        <p className="text-xs tracking-[0.35em] mb-5" style={{ color: "#2e2e2e" }}>
+        <p className="text-xs tracking-[0.35em] mb-5" style={{ color: "#8a8a90" }}>
           PROJECT REGISTRY — {REGISTRY_PROJECTS.length} ENTRIES
         </p>
         <h1
@@ -45,7 +45,7 @@ export default function ProjectsPage() {
               "linear-gradient(to right, var(--color-terminal-green), rgba(0,212,255,0.3), transparent)",
           }}
         />
-        <p className="text-xs leading-relaxed max-w-2xl" style={{ color: "#555" }}>
+        <p className="text-xs leading-relaxed max-w-2xl" style={{ color: "#9a9aa0" }}>
           Each system below is an active build or architectural design. Live System entries are
           connected to real APIs and can be interacted with directly. Architecture Only entries
           are proprietary or conceptual — source is restricted, but the full execution stack
@@ -65,7 +65,7 @@ export default function ProjectsPage() {
             >
               LIVE SYSTEM
             </span>
-            <span className="text-xs text-zinc-600">{LIVE_COUNT} active</span>
+            <span className="text-xs text-zinc-400">{LIVE_COUNT} active</span>
           </div>
           <div className="flex items-center gap-2">
             <span
@@ -78,7 +78,7 @@ export default function ProjectsPage() {
             >
               PRIVATE CORE
             </span>
-            <span className="text-xs text-zinc-600">{ARCH_COUNT} restricted</span>
+            <span className="text-xs text-zinc-400">{ARCH_COUNT} restricted</span>
           </div>
         </div>
       </header>
@@ -93,12 +93,12 @@ export default function ProjectsPage() {
       {/* ── Footer note ─────────────────────────────────────────── */}
       <div className="mt-20 pt-8" style={{ borderTop: "1px solid #111" }}>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-xs" style={{ color: "#333" }}>
-            <span style={{ color: "#444" }}>leologic@sys</span>
-            <span style={{ color: "#222" }}> ~/projects </span>
+          <p className="text-xs" style={{ color: "#8a8a90" }}>
+            <span style={{ color: "#8a8a90" }}>leologic@sys</span>
+            <span style={{ color: "#8a8a90" }}> ~/projects </span>
             <span className="cursor-blink" />
           </p>
-          <p className="text-xs tracking-wider" style={{ color: "#2a2a2a" }}>
+          <p className="text-xs tracking-wider" style={{ color: "#8a8a90" }}>
             {REGISTRY_PROJECTS.length} REGISTERED · {LIVE_COUNT} LIVE · {ARCH_COUNT} PRIVATE
           </p>
         </div>
