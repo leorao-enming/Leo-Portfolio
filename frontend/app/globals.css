@@ -277,6 +277,54 @@
   .dim-label { color: #71717a; }
   .text-secondary { color: #a1a1aa; }
 
+  /* ── Interactive states ──────────────────────────────────────
+     These were JS onMouseEnter/onMouseLeave handlers writing to
+     element.style. That is a correctness problem, not a style
+     preference: they never fired on keyboard focus, could leave a
+     stuck state after a touch tap, and sidestepped the reduced-motion
+     killswitch entirely. As CSS they do all three correctly. */
+  .cta-primary {
+    box-shadow: 0 0 32px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    transition: box-shadow 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .cta-primary:hover,
+  .cta-primary:focus-visible {
+    box-shadow: 0 0 48px color-mix(in srgb, var(--color-accent) 35%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .contact-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .contact-row:hover,
+  .contact-row:focus-visible {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.14);
+    transform: translateX(4px);
+  }
+
+  .accent-chip {
+    background: var(--accent-a08);
+    border: 1px solid var(--accent-a25);
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .accent-chip:hover,
+  .accent-chip:focus-visible {
+    background: var(--accent-a16);
+    border-color: var(--accent-a40);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-primary:hover,
+    .cta-primary:focus-visible,
+    .contact-row:hover,
+    .contact-row:focus-visible {
+      transform: none;
+    }
+  }
+
   /* ── Section rhythm ──────────────────────────────────────────
      One class instead of the same padding/max-width object pasted
      into ten components. Being a class rather than an inline style

@@ -101,22 +101,12 @@ export function NavBar() {
               {/* Enter OS CTA — this is a public read-only demo, not a live operational tool */}
               <Link
                 href="/dashboard"
-                className="hidden sm:flex items-center gap-2 text-xs font-medium rounded-full transition-all duration-300 active:scale-95 group"
+                className="accent-chip hidden sm:flex items-center gap-2 text-xs font-medium rounded-full active:scale-95 group"
                 style={{
                   padding: "8px 16px",
-                  background: "rgba(255,122,24,0.1)",
-                  border: "1px solid rgba(255,122,24,0.2)",
                   color: "var(--color-accent)",
                   fontFamily: "var(--font-display)",
                   letterSpacing: "0.02em",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,122,24,0.16)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,122,24,0.35)";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,122,24,0.1)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,122,24,0.2)";
                 }}
               >
                 Enter OS

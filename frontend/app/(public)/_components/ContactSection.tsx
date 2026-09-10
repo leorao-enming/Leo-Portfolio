@@ -119,30 +119,22 @@ export function ContactSection() {
           >
             <a
               href="mailto:leorao2004@gmail.com"
+              className="cta-primary"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 10,
                 padding: "14px 28px",
+                minHeight: 44,
                 borderRadius: "9999px",
                 background: "var(--color-accent)",
-                color: "#050507",
+                color: "var(--color-bg)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
                 fontSize: 14,
                 letterSpacing: "0.02em",
                 textDecoration: "none",
-                boxShadow: "0 0 32px rgba(255,122,24,0.2)",
-                transition: "box-shadow 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)",
                 cursor: "pointer",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 48px rgba(255,122,24,0.35)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(255,122,24,0.2)";
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
               }}
             >
               Send a message
@@ -176,29 +168,15 @@ export function ContactSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : i * 0.1, ease }}
+              className="contact-row"
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 padding: "18px 22px",
                 borderRadius: 16,
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
                 textDecoration: "none",
-                transition: "background 0.2s, border-color 0.2s, transform 0.2s",
                 cursor: "pointer",
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = "rgba(255,255,255,0.04)";
-                el.style.borderColor = "rgba(255,255,255,0.12)";
-                el.style.transform = "translateX(4px)";
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = "rgba(255,255,255,0.02)";
-                el.style.borderColor = "rgba(255,255,255,0.06)";
-                el.style.transform = "translateX(0)";
               }}
             >
               <div>

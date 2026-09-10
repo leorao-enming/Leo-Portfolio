@@ -14,8 +14,13 @@ function MagneticBtn({
   variant?: "primary" | "ghost";
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const reduced = useReducedMotion();
 
+  /* Genuinely pointer-position-driven, so it stays in JS — but the global
+     CSS killswitch cannot reach a transform written per event, so honour
+     reduced motion explicitly here. */
   const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (reduced) return;
     const el = ref.current; if (!el) return;
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left - r.width  / 2) * 0.28;
