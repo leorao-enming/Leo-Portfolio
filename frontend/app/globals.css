@@ -86,7 +86,11 @@
   /* ── Section rhythm ───────────────────────────────────────────
      These three replace a padding string that was copy-pasted
      verbatim into ten separate components. */
-  --section-py: clamp(80px, 12vw, 160px);
+  /* Every section previously carried an identical 160px top *and* bottom,
+     so ~320px of dead space sat between each one and the rhythm never
+     varied. Tightened to keep the breathing room without the padding
+     becoming most of the page. */
+  --section-py: clamp(56px, 7vw, 104px);
   --section-px: clamp(24px, 5vw, 80px);
   --container-max: 1280px;
 
