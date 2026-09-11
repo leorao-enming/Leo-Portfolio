@@ -256,20 +256,7 @@ export function ProjectsSection() {
         }}
       >
         <div>
-        <span
-          style={{
-            display: "inline-block",
-            padding: "4px 12px",
-            borderRadius: "9999px",
-            border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 12,
-            letterSpacing: "0.24em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-            marginBottom: 20,
-          }}
-        >
+        <span className="eyebrow" style={{ marginBottom: 20 }}>
           Featured Work
         </span>
         <h2

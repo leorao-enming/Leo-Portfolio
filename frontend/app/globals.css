@@ -329,6 +329,38 @@
     }
   }
 
+  /* ── Eyebrow ──────────────────────────────────────────────────
+     Every section used to carry its own bordered pill badge above
+     the heading — six of them on one scroll. A plain small-caps
+     label reads as an engineering index heading rather than a UI
+     chip, and rationing it (see landing components) does more for
+     variety than the label's own styling does. */
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-micro);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: var(--font-display);
+  }
+
+  /* ── Index row ────────────────────────────────────────────────
+     A hairline-divided list row, standing in for a bezel card where
+     the content is a list rather than a discrete object. Two shape
+     systems, each used consistently: bezel cards for the project
+     gallery, index rows for spec/capability/queue lists. */
+  .index-row {
+    border-top: 1px solid var(--color-hairline);
+    transition: background 0.2s;
+  }
+  .index-row:first-child {
+    border-top: none;
+  }
+  .index-row:hover,
+  .index-row:focus-visible {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
   /* ── Section rhythm ──────────────────────────────────────────
      One class instead of the same padding/max-width object pasted
      into ten components. Being a class rather than an inline style

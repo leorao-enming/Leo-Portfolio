@@ -20,20 +20,7 @@ export function AboutTeaser() {
         transition={{ duration: reduced ? 0 : 0.8, ease }}
         style={{ maxWidth: 640 }}
       >
-        <span
-          style={{
-            display: "inline-block",
-            padding: "4px 12px",
-            borderRadius: 9999,
-            border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: 11,
-            letterSpacing: "0.26em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-            marginBottom: 24,
-          }}
-        >
+        <span className="eyebrow" style={{ marginBottom: 24 }}>
           The System
         </span>
 

@@ -61,23 +61,6 @@ export function ContactSection() {
             transition={{ duration: reduced ? 0 : 0.8, ease }}
             style={{ marginBottom: 16 }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                padding: "4px 12px",
-                borderRadius: "9999px",
-                border: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 12,
-                letterSpacing: "0.24em",
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-display)",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              Contact
-            </span>
-
             <h2
               style={{
                 fontFamily: "var(--font-display)",
