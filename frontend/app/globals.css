@@ -613,6 +613,23 @@
   .sheet-corner-bl { left: 23px;  bottom: 33px; }
   .sheet-corner-br { right: 23px; bottom: 33px; }
 
+  /* ── Visually-hidden text ─────────────────────────────────────
+     Available to screen readers, removed from the visual layout. Used
+     for the process canvas's long-form diagram description. Declared
+     here because Tailwind v4's CSS-first setup does not emit a
+     `sr-only` utility for this project's build. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
   /* ── Schematic node focus ring ────────────────────────────────
      <g role="button"> elements aren't real <button>s, so they don't
      inherit the global a/button/input focus-visible rule above —

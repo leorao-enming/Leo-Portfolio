@@ -45,7 +45,7 @@ function Statement({
 
 /** Physical process → sensor → data → model → decision, drawn as a single
  * restrained instrumentation line — the same hairline/mono-tag vocabulary
- * ProcessSchematicArt already established, so it reads as one visual system
+ * ProcessCanvas already established, so it reads as one visual system
  * rather than a second, competing graphic language. Pure SVG, static. */
 function TransitionLine() {
   const w = 640;

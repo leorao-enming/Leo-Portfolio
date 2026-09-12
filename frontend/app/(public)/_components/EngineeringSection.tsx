@@ -9,7 +9,7 @@ import {
   LEVEL_STEPS,
   type Competency,
 } from "../../_data/engineering";
-import { ProcessSchematicArt } from "./ProcessSchematicArt";
+import { ProcessCanvas } from "./ProcessCanvas";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#c084fc";
@@ -111,15 +111,15 @@ export function EngineeringSection() {
         </p>
       </motion.div>
 
-      <ProcessSchematicArt />
+      <div style={{ marginBottom: "clamp(32px, 4vw, 48px)" }}>
+        <ProcessCanvas />
+      </div>
 
+      {/* Columns in className only — an inline gridTemplateColumns would
+          override the lg: variant at every width. */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "clamp(16px, 2vw, 24px)",
-        }}
-        className="lg:grid-cols-[1.15fr_1fr]"
+        style={{ gap: "clamp(16px, 2vw, 24px)" }}
+        className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]"
       >
         {/* ── Internship ────────────────────────────────────────── */}
         <motion.div
