@@ -69,7 +69,9 @@ export function ProcessSchematicArt() {
     >
       {/* ── The schematic ─────────────────────────────────────────── */}
       <div className="bezel-outer">
-        <div className="bezel-inner" style={{ padding: "clamp(20px, 3vw, 30px)" }}>
+        {/* material-steel only on the diagram side — the detail panel
+            keeps plain paper so its text stays at full, undiluted contrast. */}
+        <div className="bezel-inner material-steel" style={{ padding: "clamp(20px, 3vw, 30px)" }}>
           <p
             style={{
               fontSize: 12,

@@ -65,7 +65,13 @@ export function HalfLifeDecayArt() {
       style={{
         border: "1px solid var(--color-hairline)",
         borderTop: "2px solid #0369a1",
-        background: "#fbfaf6",
+        /* Fluid diffusion — soft overlapping fronts, like a dose
+           dispersing. The chemistry the whole chart is about. */
+        background:
+          "radial-gradient(circle at 12% 18%, rgba(3,105,161,0.05) 0%, transparent 42%), " +
+          "radial-gradient(circle at 88% 78%, rgba(3,105,161,0.04) 0%, transparent 38%), " +
+          "radial-gradient(circle at 65% 12%, rgba(255,122,24,0.03) 0%, transparent 30%), " +
+          "#fbfaf6",
         padding: "clamp(24px, 4vw, 44px)",
         marginBottom: "clamp(24px, 4vw, 40px)",
       }}

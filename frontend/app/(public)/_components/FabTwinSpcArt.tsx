@@ -62,7 +62,12 @@ export function FabTwinSpcArt() {
            is the same recessed-inset convention ProjectCard's
            TechStackPanel/MetricsPanel already use against that same
            #fbfaf6 card background. */
-        background: "#f2f1ed",
+        /* Silicon wafer — the pastel thin-film interference sheen an
+           oxide layer throws under angled light, at background scale. */
+        background:
+          "linear-gradient(105deg, rgba(147,51,234,0.05) 0%, rgba(59,130,246,0.04) 22%, " +
+          "rgba(236,72,153,0.04) 46%, rgba(250,204,21,0.04) 70%, rgba(59,130,246,0.04) 100%), " +
+          "#f2f1ed",
         padding: "clamp(20px, 3.5vw, 36px)",
         marginTop: 20,
         marginBottom: 4,

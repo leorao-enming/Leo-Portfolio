@@ -670,6 +670,65 @@
     50% { box-shadow: 0 0 0 6px rgba(255,122,24, 0); }
   }
 
+  /* ── Material system ───────────────────────────────────────────
+     One material per subject, matching what that subject actually is
+     — not decoration applied evenly everywhere. Each is a background
+     layer at 2-6% opacity stacked under the existing flat paper
+     colour (#fbfaf6 / #f2f1ed), so nothing here changes contrast or
+     layout, only the ground texture. Compound selectors (.bezel-inner
+     .material-x) override just the background property without
+     touching the shared .bezel-inner class every other card uses.
+
+     Kept deliberately restrained per the brief's own instruction:
+     subtle, not skeuomorphic. */
+
+  /* Silicon wafer (FabTwin) is applied inline in FabTwinSpcArt.tsx rather
+     than as a class here — that component has no .bezel-inner wrapper to
+     hang a compound selector off, so the gradient lives directly on its
+     own background declaration instead. */
+
+  /* Fluid diffusion (Half-Life) is likewise applied inline in
+     HalfLifeDecayArt.tsx, for the same reason as the wafer sheen above. */
+
+  /* Brushed steel — fine directional grain plus a soft diagonal sheen.
+     Process Engineering. */
+  .bezel-inner.material-steel {
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(10, 12, 15, 0.018) 0px,
+        rgba(10, 12, 15, 0.018) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      linear-gradient(115deg, rgba(255, 255, 255, 0.55) 0%, transparent 32%, transparent 68%, rgba(255, 255, 255, 0.3) 100%),
+      #fbfaf6;
+  }
+
+  /* Graph / technical paper — the drafting-sheet language MarginRails
+     already established, at background scale. Lab. */
+  .material-graphpaper {
+    background-image:
+      linear-gradient(rgba(10, 12, 15, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 12, 15, 0.035) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Black anodized aluminium — cool, matte, powered-down. Reserved for
+     LQC specifically: it is the one PARKED project, and a colder
+     material is an honest way to say so without another text badge. */
+  .material-anodized {
+    background:
+      repeating-linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0.04) 0px,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      linear-gradient(160deg, #2a2c30 0%, #1c1e21 100%);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

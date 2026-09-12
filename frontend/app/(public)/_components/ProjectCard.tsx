@@ -22,7 +22,7 @@ const TONE_COLOR: Record<string, string> = {
 };
 
 // ─── Lock icon SVG (inline, no external dep) ──────────────────────────────────
-function LockIcon() {
+function LockIcon({ color = "#8a5a00" }: { color?: string }) {
   return (
     <svg
       width="11"
@@ -32,9 +32,9 @@ function LockIcon() {
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      <rect x="1" y="5.5" width="9" height="7" rx="1" stroke="#8a5a00" strokeWidth="1.2" />
-      <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#8a5a00" strokeWidth="1.2" strokeLinecap="round" />
-      <circle cx="5.5" cy="9" r="1" fill="#8a5a00" />
+      <rect x="1" y="5.5" width="9" height="7" rx="1" stroke={color} strokeWidth="1.2" />
+      <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke={color} strokeWidth="1.2" strokeLinecap="round" />
+      <circle cx="5.5" cy="9" r="1" fill={color} />
     </svg>
   );
 }
@@ -141,6 +141,11 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
 function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
   const { registry } = project;
   const hasLinks = Boolean(registry.links?.length);
+  /* LQC is the one PARKED project. A cooler, matte, "powered down" header
+     is an honest material way to say so, without leaning on another text
+     badge — kept to the header only, not the whole card, so this doesn't
+     reopen the dark-island problem the rest of the site just fixed. */
+  const isLQC = project.slug === "lqc";
   return (
     <article
       className="group transition-colors duration-300 overflow-hidden"
@@ -155,23 +160,33 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
     >
       {/* ── Header bar ────────────────────────────────────────────────────── */}
       <div
-        className="flex items-center justify-between px-5 py-3"
-        style={{ borderBottom: "1px solid rgba(138,90,0,0.1)" }}
+        className={`flex items-center justify-between px-5 py-3${isLQC ? " material-anodized" : ""}`}
+        style={{ borderBottom: isLQC ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(138,90,0,0.1)" }}
       >
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>[{project.id}]</span>
-          <span className="text-xs tracking-[0.25em] text-[var(--text-muted)]">{project.codename}</span>
+          {/* 0.4 measured ~3.6:1 against this dark gradient by hand (the
+              contrast script can't check text over a gradient background
+              at all) -- 0.65 clears AA at ~7.3:1. */}
+          <span className="text-xs font-mono" style={{ color: isLQC ? "rgba(255,255,255,0.65)" : "var(--text-muted)" }}>[{project.id}]</span>
+          <span className="text-xs tracking-[0.25em]" style={{ color: isLQC ? "rgba(255,255,255,0.65)" : "var(--text-muted)" }}>{project.codename}</span>
         </div>
         <div className="flex items-center gap-2">
-          <LockIcon />
+          <LockIcon color={isLQC ? "#f2b84b" : "#8a5a00"} />
           <span
             className="text-xs tracking-widest font-mono px-2 py-0.5"
-            style={{
-              color: "#8a5a00",
-              background: "rgba(138,90,0,0.06)",
-              border: "1px solid rgba(138,90,0,0.22)",
-              textShadow: "0 0 8px rgba(138,90,0,0.3)",
-            }}
+            style={
+              isLQC
+                ? {
+                    color: "#f2b84b",
+                    background: "rgba(242,184,75,0.1)",
+                    border: "1px solid rgba(242,184,75,0.3)",
+                  }
+                : {
+                    color: "#8a5a00",
+                    background: "rgba(138,90,0,0.06)",
+                    border: "1px solid rgba(138,90,0,0.22)",
+                  }
+            }
           >
             PRIVATE CORE
           </span>

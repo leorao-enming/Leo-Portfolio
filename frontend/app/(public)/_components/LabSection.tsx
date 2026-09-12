@@ -234,7 +234,7 @@ export function LabSection() {
   return (
     <section
       id="lab"
-      className="section-shell"
+      className="section-shell material-graphpaper"
     >
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
