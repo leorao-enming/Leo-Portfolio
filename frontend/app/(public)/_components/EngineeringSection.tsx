@@ -12,6 +12,9 @@ import {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#c084fc";
+// Darkened for AA text contrast on the light ground — the pale ACCENT
+// above stays for borders/fills/glows, which don't carry that requirement.
+const ACCENT_TEXT = "#6d28d9";
 const TOTAL_STEPS = 4;
 
 function formatMonth(iso: string): string {
@@ -40,7 +43,7 @@ function LevelMeter({ level }: { level: Competency["level"] }) {
             width: 14,
             height: 3,
             borderRadius: 2,
-            background: i < filled ? ACCENT : "rgba(255,255,255,0.09)",
+            background: i < filled ? ACCENT : "rgba(10, 12, 15,0.09)",
             boxShadow: i < filled ? `0 0 6px ${ACCENT}55` : "none",
           }}
         />
@@ -70,7 +73,7 @@ export function EngineeringSection() {
             display: "inline-block",
             padding: "4px 12px",
             borderRadius: "9999px",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid rgba(10, 12, 15,0.1)",
             fontSize: 12,
             letterSpacing: "0.24em",
             color: "var(--text-muted)",
@@ -83,9 +86,7 @@ export function EngineeringSection() {
         </span>
         <h1
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
@@ -168,7 +169,7 @@ export function EngineeringSection() {
                     background: `${ACCENT}0d`,
                     fontSize: 12,
                     letterSpacing: "0.18em",
-                    color: ACCENT,
+                    color: ACCENT_TEXT,
                     fontFamily: "var(--font-display)",
                     textTransform: "uppercase",
                     fontWeight: 500,
@@ -183,7 +184,7 @@ export function EngineeringSection() {
                     gap: 6,
                     fontSize: 12,
                     letterSpacing: "0.2em",
-                    color: "rgba(255,122,24,0.6)",
+                    color: "var(--color-accent-ink)",
                     fontFamily: "var(--font-mono)",
                     textTransform: "uppercase",
                   }}
@@ -227,7 +228,7 @@ export function EngineeringSection() {
               <p
                 style={{
                   fontSize: 13,
-                  color: ACCENT,
+                  color: ACCENT_TEXT,
                   fontFamily: "var(--font-display)",
                   letterSpacing: "0.02em",
                   marginBottom: 18,
@@ -267,10 +268,10 @@ export function EngineeringSection() {
                     style={{
                       padding: "4px 10px",
                       borderRadius: 4,
-                      background: "rgba(255,255,255,0.035)",
-                      border: "1px solid rgba(255,255,255,0.07)",
+                      background: "rgba(10, 12, 15,0.035)",
+                      border: "1px solid rgba(10, 12, 15,0.07)",
                       fontSize: 11,
-                      color: "rgba(255,255,255,0.5)",
+                      color: "var(--text-muted)",
                       fontFamily: "var(--font-mono)",
                     }}
                   >
@@ -344,7 +345,7 @@ export function EngineeringSection() {
                       style={{
                         paddingTop: i === 0 ? 0 : 14,
                         paddingBottom: i === COMPETENCIES.length - 1 ? 0 : 14,
-                        borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.055)",
+                        borderTop: i === 0 ? "none" : "1px solid rgba(10, 12, 15,0.055)",
                       }}
                     >
                       <div
@@ -359,7 +360,7 @@ export function EngineeringSection() {
                         <span
                           style={{
                             fontSize: 13,
-                            color: "rgba(255,255,255,0.82)",
+                            color: "rgba(10, 12, 15,0.82)",
                             fontFamily: "var(--font-display)",
                             letterSpacing: "-0.01em",
                           }}
@@ -379,7 +380,7 @@ export function EngineeringSection() {
                       >
                         {c.evidence}
                         <span style={{ color: "var(--text-muted)" }}> → </span>
-                        <span style={{ color: ACCENT, opacity: 0.75 }}>{c.nextStep}</span>
+                        <span style={{ color: ACCENT_TEXT, opacity: 0.75 }}>{c.nextStep}</span>
                       </p>
                     </li>
                   ))}
@@ -426,7 +427,7 @@ export function EngineeringSection() {
                       <span
                         style={{
                           fontSize: 13,
-                          color: "rgba(255,255,255,0.82)",
+                          color: "rgba(10, 12, 15,0.82)",
                           fontFamily: "var(--font-display)",
                         }}
                       >
@@ -435,7 +436,7 @@ export function EngineeringSection() {
                       <span
                         style={{
                           fontSize: 11,
-                          color: ACCENT,
+                          color: ACCENT_TEXT,
                           fontFamily: "var(--font-mono)",
                           whiteSpace: "nowrap",
                         }}
@@ -460,7 +461,7 @@ export function EngineeringSection() {
                 <div
                   style={{
                     paddingTop: 16,
-                    borderTop: "1px solid rgba(255,255,255,0.055)",
+                    borderTop: "1px solid rgba(10, 12, 15,0.055)",
                   }}
                 >
                   <p
@@ -485,7 +486,7 @@ export function EngineeringSection() {
                           background: `${ACCENT}0c`,
                           border: `1px solid ${ACCENT}25`,
                           fontSize: 11,
-                          color: ACCENT,
+                          color: ACCENT_TEXT,
                           fontFamily: "var(--font-display)",
                           opacity: 0.85,
                         }}

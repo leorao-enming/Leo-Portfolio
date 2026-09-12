@@ -74,7 +74,7 @@ export function SiteFooter() {
               fontWeight: 700,
               fontSize: 16,
               letterSpacing: "-0.01em",
-              color: "var(--color-accent)",
+              color: "var(--color-accent-ink)",
               textDecoration: "none",
             }}
           >

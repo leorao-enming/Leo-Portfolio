@@ -50,9 +50,7 @@ export function CapabilitiesSection() {
         </span>
         <h2
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
@@ -127,8 +125,8 @@ export function CapabilitiesSection() {
                     style={{
                       padding: "4px 10px",
                       borderRadius: 4,
-                      background: "rgba(255,255,255,0.035)",
-                      border: "1px solid rgba(255,255,255,0.08)",
+                      background: "rgba(10, 12, 15,0.035)",
+                      border: "1px solid rgba(10, 12, 15,0.08)",
                       fontSize: 11,
                       color: "var(--text-muted)",
                       fontFamily: "var(--font-mono)",

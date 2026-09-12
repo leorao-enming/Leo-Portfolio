@@ -5,6 +5,13 @@ import { motion, useReducedMotion, useInView } from "motion/react";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+// Darkened for AA text contrast on the light ground — event.accent stays
+// pale for borders/fills, which don't carry that requirement.
+const TAG_TEXT_COLOR: Record<string, string> = {
+  "#c084fc": "#6d28d9",
+  "#60a5fa": "#1d4ed8",
+};
+
 const events = [
   {
     year: "2022",
@@ -93,7 +100,7 @@ function TimelineEntry({
           fontSize: "clamp(100px, 18vw, 220px)",
           fontWeight: 800,
           letterSpacing: "-0.05em",
-          color: "rgba(255,255,255,0.025)",
+          color: "rgba(10, 12, 15,0.025)",
           lineHeight: 1,
           pointerEvents: "none",
           userSelect: "none",
@@ -121,8 +128,7 @@ function TimelineEntry({
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1,
-            color: ev.year === "NOW" ? "var(--color-accent)" : "rgba(255,255,255,0.12)",
-            textShadow: ev.year === "NOW" ? "0 0 60px rgba(255,122,24,0.25)" : undefined,
+            color: ev.year === "NOW" ? "var(--color-accent-ink)" : "rgba(10, 12, 15,0.1)",
           }}
         >
           {ev.year}
@@ -143,7 +149,7 @@ function TimelineEntry({
           zIndex: 1,
           paddingTop: "clamp(0px, 2vw, 16px)",
           paddingLeft: "clamp(0px, 3vw, 40px)",
-          borderLeft: "1px solid rgba(255,255,255,0.06)",
+          borderLeft: "1px solid rgba(10, 12, 15,0.06)",
         }}
         className="md:border-l"
       >
@@ -156,7 +162,7 @@ function TimelineEntry({
             background: `${ev.accent}0d`,
             fontSize: 11,
             letterSpacing: "0.2em",
-            color: ev.accent,
+            color: TAG_TEXT_COLOR[ev.accent] ?? ev.accent,
             fontFamily: "var(--font-display)",
             textTransform: "uppercase",
             marginBottom: 14,
@@ -172,7 +178,7 @@ function TimelineEntry({
             fontWeight: 700,
             letterSpacing: "-0.025em",
             lineHeight: 1.2,
-            color: "rgba(255,255,255,0.88)",
+            color: "rgba(10, 12, 15,0.88)",
             marginBottom: 12,
           }}
         >
@@ -194,7 +200,7 @@ function TimelineEntry({
         {ev.year === "NOW" && (
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16 }}>
             <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 10px rgba(255,122,24,0.7)", animation: "timeline-pulse 2s ease-in-out infinite" }} />
-            <span style={{ fontSize: 11, letterSpacing: "0.28em", color: "var(--color-accent)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 11, letterSpacing: "0.28em", color: "var(--color-accent-ink)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
               IN PROGRESS
             </span>
           </div>
@@ -210,7 +216,7 @@ function TimelineEntry({
             left: 0,
             right: 0,
             height: 1,
-            background: "linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.02), transparent)",
+            background: "linear-gradient(to right, rgba(10, 12, 15,0.05), rgba(10, 12, 15,0.02), transparent)",
           }}
         />
       )}
@@ -238,7 +244,7 @@ export function TimelineSection() {
             display: "inline-block",
             padding: "4px 12px",
             borderRadius: 9999,
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid rgba(10, 12, 15,0.1)",
             fontSize: 11,
             letterSpacing: "0.26em",
             color: "var(--text-muted)",
@@ -256,7 +262,7 @@ export function TimelineSection() {
             fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
-            color: "rgba(255,255,255,0.88)",
+            color: "rgba(10, 12, 15,0.88)",
             margin: 0,
           }}
         >

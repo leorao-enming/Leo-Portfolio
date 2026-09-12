@@ -6,6 +6,19 @@ import { LANDING_PROJECTS, type Project } from "../../_data/projects";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+// project.accent is a pale hue tuned for the old dark ground — fine as a
+// low-opacity border/fill tint at any brightness, but read as text on the
+// new light page it drops under 3:1. Darkened, AA-safe stand-ins for the
+// four hues the registry actually uses.
+const TAG_TEXT_COLOR: Record<string, string> = {
+  "#60a5fa": "#1d4ed8",
+  "#c084fc": "#6d28d9",
+  "#fb923c": "#c2410c",
+  "#fbbf24": "#92400e",
+  "var(--color-terminal-green)": "var(--color-accent-ink)",
+  "var(--color-terminal-cyan)": "#0369a1",
+};
+
 function ProjectTag({ label, accent }: { label: string; accent: string }) {
   return (
     <span
@@ -16,7 +29,7 @@ function ProjectTag({ label, accent }: { label: string; accent: string }) {
         background: `${accent}0d`,
         fontSize: 12,
         letterSpacing: "0.18em",
-        color: accent,
+        color: TAG_TEXT_COLOR[accent] ?? accent,
         fontFamily: "var(--font-display)",
         textTransform: "uppercase",
         fontWeight: 500,
@@ -68,7 +81,7 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
               style={{
                 fontSize: 12,
                 letterSpacing: "0.2em",
-                color: "rgba(255,122,24,0.6)",
+                color: "var(--color-accent-ink)",
                 fontFamily: "var(--font-mono)",
                 textTransform: "uppercase",
                 display: "flex",
@@ -123,10 +136,10 @@ function FeaturedCard({ project, reduced }: { project: Project; reduced: boolean
                 style={{
                   padding: "4px 10px",
                   borderRadius: 4,
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.07)",
+                  background: "rgba(10, 12, 15,0.04)",
+                  border: "1px solid rgba(10, 12, 15,0.07)",
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.5)",
+                  color: "var(--text-muted)",
                   fontFamily: "var(--font-mono)",
                 }}
               >
@@ -213,8 +226,8 @@ function SmallCard({
                 style={{
                   padding: "3px 8px",
                   borderRadius: 4,
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "rgba(10, 12, 15,0.03)",
+                  border: "1px solid rgba(10, 12, 15,0.06)",
                   fontSize: 12,
                   color: "var(--text-muted)",
                   fontFamily: "var(--font-mono)",
@@ -261,9 +274,7 @@ export function ProjectsSection() {
         </span>
         <h2
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
@@ -283,12 +294,12 @@ export function ProjectsSection() {
             gap: 8,
             padding: "9px 16px",
             borderRadius: "9999px",
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(10, 12, 15,0.12)",
+            background: "rgba(10, 12, 15,0.03)",
             fontFamily: "var(--font-display)",
             fontSize: 12,
             letterSpacing: "0.02em",
-            color: "rgba(255,255,255,0.62)",
+            color: "rgba(10, 12, 15,0.62)",
             whiteSpace: "nowrap",
             transition: "color 240ms ease, border-color 240ms ease, background 240ms ease",
           }}

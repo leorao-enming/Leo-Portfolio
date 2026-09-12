@@ -38,7 +38,7 @@ export function ContactSection() {
         aria-hidden
         style={{
           height: 1,
-          background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent)",
+          background: "linear-gradient(to right, transparent, rgba(10, 12, 15,0.08) 30%, rgba(10, 12, 15,0.08) 70%, transparent)",
           marginBottom: "clamp(60px, 9vw, 120px)",
         }}
       />
@@ -63,9 +63,7 @@ export function ContactSection() {
           >
             <h2
               style={{
-                fontFamily: "var(--font-display)",
                 fontSize: "clamp(32px, 5vw, 64px)",
-                fontWeight: 700,
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
                 color: "var(--color-text-primary)",
@@ -75,7 +73,7 @@ export function ContactSection() {
             >
               Let&apos;s build
               <br />
-              <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.25)" }}>
+              <span style={{ color: "var(--color-accent-ink)" }}>
                 something real.
               </span>
             </h2>
@@ -111,7 +109,7 @@ export function ContactSection() {
                 minHeight: 44,
                 borderRadius: "9999px",
                 background: "var(--color-accent)",
-                color: "var(--color-bg)",
+                color: "var(--color-on-accent)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
                 fontSize: 14,
@@ -178,7 +176,7 @@ export function ContactSection() {
                 <div
                   style={{
                     fontSize: "clamp(13px, 1.1vw, 15px)",
-                    color: "rgba(255,255,255,0.7)",
+                    color: "rgba(10, 12, 15,0.7)",
                     fontFamily: "var(--font-sans)",
                   }}
                 >
@@ -190,7 +188,7 @@ export function ContactSection() {
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(10, 12, 15,0.1)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",

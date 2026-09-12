@@ -6,6 +6,9 @@ import { LAB_ENTRIES, LAB_STATUS_TONE, type LabEntry } from "../../_data/lab";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#74d7ff";
+// Darkened for AA text contrast on the light ground — the pale ACCENT
+// above stays for borders/fills, which don't carry that requirement.
+const ACCENT_TEXT = "#0369a1";
 
 function StatusPill({ status }: { status: LabEntry["status"] }) {
   const color = LAB_STATUS_TONE[status];
@@ -46,9 +49,7 @@ export function LabTeaser() {
       >
         <h2
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(26px, 3.6vw, 42px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.12,
             color: "var(--color-text-primary)",
@@ -72,7 +73,7 @@ export function LabTeaser() {
             fontFamily: "var(--font-display)",
             fontSize: 12,
             letterSpacing: "0.02em",
-            color: ACCENT,
+            color: ACCENT_TEXT,
             whiteSpace: "nowrap",
           }}
         >
@@ -103,10 +104,10 @@ export function LabTeaser() {
             }}
           >
             <div style={{ display: "flex", alignItems: "baseline", gap: 16, minWidth: 0 }}>
-              <span style={{ fontSize: 13, letterSpacing: "0.1em", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
+              <span style={{ fontSize: 13, letterSpacing: "0.1em", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
                 {entry.id}
               </span>
-              <span style={{ fontSize: "clamp(15px, 1.4vw, 17px)", color: "rgba(255,255,255,0.8)", fontWeight: 500 }}>
+              <span style={{ fontSize: "clamp(15px, 1.4vw, 17px)", color: "rgba(10, 12, 15,0.8)", fontWeight: 500 }}>
                 {entry.title}
               </span>
             </div>

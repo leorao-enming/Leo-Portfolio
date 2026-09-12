@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono, IBM_Plex_Sans_Condensed } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono, IBM_Plex_Sans_Condensed, Spectral } from "next/font/google";
 import "./globals.css";
 
 // Self-hosted at build time by next/font — no runtime CDN request, and the
 // same bytes ship to every visitor.
 //
-// IBM Plex, not Inter. Inter plus JetBrains Mono is the most common default
-// UI pairing there is, and it reads as templated no matter what sits on top
-// of it. Plex was commissioned for exactly this technical register — it
-// belongs to spec sheets and instrument panels, which is the subject here.
-// Condensed carries display type so headings get their own voice without
-// introducing a second unrelated family.
+// IBM Plex Sans stays as the body face — clean, legible, still the right
+// register. Plex Mono is now scoped to genuinely technical contexts (data
+// labels, registry ids, the dashboard) instead of section headings — a
+// dark-terminal cue that a live audit of real engineering-firm sites
+// (Arup, Webb Yates, Eckersley O'Callaghan) doesn't share. Display
+// headings move to Spectral, a serif Arup itself uses in production —
+// verified by reading its live computed styles, not assumed.
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -31,6 +32,14 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
   display: "swap",
   variable: "--font-plex-mono",
+});
+
+const spectral = Spectral({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-spectral",
 });
 
 export const metadata: Metadata = {
@@ -54,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${plexSans.variable} ${plexCondensed.variable} ${plexMono.variable}`}
+      className={`${plexSans.variable} ${plexCondensed.variable} ${plexMono.variable} ${spectral.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>

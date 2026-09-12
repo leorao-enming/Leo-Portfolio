@@ -108,10 +108,12 @@ export const LAB_ENTRIES: LabEntry[] = [
   },
 ];
 
+// Darkened for AA text contrast on the light public site (these render as
+// small uppercase status text, not chrome, so the contrast floor applies).
 export const LAB_STATUS_TONE: Record<LabStatus, string> = {
-  QUEUED: "rgba(255,255,255,0.38)",
-  "IN PROGRESS": "var(--color-terminal-amber)",
-  SHIPPED: "var(--color-terminal-green)",
+  QUEUED: "var(--text-muted)",
+  "IN PROGRESS": "#92400e",
+  SHIPPED: "var(--color-accent-ink)",
 };
 
 /**

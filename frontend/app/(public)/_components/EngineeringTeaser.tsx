@@ -11,6 +11,9 @@ import {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#c084fc";
+// Darkened for AA text contrast on the light ground — the pale ACCENT
+// above stays for borders/fills/glows, which don't carry that requirement.
+const ACCENT_TEXT = "#6d28d9";
 const TOTAL_STEPS = 4;
 const PREVIEW_COUNT = 3;
 
@@ -26,7 +29,7 @@ function LevelMeter({ level }: { level: Competency["level"] }) {
             width: 12,
             height: 3,
             borderRadius: 2,
-            background: i < filled ? ACCENT : "rgba(255,255,255,0.09)",
+            background: i < filled ? ACCENT : "rgba(10, 12, 15,0.09)",
             boxShadow: i < filled ? `0 0 6px ${ACCENT}55` : "none",
           }}
         />
@@ -65,9 +68,7 @@ export function EngineeringTeaser() {
         >
           <h2
             style={{
-              fontFamily: "var(--font-display)",
               fontSize: "clamp(26px, 3.6vw, 42px)",
-              fontWeight: 700,
               letterSpacing: "-0.03em",
               lineHeight: 1.12,
               color: "var(--color-text-primary)",
@@ -95,10 +96,10 @@ export function EngineeringTeaser() {
                 style={{
                   padding: "4px 10px",
                   borderRadius: 4,
-                  background: "rgba(255,255,255,0.035)",
-                  border: "1px solid rgba(255,255,255,0.07)",
+                  background: "rgba(10, 12, 15,0.035)",
+                  border: "1px solid rgba(10, 12, 15,0.07)",
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.5)",
+                  color: "var(--text-muted)",
                   fontFamily: "var(--font-mono)",
                 }}
               >
@@ -121,7 +122,7 @@ export function EngineeringTeaser() {
               fontFamily: "var(--font-display)",
               fontSize: 12,
               letterSpacing: "0.02em",
-              color: ACCENT,
+              color: ACCENT_TEXT,
               whiteSpace: "nowrap",
             }}
           >
@@ -159,7 +160,7 @@ export function EngineeringTeaser() {
               className="index-row"
               style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "14px 2px" }}
             >
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.72)" }}>{c.name}</span>
+              <span style={{ fontSize: 14, color: "rgba(10, 12, 15,0.72)" }}>{c.name}</span>
               <LevelMeter level={c.level} />
             </div>
           ))}

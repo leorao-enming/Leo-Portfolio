@@ -29,9 +29,7 @@ export default function ProjectsPage() {
         </p>
         <h1
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(32px, 5.5vw, 64px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.05,
             color: "var(--color-text-primary)",

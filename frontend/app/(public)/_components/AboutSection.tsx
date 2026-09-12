@@ -5,11 +5,13 @@ import { motion, useReducedMotion, useInView } from "motion/react";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+// Darkened for AA text contrast on the light ground — these render as the
+// large stat numeral itself, so the floor applies at full strength.
 const stats = [
-  { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#60a5fa" },
-  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-accent)" },
-  { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#c084fc" },
-  { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#fb923c" },
+  { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#1d4ed8" },
+  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-accent-ink)" },
+  { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#6d28d9" },
+  { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#c2410c" },
 ];
 
 function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inView: boolean; index: number; reduced: boolean | null }) {
@@ -30,7 +32,6 @@ function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inV
             color: stat.accent,
             lineHeight: 1,
             marginBottom: 6,
-            textShadow: `0 0 24px ${stat.accent}55`,
             letterSpacing: "-0.02em",
           }}
         >
@@ -79,7 +80,7 @@ export function AboutSection() {
                 display: "inline-block",
                 padding: "4px 12px",
                 borderRadius: 9999,
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid rgba(10, 12, 15,0.1)",
                 fontSize: 11,
                 letterSpacing: "0.26em",
                 color: "var(--text-muted)",
@@ -93,17 +94,15 @@ export function AboutSection() {
 
             <h1
               style={{
-                fontFamily: "var(--font-display)",
                 fontSize: "clamp(32px, 4.5vw, 56px)",
-                fontWeight: 700,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
-                color: "rgba(255,255,255,0.9)",
+                color: "rgba(10, 12, 15,0.9)",
                 marginBottom: 20,
               }}
             >
               Engineering meets{" "}
-              <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.22)" }}>
+              <span style={{ color: "var(--color-accent-ink)" }}>
                 intelligence.
               </span>
             </h1>
@@ -142,11 +141,11 @@ export function AboutSection() {
             className="bezel-outer"
           >
             <div className="bezel-inner" style={{ padding: "20px 22px" }}>
-              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "rgba(255,122,24,0.85)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--color-accent-ink)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
                 Currently Building
               </div>
-              <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-                <span style={{ color: "var(--color-accent)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
+              <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(10, 12, 15,0.65)", lineHeight: 1.7 }}>
+                <span style={{ color: "var(--color-accent-ink)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
               </div>
             </div>
           </motion.div>

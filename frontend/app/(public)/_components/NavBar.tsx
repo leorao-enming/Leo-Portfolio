@@ -37,11 +37,11 @@ export function NavBar() {
           style={{
             maxWidth: "900px",
             borderRadius: menuOpen ? "24px" : "9999px",
-            border: "1px solid rgba(255,255,255,0.09)",
+            border: "1px solid rgba(10, 12, 15,0.09)",
             backdropFilter: "blur(18px)",
             WebkitBackdropFilter: "blur(18px)",
-            background: "rgba(6,8,7,0.72)",
-            boxShadow: "0 18px 60px rgba(0,0,0,0.22)",
+            background: "rgba(246,245,241,0.78)",
+            boxShadow: "0 12px 40px rgba(10,12,15,0.08)",
             transition: "border-radius 0.3s ease",
             overflow: "hidden",
           }}
@@ -63,7 +63,7 @@ export function NavBar() {
             >
               <span
                 className="font-display font-bold text-sm tracking-tight"
-                style={{ color: "var(--color-accent)", textShadow: "0 0 12px rgba(255,122,24,0.35)" }}
+                style={{ color: "var(--color-accent-ink)" }}
               >
                 LeoLogic
               </span>
@@ -83,8 +83,8 @@ export function NavBar() {
                     aria-current={active ? "page" : undefined}
                     className={
                       "text-xs px-3 py-1.5 rounded-full transition-colors duration-300 active:scale-95 " +
-                      "hover:bg-white/[0.06] focus-visible:bg-white/[0.06] " +
-                      (active ? "text-white/90" : "text-white/60 hover:text-white/90")
+                      "hover:bg-black/5 focus-visible:bg-black/5 " +
+                      (active ? "text-black/90" : "text-black/55 hover:text-black/90")
                     }
                     style={{
                       fontFamily: "var(--font-display)",
@@ -104,7 +104,7 @@ export function NavBar() {
                 className="accent-chip hidden sm:flex items-center gap-2 text-xs font-medium rounded-full active:scale-95 group"
                 style={{
                   padding: "8px 16px",
-                  color: "var(--color-accent)",
+                  color: "var(--color-accent-ink)",
                   fontFamily: "var(--font-display)",
                   letterSpacing: "0.02em",
                 }}
@@ -114,8 +114,8 @@ export function NavBar() {
                   style={{
                     fontSize: 10,
                     letterSpacing: "0.14em",
-                    color: "rgba(255,122,24,0.5)",
-                    border: "1px solid rgba(255,122,24,0.25)",
+                    color: "var(--color-accent-ink)",
+                    border: "1px solid rgba(255,122,24,0.3)",
                     borderRadius: 4,
                     padding: "1px 4px",
                   }}
@@ -144,8 +144,8 @@ export function NavBar() {
                   width: 32,
                   height: 32,
                   borderRadius: "50%",
-                  background: menuOpen ? "rgba(255,255,255,0.1)" : "transparent",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: menuOpen ? "rgba(10, 12, 15,0.1)" : "transparent",
+                  border: "1px solid rgba(10, 12, 15,0.12)",
                 }}
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
@@ -153,7 +153,7 @@ export function NavBar() {
                 <div style={{ position: "relative", width: 14, height: 10 }}>
                   <span
                     style={{
-                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(255,255,255,0.8)",
+                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(10, 12, 15,0.8)",
                       top: menuOpen ? 4.25 : 0,
                       transform: menuOpen ? "rotate(45deg)" : "none",
                       transition: "all 0.25s ease",
@@ -161,7 +161,7 @@ export function NavBar() {
                   />
                   <span
                     style={{
-                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(255,255,255,0.8)",
+                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(10, 12, 15,0.8)",
                       top: 4.25,
                       opacity: menuOpen ? 0 : 1,
                       transition: "opacity 0.2s ease",
@@ -169,7 +169,7 @@ export function NavBar() {
                   />
                   <span
                     style={{
-                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(255,255,255,0.8)",
+                      position: "absolute", left: 0, right: 0, height: 1.5, background: "rgba(10, 12, 15,0.8)",
                       top: menuOpen ? 4.25 : 8.5,
                       transform: menuOpen ? "rotate(-45deg)" : "none",
                       transition: "all 0.25s ease",
@@ -189,7 +189,7 @@ export function NavBar() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 className="md:hidden"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+                style={{ borderTop: "1px solid rgba(10, 12, 15,0.08)" }}
               >
                 <div style={{ padding: "8px 12px 14px", display: "flex", flexDirection: "column", gap: 2 }}>
                   {NAV_ITEMS.map(({ label, href }) => (
@@ -198,7 +198,7 @@ export function NavBar() {
                       href={href}
                       onClick={closeMenu}
                       aria-current={pathname === href ? "page" : undefined}
-                      className="flex items-center text-sm px-4 rounded-xl transition-colors text-white/70 hover:bg-white/[0.06]"
+                      className="flex items-center text-sm px-4 rounded-xl transition-colors text-black/70 hover:bg-black/5"
                       style={{
                         minHeight: 44, /* comfortable touch target */
                         fontFamily: "var(--font-display)",
@@ -217,12 +217,12 @@ export function NavBar() {
                       marginTop: 6,
                       background: "rgba(255,122,24,0.08)",
                       border: "1px solid rgba(255,122,24,0.18)",
-                      color: "var(--color-accent)",
+                      color: "var(--color-accent-ink)",
                       fontFamily: "var(--font-display)",
                     }}
                   >
                     <span>Enter OS</span>
-                    <span style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,122,24,0.8)" }}>DEMO →</span>
+                    <span style={{ fontSize: 11, letterSpacing: "0.14em", color: "var(--color-accent-ink)" }}>DEMO →</span>
                   </Link>
                 </div>
               </motion.div>

@@ -8,15 +8,23 @@
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-plex-condensed), var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+  /* Reserved for h1/h2 statement headlines only — never UI chrome
+     (buttons, tags, nav). Spectral is a real face Arup runs in
+     production, verified by reading its live computed styles. */
+  --font-serif: var(--font-spectral), Georgia, "Times New Roman", serif;
 
   /* ── Brand accent ─────────────────────────────────────────────
-     Safety orange. Two different greens used to ship at once — a mint
-     token alongside 49 hardcoded acid-green values — so a glow and its
-     own glyph disagreed. One accent now, drawn from plant signage
-     rather than terminal cosplay.
-     Measures ~6.9:1 on --color-bg, comfortably clear of AA. */
+     Safety orange stays, but its role changed with the move to a
+     light ground: #ff7a18 as TEXT measures ~2.6:1 on the new paper
+     background — well under the 4.5:1 AA floor. It's now scoped to
+     chrome (fills, borders, small UI, CTA backgrounds with dark text
+     on top) and never applied as body-sized text color directly.
+     --color-accent-ink is a darkened rust for the rare case where the
+     accent itself needs to be read as text (verified ~6.3:1). */
   --color-accent: #ff7a18;
+  --color-accent-ink: #963f0c;
   --color-accent-dim: #c2590f;
+  --color-on-accent: #0a0c0f;
   --accent-a08: color-mix(in srgb, var(--color-accent) 8%, transparent);
   --accent-a16: color-mix(in srgb, var(--color-accent) 16%, transparent);
   --accent-a25: color-mix(in srgb, var(--color-accent) 25%, transparent);
@@ -39,31 +47,35 @@
   --color-border-dim: #3f3f46;
 
   /* ── Landing palette ──────────────────────────────────────────
-     Warm graphite rather than the near-black it was. Black plus a
-     bright green accent is a recognisable default that had nothing
-     to do with the subject; graphite reads as instrument panel and
-     shares a ground with the dashboard's blueprint grid. */
-  --color-bg: #121316;
-  --color-card: rgba(255, 255, 255, 0.035);
-  --color-card-hover: rgba(255, 255, 255, 0.06);
-  --color-hairline: rgba(255, 255, 255, 0.075);
-  --color-hairline-bright: rgba(255, 255, 255, 0.14);
-  --color-text-primary: #f1f2ee;
-  --color-accent-glow: color-mix(in srgb, var(--color-accent) 14%, transparent);
+     A live audit of Eckersley O'Callaghan, Webb Yates, and Arup found
+     the same register independently in all three: a cool paper
+     ground, near-black ink, accent reserved for chrome. That replaces
+     the dark "control room" theme this project shipped earlier in
+     the session — not a variant sitting alongside it, a full swap.
+     The dashboard keeps its own dark surface-* scale below, on
+     purpose: it's a self-contained "operator console" demo now
+     deliberately contrasting with the daylight site around it. */
+  --color-bg: #f2f1ed;
+  --color-card: rgba(10, 12, 15, 0.03);
+  --color-card-hover: rgba(10, 12, 15, 0.05);
+  --color-hairline: rgba(10, 12, 15, 0.1);
+  --color-hairline-bright: rgba(10, 12, 15, 0.18);
+  --color-text-primary: #0a0c0f;
+  --color-accent-glow: color-mix(in srgb, var(--color-accent) 10%, transparent);
 
   /* ── Text scale ───────────────────────────────────────────────
-     Contrast-audited against --color-bg. Opacity was doing the job
-     of hierarchy here, which pushed body prose to 3.4–4.5:1 — under
-     the 4.5:1 WCAG AA floor for normal text. Size and weight carry
-     hierarchy now (see the type scale below), so these can be legible.
-
-       strong  ~15:1   body ~11:1   muted ~7:1   faint ~3.8:1
+     Re-audited for the light ground: same opacity ladder as before,
+     flipped from white-on-dark to ink-on-paper, so the hierarchy
+     this was already tuned for carries over unchanged.
      --text-faint is DECORATIVE ONLY: it fails AA at normal sizes and
      may be used solely on >=24px text or non-informational elements. */
-  --text-strong: rgba(255, 255, 255, 0.94);
-  --text-body:   rgba(255, 255, 255, 0.74);
-  --text-muted:  rgba(255, 255, 255, 0.58);
-  --text-faint:  rgba(255, 255, 255, 0.40);
+  --text-strong: rgba(10, 12, 15, 0.92);
+  --text-body:   rgba(10, 12, 15, 0.74);
+  /* Measured (not estimated) at 4.34:1 at 0.56 — just under the 4.5:1 AA
+     floor at the small sizes this token is mostly used at (eyebrows,
+     labels). 0.60 measures ~4.95:1. */
+  --text-muted:  rgba(10, 12, 15, 0.60);
+  --text-faint:  rgba(10, 12, 15, 0.38);
 
   /* Kept as aliases so existing dashboard usage stays valid. Both were
      below AA before (0.58 marginal, 0.28 badly failing). */
@@ -122,14 +134,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background:
-      radial-gradient(circle at 12% 8%, rgba(255, 122, 24, 0.06), transparent 34rem),
-      radial-gradient(circle at 82% 22%, rgba(116, 215, 255, 0.035), transparent 30rem),
-      linear-gradient(180deg, #121316 0%, #16171b 45%, #121316 100%);
+      radial-gradient(circle at 12% 4%, rgba(255, 122, 24, 0.05), transparent 34rem),
+      radial-gradient(circle at 84% 18%, rgba(3, 105, 161, 0.03), transparent 30rem),
+      linear-gradient(180deg, #f4f3ef 0%, #eeede8 45%, #f2f1ed 100%);
     background-color: var(--color-bg);
     overflow-x: hidden;
   }
 
-  /* Dashboard-specific pages still use mono headings */
+  /* Unscoped default: still mono/dark-friendly, because the dashboard
+     and auth pages (which never opted into .public-shell) rely on it
+     unchanged. Public marketing pages override below. */
   h1, h2, h3 {
     color: #ffffff;
     font-family: var(--font-mono);
@@ -151,6 +165,37 @@
     text-wrap: pretty;
   }
 
+  /* ── Public-site overrides ───────────────────────────────────
+     Scoped to .public-shell (set on the (public) route group's root)
+     so the dashboard and /login keep the dark, mono-headline defaults
+     above untouched. Statement headings move to serif; everything
+     else (buttons, tags, nav) stays on --font-display intentionally —
+     serif is for h1/h2 moments, not UI chrome. */
+  .public-shell {
+    color: var(--color-text-primary);
+  }
+  /* Serif is scoped to h1/h2 statement headlines only, matching the
+     reference sites: Arup and Webb Yates both reserve serif for the one
+     primary line and keep card/UI-level headings (h3 and below) on the
+     sans display face. */
+  .public-shell h1,
+  .public-shell h2 {
+    color: var(--color-text-primary);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .public-shell h3,
+  .public-shell h4,
+  .public-shell h5,
+  .public-shell h6 {
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+  }
+  .public-shell p {
+    color: var(--text-body);
+  }
+
   a, button, input, textarea, select {
     -webkit-tap-highlight-color: transparent;
   }
@@ -170,13 +215,16 @@
 
   ::selection {
     background-color: var(--color-accent);
-    color: var(--color-bg);
+    /* Fixed dark ink, not var(--color-bg) — that token used to be dark
+       by coincidence, which made this correct. Now that it's light,
+       selection text needs its own value independent of page theme. */
+    color: var(--color-on-accent);
   }
 
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #09090b; }
-  ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-terminal-dim); }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(120, 120, 120, 0.4); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-accent-dim); }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -274,7 +322,7 @@
   }
 
   .tech-accent {
-    color: #60a5fa;
+    color: #1d4ed8;
     font-weight: 500;
   }
 
@@ -298,14 +346,14 @@
   }
 
   .contact-row {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(10, 12, 15, 0.02);
+    border: 1px solid rgba(10, 12, 15, 0.08);
     transition: background 0.2s, border-color 0.2s, transform 0.2s;
   }
   .contact-row:hover,
   .contact-row:focus-visible {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(10, 12, 15, 0.045);
+    border-color: rgba(10, 12, 15, 0.16);
     transform: translateX(4px);
   }
 
@@ -358,8 +406,177 @@
   }
   .index-row:hover,
   .index-row:focus-visible {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(10, 12, 15, 0.02);
   }
+
+  /* ── Drawing-sheet margin rails ───────────────────────────────
+     Fills the dead margin outside --container-max with the border
+     apparatus of a drafted sheet (ISO 5457 zone references), so the
+     page edges carry ornament and register scroll position instead
+     of sitting empty. See MarginRails.tsx.
+
+     Hidden below 1440px: the container is 1280px wide, so narrower
+     viewports have no margin to put this in without crowding the
+     content. It is decorative, so there is nothing lost by dropping
+     it on the screens that cannot afford it. */
+  .margin-rails {
+    display: none;
+  }
+
+  @media (min-width: 1440px) {
+    .margin-rails {
+      display: block;
+    }
+  }
+
+  .margin-rail {
+    position: fixed;
+    top: 104px;   /* clears the floating nav */
+    bottom: 40px;
+    width: 46px;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .margin-rail-left  { left: 30px; }
+  .margin-rail-right { right: 30px; }
+
+  /* The frame edge itself. */
+  .rail-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-hairline);
+  }
+  .margin-rail-left  .rail-line { left: 0; }
+  .margin-rail-right .rail-line { right: 0; }
+
+  /* Graduations, hierarchical like a real scale rule: short minor ticks
+     every 8px, longer major ticks every 40px. Two gradient layers on one
+     element — no extra DOM, and nothing for the compositor to animate. */
+  .rail-grad {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 11px;
+    background-image:
+      repeating-linear-gradient(to bottom, var(--color-hairline) 0 1px, transparent 1px 8px),
+      repeating-linear-gradient(to bottom, var(--color-hairline-bright) 0 1px, transparent 1px 40px);
+    background-size: 5px 100%, 11px 100%;
+    background-repeat: no-repeat;
+  }
+  .margin-rail-left  .rail-grad { left: 0; }
+  .margin-rail-right .rail-grad { right: 0; }
+
+  /* Zone letters, evenly distributed down the sheet edge. */
+  .rail-zones {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+  }
+
+  /* Traversed portion of the document. */
+  .rail-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 1px;
+    background: var(--color-accent);
+    transform-origin: top center;
+  }
+
+  /* One section, drawn at its true proportional position on the rail. */
+  .rail-seg {
+    position: absolute;
+    right: 0;
+    width: 17px;
+  }
+
+  /* Boundary rule where each section begins. */
+  .rail-seg-tick {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 17px;
+    height: 1px;
+    background: var(--color-hairline-bright);
+    transition: background 400ms ease, width 400ms ease;
+  }
+  .rail-seg-active .rail-seg-tick {
+    background: var(--color-accent);
+    width: 100%;
+  }
+
+  /* Cursor riding the rail at the reading position. */
+  .rail-cursor {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 0;
+  }
+
+  .rail-cursor-node {
+    position: absolute;
+    right: -2px;
+    top: -2.5px;
+    width: 5px;
+    height: 5px;
+    background: var(--color-accent);
+    transform: rotate(45deg);
+  }
+
+  /* The active section, named along the frame the way a drawing labels
+     its own margin. Rotation lives here, on the label — the cursor's
+     own transform is driven by scroll, and the two must not collide. */
+  .rail-cursor-label {
+    position: absolute;
+    right: 14px;
+    top: 0;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg) translateY(50%);
+    transform-origin: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* ── Sheet registration marks ─────────────────────────────────
+     The corner crosshairs a drafted sheet carries for alignment.
+     Decorative, and the reason the frame reads as a sheet rather
+     than as two unrelated rails. */
+  .sheet-corner {
+    position: fixed;
+    width: 13px;
+    height: 13px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .sheet-corner::before,
+  .sheet-corner::after {
+    content: "";
+    position: absolute;
+    background: var(--color-hairline-bright);
+  }
+  .sheet-corner::before { left: 0; top: 6px; width: 13px; height: 1px; }
+  .sheet-corner::after  { top: 0; left: 6px; width: 1px; height: 13px; }
+
+  .sheet-corner-tl { left: 23px;  top: 97px; }
+  .sheet-corner-tr { right: 23px; top: 97px; }
+  .sheet-corner-bl { left: 23px;  bottom: 33px; }
+  .sheet-corner-br { right: 23px; bottom: 33px; }
 
   /* ── Section rhythm ──────────────────────────────────────────
      One class instead of the same padding/max-width object pasted
@@ -391,25 +608,28 @@
 
   /* ── Double-bezel outer shell ───────────────────────────── */
   .bezel-outer {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
-    border: 1px solid rgba(255, 255, 255, 0.075);
+    background: linear-gradient(145deg, rgba(10, 12, 15, 0.05), rgba(10, 12, 15, 0.015));
+    border: 1px solid rgba(10, 12, 15, 0.08);
     padding: 6px;
     border-radius: 20px;
     transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease;
   }
 
+  /* A card lifted slightly off the paper ground, not a dark panel —
+     the same "paper on a desk" logic as the bezel border above. */
   .bezel-inner {
-    background: rgba(12, 14, 13, 0.92);
+    background: #fbfaf6;
     border-radius: 15px;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(10, 12, 15, 0.04),
+      0 1px 2px rgba(10, 12, 15, 0.04);
     overflow: hidden;
   }
 
   .bezel-outer:hover {
-    border-color: rgba(255,122,24, 0.22);
-    box-shadow: 0 18px 80px rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 122, 24, 0.32);
+    box-shadow: 0 14px 40px rgba(10, 12, 15, 0.08);
   }
 
   /* ── Font display override for landing sections ─────────── */
@@ -417,10 +637,11 @@
     font-family: var(--font-display);
   }
 
-  /* ── Accent green glow for single words ─────────────────── */
+  /* ── Accent word — no glow. A halo behind text is a dark-cockpit
+     cue; on paper the emphasis is the ink color alone. Uses the
+     darker -ink variant since this sits directly on running text. */
   .accent-green {
-    color: var(--color-accent);
-    text-shadow: 0 0 40px rgba(255,122,24, 0.3);
+    color: var(--color-accent-ink);
   }
 
   /* ── Pulse animations ────────────────────────────────────── */

@@ -26,17 +26,15 @@ export function AboutTeaser() {
 
         <h2
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(32px, 4.5vw, 56px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
-            color: "rgba(255,255,255,0.9)",
+            color: "rgba(10, 12, 15,0.9)",
             marginBottom: 20,
           }}
         >
           Engineering meets{" "}
-          <span style={{ color: "var(--color-accent)", textShadow: "0 0 40px rgba(255,122,24,0.22)" }}>
+          <span style={{ color: "var(--color-accent-ink)" }}>
             intelligence.
           </span>
         </h2>
@@ -54,11 +52,11 @@ export function AboutTeaser() {
             gap: 8,
             padding: "9px 16px",
             borderRadius: "9999px",
-            border: "1px solid rgba(255,255,255,0.14)",
+            border: "1px solid rgba(10, 12, 15,0.14)",
             fontFamily: "var(--font-display)",
             fontSize: 12,
             letterSpacing: "0.02em",
-            color: "rgba(255,255,255,0.75)",
+            color: "rgba(10, 12, 15,0.75)",
             whiteSpace: "nowrap",
           }}
         >

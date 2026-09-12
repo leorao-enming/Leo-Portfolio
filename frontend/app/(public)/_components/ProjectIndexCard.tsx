@@ -34,7 +34,12 @@ export function ProjectIndexCard({
         {/* Meta row */}
         <div className="flex items-center justify-between gap-4 mb-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
+            {/* This card stays on the dark "system readout" surface used by
+                /projects and its detail pages, deliberately distinct from the
+                light editorial register around it — so its text colors are
+                fixed light-on-dark values, not the shared --text-* tokens,
+                which now point the other way for the rest of the site. */}
+            <span className="text-xs font-mono" style={{ color: "#a1a1aa" }}>
               [{project.id}]
             </span>
             <span className="text-xs tracking-[0.25em] text-zinc-400">{project.codename}</span>
@@ -58,7 +63,7 @@ export function ProjectIndexCard({
             fontWeight: 700,
             letterSpacing: "-0.02em",
             lineHeight: 1.2,
-            color: "var(--color-text-primary)",
+            color: "#f4f4f5",
             marginBottom: 8,
           }}
         >
@@ -69,7 +74,7 @@ export function ProjectIndexCard({
           style={{
             fontSize: 14,
             lineHeight: 1.65,
-            color: "var(--text-body)",
+            color: "rgba(255,255,255,0.72)",
             maxWidth: "68ch",
             marginBottom: 16,
           }}
@@ -84,7 +89,7 @@ export function ProjectIndexCard({
                 key={s}
                 className="text-xs font-mono px-2 py-0.5"
                 style={{
-                  color: "var(--text-muted)",
+                  color: "#a1a1aa",
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid var(--color-border)",
                 }}

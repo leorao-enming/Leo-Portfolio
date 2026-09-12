@@ -10,6 +10,8 @@ import {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#74d7ff";
+// Darkened for AA text contrast on the light ground.
+const ACCENT_TEXT = "#0369a1";
 
 function StatusPill({ status }: { status: LabEntry["status"] }) {
   const color = LAB_STATUS_TONE[status];
@@ -138,10 +140,10 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
                 style={{
                   padding: "4px 10px",
                   borderRadius: 4,
-                  background: "rgba(255,255,255,0.035)",
-                  border: "1px solid rgba(255,255,255,0.07)",
+                  background: "rgba(10, 12, 15,0.035)",
+                  border: "1px solid rgba(10, 12, 15,0.07)",
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.5)",
+                  color: "var(--text-muted)",
                   fontFamily: "var(--font-mono)",
                 }}
               >
@@ -154,7 +156,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             style={{
               marginTop: "auto",
               paddingTop: 16,
-              borderTop: "1px solid rgba(255,255,255,0.055)",
+              borderTop: "1px solid rgba(10, 12, 15,0.055)",
             }}
           >
             <p
@@ -172,8 +174,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             <p
               style={{
                 fontSize: 12,
-                color: ACCENT,
-                opacity: 0.75,
+                color: ACCENT_TEXT,
                 fontFamily: "var(--font-mono)",
                 lineHeight: 1.65,
                 margin: 0,
@@ -188,8 +189,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
               style={{
                 marginTop: 14,
                 fontSize: 11,
-                color: "var(--color-accent)",
-                opacity: 0.7,
+                color: "var(--color-accent-ink)",
                 fontFamily: "var(--font-mono)",
                 lineHeight: 1.6,
               }}
@@ -208,7 +208,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
                   rel="noopener noreferrer"
                   style={{
                     fontSize: 11,
-                    color: "rgba(255,255,255,0.5)",
+                    color: "var(--text-muted)",
                     fontFamily: "var(--font-mono)",
                     textDecoration: "underline",
                     textUnderlineOffset: 3,
@@ -245,7 +245,7 @@ export function LabSection() {
             display: "inline-block",
             padding: "4px 12px",
             borderRadius: "9999px",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid rgba(10, 12, 15,0.1)",
             fontSize: 12,
             letterSpacing: "0.24em",
             color: "var(--text-muted)",
@@ -258,9 +258,7 @@ export function LabSection() {
         </span>
         <h1
           style={{
-            fontFamily: "var(--font-display)",
             fontSize: "clamp(28px, 4vw, 48px)",
-            fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
