@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "motion/react";
-import { HeroCredential } from "./HeroCredential";
 
 /* ── Magnetic CTA button ─────────────────────────────────────────── */
 function MagneticBtn({
@@ -197,121 +196,91 @@ export function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          /* Top padding is load-bearing, not decoration: this block is
-             bottom-anchored (see justifyContent:"flex-end" on the section
-             above), which only positions it correctly when the content is
-             shorter than the viewport. Once the credential + the fuller
-             copy below pushes total height past 100dvh on a narrow/short
-             viewport, the section grows to fit and this item's top edge —
-             where the h1 lives — lands at the literal top of the document,
-             directly under the fixed nav pill. This padding guarantees
-             clearance in that case; in the case where content already fit,
-             it's exactly cancelled out by the bottom-anchoring (taller box,
-             same bottom edge), so it changes nothing visually there. */
-          padding: "clamp(140px, 20vh, 180px) clamp(24px, 5vw, 80px) clamp(48px, 8vh, 96px)",
+          padding: "0 clamp(24px, 5vw, 80px) clamp(48px, 8vh, 96px)",
           maxWidth: "100%",
           willChange: "transform",
           ...contentStyle,
         }}
       >
-        {/* Editorial text on the left, the credential offset on the right —
-            the credential is a hero OBJECT placed in the composition now,
-            not the layout language for the whole page. Column on mobile so
-            the credential stacks below the text instead of competing with
-            it for width. */}
-        <div
-          /* flex-direction/align/justify live ONLY in className, never
-             inline: an inline style always wins over a class regardless of
-             the class's media-query prefix, so a responsive "md:flex-row"
-             sitting next to an inline flexDirection:"column" on the same
-             element would never take effect at any viewport width — which
-             is exactly the bug that had this row stuck in its mobile
-             (stacked) layout at every screen size, credential included. */
-          className="flex flex-col items-center justify-start md:flex-row md:items-end md:justify-between"
-          style={{
-            gap: "clamp(40px, 6vw, 96px)",
-            marginBottom: "clamp(28px, 4vh, 48px)",
-          }}
-        >
-          <div className="text-center md:text-left" style={{ minWidth: 0 }}>
-            {/* Headline — name set large and stacked, editorial rather than
-                a dashboard title bar. Contrast against section h2s (which
-                run 26-56px) is the point: this is the one moment on the
-                page allowed to be this big. Still one h1, still real text
-                in the server HTML. */}
-            <motion.div
-              initial={{ opacity: 0, y: reduced ? 0 : 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1
-                style={{
-                  fontSize: "clamp(52px, 11vw, 148px)",
-                  letterSpacing: "-0.04em",
-                  lineHeight: 0.92,
-                  color: "rgba(10, 12, 15,0.94)",
-                  margin: 0,
-                }}
-              >
-                <span style={{ display: "block" }}>Leo</span>
-                <span style={{ display: "block" }}>Rao</span>
-              </h1>
-
-              {/* The statement — Layer A, dominant over everything else on
-                  the page including this same line's own supporting copy
-                  below it. */}
-              <p
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontWeight: 500,
-                  fontSize: "clamp(24px, 3.6vw, 42px)",
-                  lineHeight: 1.16,
-                  letterSpacing: "-0.01em",
-                  color: "rgba(10, 12, 15,0.86)",
-                  margin: "clamp(20px, 3vh, 32px) 0 0",
-                  maxWidth: "13ch",
-                }}
-              >
-                Engineering the{" "}
-                <span style={{ color: "var(--color-accent-ink)" }}>invisible.</span>
-              </p>
-
-              {/* Layer B — information, one supporting line, well below the
-                  statement's weight. Replaces the old mono credential line;
-                  this is the fuller version of the same fact. */}
-              <p
-                style={{
-                  fontSize: "clamp(14px, 1.3vw, 17px)",
-                  lineHeight: 1.6,
-                  color: "var(--text-body)",
-                  margin: "clamp(14px, 2vh, 20px) 0 0",
-                  maxWidth: "34ch",
-                }}
-              >
-                Chemical engineering, physical systems, software and intelligence.
-              </p>
-            </motion.div>
-
-            {/* CTA row */}
-            <motion.div
-              initial={{ opacity: 0, y: reduced ? 0 : 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
-              /* justify-content moved into className for the same reason
-                 as the row above — it was inline here too, so md:justify-start
-                 never had any effect. */
-              className="flex flex-wrap items-center justify-center md:justify-start"
+        {/* Text constrained to a left column rather than stretched full
+            width — the credential that used to sit to its right is gone
+            (see Hero object removal below); this keeps the "large
+            typography on the left, substantial negative space" composition
+            the brief asks for without needing an object to fill that
+            space. The credential itself already has a home: the lanyard
+            drop that opens from the nav logo. Duplicating it here, always
+            visible on load, read as a second, unexplained copy of the same
+            artifact rather than a deliberate hero object — worse than
+            just leaving the space open. */}
+        <div style={{ maxWidth: 720 }}>
+          {/* Headline — name set large and stacked, editorial rather than a
+              dashboard title bar. Contrast against section h2s (which run
+              26-56px) is the point: this is the one moment on the page
+              allowed to be this big. Still one h1, still real text in the
+              server HTML. */}
+          <motion.div
+            initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ marginBottom: "clamp(28px, 4vh, 48px)" }}
+          >
+            <h1
               style={{
-                gap: 14,
-                marginTop: "clamp(28px, 4vh, 40px)",
+                fontSize: "clamp(52px, 11vw, 148px)",
+                letterSpacing: "-0.04em",
+                lineHeight: 0.92,
+                color: "rgba(10, 12, 15,0.94)",
+                margin: 0,
               }}
             >
-              <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
-              <MagneticBtn href="#contact" variant="ghost">Get in Touch</MagneticBtn>
-            </motion.div>
-          </div>
+              <span style={{ display: "block" }}>Leo</span>
+              <span style={{ display: "block" }}>Rao</span>
+            </h1>
 
-          <HeroCredential />
+            {/* The statement — Layer A, dominant over everything else on
+                the page including this same line's own supporting copy
+                below it. */}
+            <p
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontWeight: 500,
+                fontSize: "clamp(24px, 3.6vw, 42px)",
+                lineHeight: 1.16,
+                letterSpacing: "-0.01em",
+                color: "rgba(10, 12, 15,0.86)",
+                margin: "clamp(20px, 3vh, 32px) 0 0",
+                maxWidth: "13ch",
+              }}
+            >
+              Engineering the{" "}
+              <span style={{ color: "var(--color-accent-ink)" }}>invisible.</span>
+            </p>
+
+            {/* Layer B — information, one supporting line, well below the
+                statement's weight. */}
+            <p
+              style={{
+                fontSize: "clamp(14px, 1.3vw, 17px)",
+                lineHeight: 1.6,
+                color: "var(--text-body)",
+                margin: "clamp(14px, 2vh, 20px) 0 0",
+                maxWidth: "34ch",
+              }}
+            >
+              Chemical engineering, physical systems, software and intelligence.
+            </p>
+          </motion.div>
+
+          {/* CTA row */}
+          <motion.div
+            initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
+          >
+            <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
+            <MagneticBtn href="#contact" variant="ghost">Get in Touch</MagneticBtn>
+          </motion.div>
         </div>
 
         {/* Bottom bar — nirnor-style horizontal rule + scroll cue */}
