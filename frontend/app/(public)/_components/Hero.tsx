@@ -197,7 +197,18 @@ export function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          padding: "0 clamp(24px, 5vw, 80px) clamp(48px, 8vh, 96px)",
+          /* Top padding is load-bearing, not decoration: this block is
+             bottom-anchored (see justifyContent:"flex-end" on the section
+             above), which only positions it correctly when the content is
+             shorter than the viewport. Once the credential + the fuller
+             copy below pushes total height past 100dvh on a narrow/short
+             viewport, the section grows to fit and this item's top edge —
+             where the h1 lives — lands at the literal top of the document,
+             directly under the fixed nav pill. This padding guarantees
+             clearance in that case; in the case where content already fit,
+             it's exactly cancelled out by the bottom-anchoring (taller box,
+             same bottom edge), so it changes nothing visually there. */
+          padding: "clamp(140px, 20vh, 180px) clamp(24px, 5vw, 80px) clamp(48px, 8vh, 96px)",
           maxWidth: "100%",
           willChange: "transform",
           ...contentStyle,
@@ -209,18 +220,20 @@ export function Hero() {
             the credential stacks below the text instead of competing with
             it for width. */}
         <div
-          className="lg:flex-row lg:items-end lg:justify-between"
+          /* flex-direction/align/justify live ONLY in className, never
+             inline: an inline style always wins over a class regardless of
+             the class's media-query prefix, so a responsive "md:flex-row"
+             sitting next to an inline flexDirection:"column" on the same
+             element would never take effect at any viewport width — which
+             is exactly the bug that had this row stuck in its mobile
+             (stacked) layout at every screen size, credential included. */
+          className="flex flex-col items-center justify-start md:flex-row md:items-end md:justify-between"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "flex-start",
             gap: "clamp(40px, 6vw, 96px)",
             marginBottom: "clamp(28px, 4vh, 48px)",
-            textAlign: "center",
           }}
         >
-          <div className="lg:text-left" style={{ minWidth: 0 }}>
+          <div className="text-center md:text-left" style={{ minWidth: 0 }}>
             {/* Headline — name set large and stacked, editorial rather than
                 a dashboard title bar. Contrast against section h2s (which
                 run 26-56px) is the point: this is the one moment on the
@@ -284,13 +297,12 @@ export function Hero() {
               initial={{ opacity: 0, y: reduced ? 0 : 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:justify-start"
+              /* justify-content moved into className for the same reason
+                 as the row above — it was inline here too, so md:justify-start
+                 never had any effect. */
+              className="flex flex-wrap items-center justify-center md:justify-start"
               style={{
-                display: "flex",
                 gap: 14,
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "center",
                 marginTop: "clamp(28px, 4vh, 40px)",
               }}
             >
