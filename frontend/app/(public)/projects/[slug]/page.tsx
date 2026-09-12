@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ProjectCard } from "../../_components/ProjectCard";
+import { HalfLifeDecayArt } from "../../_components/HalfLifeDecayArt";
 import { REGISTRY_PROJECTS, getProjectBySlug } from "../../../_data/projects";
 
 /** Prerender every project at build time — the set is static and small. */
@@ -56,6 +57,12 @@ export default async function ProjectDetailPage({
           ← All projects
         </Link>
       </nav>
+
+      {/* Project-specific visual identity, ahead of the shared registry
+          template — Half-Life's is the decay model itself, not a phone
+          screenshot. Other flagships get the same treatment as they're
+          built (FabTwin's SPC chart, the P&ID schematic for Engineering). */}
+      {project.slug === "half-life" && <HalfLifeDecayArt />}
 
       <ProjectCard project={project} />
 

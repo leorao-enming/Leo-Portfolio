@@ -11,10 +11,14 @@ import type {
 /** A registry project flattened into the shape this card renders. */
 export type ProjectCardProps = Project & { registry: ProjectRegistryDetail };
 
-const TONE_CLASS: Record<string, string> = {
-  green: "terminal-text",
-  cyan: "terminal-cyan",
-  amber: "terminal-amber",
+// Inline color rather than the shared .terminal-* classes: those are tuned
+// for the dashboard's dark surfaces (pale cyan/amber text) and fail AA on
+// this page's light ground. #0369a1/#8a5a00 are the same ink-safe tones
+// used throughout the rest of the site's light-mode conversion.
+const TONE_COLOR: Record<string, string> = {
+  green: "var(--color-accent-ink)",
+  cyan: "#0369a1",
+  amber: "#8a5a00",
 };
 
 // ─── Lock icon SVG (inline, no external dep) ──────────────────────────────────
@@ -28,9 +32,9 @@ function LockIcon() {
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      <rect x="1" y="5.5" width="9" height="7" rx="1" stroke="#ffb000" strokeWidth="1.2" />
-      <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#ffb000" strokeWidth="1.2" strokeLinecap="round" />
-      <circle cx="5.5" cy="9" r="1" fill="#ffb000" />
+      <rect x="1" y="5.5" width="9" height="7" rx="1" stroke="#8a5a00" strokeWidth="1.2" />
+      <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#8a5a00" strokeWidth="1.2" strokeLinecap="round" />
+      <circle cx="5.5" cy="9" r="1" fill="#8a5a00" />
     </svg>
   );
 }
@@ -43,22 +47,22 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
     <article
       className="group transition-colors duration-300 overflow-hidden"
       style={{
-        background: "var(--color-surface-1)",
-        border: "1px solid rgba(0,212,255,0.25)",
+        background: "#fbfaf6",
+        border: "1px solid rgba(3,105,161,0.25)",
         borderRadius: "2px",
-        borderTop: "2px solid rgba(0,212,255,0.55)",
+        borderTop: "2px solid rgba(3,105,161,0.55)",
         boxShadow:
-          "inset 0 1px 0 rgba(0,212,255,0.06), 0 1px 3px rgba(0,0,0,0.4), 0 0 18px rgba(0,212,255,0.04)",
+          "inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 3px rgba(10,12,15,0.06), 0 0 18px rgba(3,105,161,0.05)",
       }}
     >
       {/* ── Header bar ────────────────────────────────────────────────────── */}
       <div
         className="flex items-center justify-between px-5 py-3"
-        style={{ borderBottom: "1px solid rgba(0,212,255,0.12)" }}
+        style={{ borderBottom: "1px solid rgba(3,105,161,0.12)" }}
       >
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono dim-label">[{project.id}]</span>
-          <span className="text-xs tracking-[0.25em] text-zinc-400">{project.codename}</span>
+          <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>[{project.id}]</span>
+          <span className="text-xs tracking-[0.25em] text-[var(--text-muted)]">{project.codename}</span>
         </div>
         <div className="flex items-center gap-3">
           {/* Pulsing live dot */}
@@ -66,10 +70,10 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
           <span
             className="text-xs tracking-widest font-mono px-2 py-0.5"
             style={{
-              color: "#00d4ff",
-              background: "rgba(0,212,255,0.08)",
-              border: "1px solid rgba(0,212,255,0.25)",
-              textShadow: "0 0 8px rgba(0,212,255,0.4)",
+              color: "#0369a1",
+              background: "rgba(3,105,161,0.08)",
+              border: "1px solid rgba(3,105,161,0.25)",
+              textShadow: "0 0 8px rgba(3,105,161,0.4)",
             }}
           >
             LIVE SYSTEM
@@ -79,9 +83,11 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
 
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
-        <h1 className="font-bold tracking-tight mb-2 text-white" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
-        <p className="text-xs leading-relaxed mb-1 text-zinc-300">{project.summary}</p>
-        <p className="text-xs leading-relaxed mb-5 text-zinc-400">{registry.longDescription}</p>
+        {/* No fontFamily/color override — inherits serif + ink from
+            .public-shell h1, matching every other heading on the site. */}
+        <h1 className="tracking-tight mb-2" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
+        <p className="text-xs leading-relaxed mb-1 text-[var(--text-body)]">{project.summary}</p>
+        <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
@@ -97,7 +103,7 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
 
         {/* ── CTA buttons ─────────────────────────────────────────────────── */}
         {registry.links && registry.links.length > 0 && (
-          <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(0,212,255,0.1)" }}>
+          <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(3,105,161,0.1)" }}>
             {registry.links.map((link, i) => (
               <a
                 key={i}
@@ -109,12 +115,12 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
                 className={
                   "text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150 " +
                   (i === 0
-                    ? "bg-cyan-700 hover:bg-cyan-800 focus-visible:bg-cyan-800 text-white"
-                    : "hover:bg-cyan-400/10 focus-visible:bg-cyan-400/10")
+                    ? "bg-[#0369a1] hover:bg-[#04568a] focus-visible:bg-[#04568a] text-white"
+                    : "hover:bg-[#0369a1]/10 focus-visible:bg-[#0369a1]/10")
                 }
                 style={{
-                  color: i === 0 ? undefined : "#00d4ff",
-                  border: i === 0 ? "1px solid #06b6d4" : "1px solid rgba(0,212,255,0.3)",
+                  color: i === 0 ? undefined : "#0369a1",
+                  border: i === 0 ? "1px solid #0369a1" : "1px solid rgba(3,105,161,0.3)",
                   borderRadius: "1px",
                 }}
               >
@@ -139,32 +145,32 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
     <article
       className="group transition-colors duration-300 overflow-hidden"
       style={{
-        background: "var(--color-surface-1)",
-        border: "1px solid rgba(255,176,0,0.18)",
+        background: "#fbfaf6",
+        border: "1px solid rgba(138,90,0,0.18)",
         borderRadius: "2px",
-        borderTop: "2px solid rgba(255,176,0,0.35)",
+        borderTop: "2px solid rgba(138,90,0,0.35)",
         boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.03), 0 1px 3px rgba(0,0,0,0.5)",
+          "inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 3px rgba(10,12,15,0.06)",
       }}
     >
       {/* ── Header bar ────────────────────────────────────────────────────── */}
       <div
         className="flex items-center justify-between px-5 py-3"
-        style={{ borderBottom: "1px solid rgba(255,176,0,0.1)" }}
+        style={{ borderBottom: "1px solid rgba(138,90,0,0.1)" }}
       >
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono dim-label">[{project.id}]</span>
-          <span className="text-xs tracking-[0.25em] text-zinc-400">{project.codename}</span>
+          <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>[{project.id}]</span>
+          <span className="text-xs tracking-[0.25em] text-[var(--text-muted)]">{project.codename}</span>
         </div>
         <div className="flex items-center gap-2">
           <LockIcon />
           <span
             className="text-xs tracking-widest font-mono px-2 py-0.5"
             style={{
-              color: "#ffb000",
-              background: "rgba(255,176,0,0.06)",
-              border: "1px solid rgba(255,176,0,0.22)",
-              textShadow: "0 0 8px rgba(255,176,0,0.3)",
+              color: "#8a5a00",
+              background: "rgba(138,90,0,0.06)",
+              border: "1px solid rgba(138,90,0,0.22)",
+              textShadow: "0 0 8px rgba(138,90,0,0.3)",
             }}
           >
             PRIVATE CORE
@@ -175,22 +181,22 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
         <div className="flex items-start justify-between mb-2 gap-4">
-          <h1 className="font-bold tracking-tight text-zinc-200" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
+          <h1 className="tracking-tight" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
           {/* Architecture-only badge */}
           <span
             className="text-xs tracking-wider font-mono whitespace-nowrap px-2 py-0.5 mt-0.5 shrink-0"
             style={{
-              color: "#a1a1aa",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid #3f3f46",
+              color: "var(--text-muted)",
+              background: "rgba(10,12,15,0.03)",
+              border: "1px solid var(--color-hairline-bright)",
             }}
           >
             ARCHITECTURE ONLY
           </span>
         </div>
 
-        <p className="text-xs leading-relaxed mb-1 text-zinc-400">{project.summary}</p>
-        <p className="text-xs leading-relaxed mb-5 text-zinc-400">{registry.longDescription}</p>
+        <p className="text-xs leading-relaxed mb-1 text-[var(--text-muted)]">{project.summary}</p>
+        <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics (slightly muted) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
@@ -203,7 +209,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
 
         {/* ── Ghost CTA buttons ────────────────────────────────────────────── */}
         {registry.links && registry.links.length > 0 && (
-          <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(255,176,0,0.08)" }}>
+          <div className="flex flex-wrap gap-3 pt-4" style={{ borderTop: "1px solid rgba(138,90,0,0.08)" }}>
             {registry.links.map((link, i) => (
               <a
                 key={i}
@@ -212,9 +218,9 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
                 rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="text-xs tracking-widest font-mono px-4 py-2 transition-colors duration-150"
                 style={{
-                  color: i === 0 ? "#a1a1aa" : "#a1a1aa",
+                  color: "var(--text-muted)",
                   background: "transparent",
-                  border: i === 0 ? "1px solid #52525b" : "1px solid #3f3f46",
+                  border: i === 0 ? "1px solid var(--color-hairline-bright)" : "1px solid var(--color-hairline)",
                   borderRadius: "1px",
                 }}
               >
@@ -238,29 +244,30 @@ function TechStackPanel({ tags, muted }: { tags: TechTag[]; muted?: boolean }) {
     <div
       className="p-4"
       style={{
-        background: "var(--color-surface-2)",
-        border: "1px solid var(--color-border-dim)",
+        background: "#f2f1ed",
+        border: "1px solid var(--color-hairline)",
         opacity: muted ? 0.75 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-400">TECH STACK</p>
+      <p className="text-xs tracking-[0.2em] mb-3 text-[var(--text-muted)]">TECH STACK</p>
       <div className="flex flex-wrap gap-1.5">
         {tags.map((tag) => (
           <span
             key={tag.label}
-            className={`text-xs tracking-wider px-2 py-0.5 ${TONE_CLASS[tag.tone ?? "green"]}`}
+            className="text-xs tracking-wider px-2 py-0.5"
             style={{
+              color: TONE_COLOR[tag.tone ?? "green"],
               background:
                 tag.tone === "cyan"
-                  ? "rgba(0,212,255,0.07)"
+                  ? "rgba(3,105,161,0.07)"
                   : tag.tone === "amber"
-                  ? "rgba(255,176,0,0.07)"
+                  ? "rgba(138,90,0,0.07)"
                   : "rgba(255,122,24,0.05)",
               border:
                 tag.tone === "cyan"
-                  ? "1px solid rgba(0,212,255,0.2)"
+                  ? "1px solid rgba(3,105,161,0.2)"
                   : tag.tone === "amber"
-                  ? "1px solid rgba(255,176,0,0.2)"
+                  ? "1px solid rgba(138,90,0,0.2)"
                   : "1px solid rgba(255,122,24,0.18)",
             }}
           >
@@ -277,23 +284,23 @@ function MetricsPanel({ metrics, muted }: { metrics: ProjectMetric[]; muted?: bo
     <div
       className="p-4"
       style={{
-        background: "var(--color-surface-2)",
-        border: "1px solid var(--color-border-dim)",
+        background: "#f2f1ed",
+        border: "1px solid var(--color-hairline)",
         opacity: muted ? 0.75 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-3 text-zinc-400">SYSTEM SPECS</p>
+      <p className="text-xs tracking-[0.2em] mb-3 text-[var(--text-muted)]">SYSTEM SPECS</p>
       <div className="space-y-0">
         {metrics.map((m, i) => (
           <div
             key={i}
             className="flex justify-between py-1.5"
             style={{
-              borderBottom: i < metrics.length - 1 ? "1px solid #1f1f23" : "none",
+              borderBottom: i < metrics.length - 1 ? "1px solid var(--color-hairline)" : "none",
             }}
           >
-            <span className="text-xs tracking-wider text-zinc-400">{m.label}</span>
-            <span className="text-xs font-mono tech-accent">{m.value}</span>
+            <span className="text-xs tracking-wider text-[var(--text-muted)]">{m.label}</span>
+            <span className="text-xs font-mono" style={{ color: "#0369a1", fontWeight: 500 }}>{m.value}</span>
           </div>
         ))}
       </div>
@@ -312,45 +319,45 @@ function ArchitecturePanel({
     <div
       className="p-4 mb-5"
       style={{
-        background: "var(--color-surface-0)",
-        border: "1px solid var(--color-border-dim)",
+        background: "#f2f1ed",
+        border: "1px solid var(--color-hairline)",
         opacity: muted ? 0.85 : 1,
       }}
     >
-      <p className="text-xs tracking-[0.2em] mb-4 text-zinc-400">SYSTEM ARCHITECTURE</p>
+      <p className="text-xs tracking-[0.2em] mb-4 text-[var(--text-muted)]">SYSTEM ARCHITECTURE</p>
       <div
-        className="text-xs font-mono text-center py-2 mb-3 tracking-widest text-zinc-400"
-        style={{ border: "1px solid var(--color-border-dim)" }}
+        className="text-xs font-mono text-center py-2 mb-3 tracking-widest text-[var(--text-muted)]"
+        style={{ border: "1px solid var(--color-hairline)" }}
       >
         {arch.title}
       </div>
       <div className="space-y-1">
         {arch.layers.map((layer, i) => {
-          const toneClass = TONE_CLASS[layer.tone ?? "green"];
+          const toneColor = TONE_COLOR[layer.tone ?? "green"];
           return (
             <div key={i} className="flex items-stretch gap-1">
-              <div className="text-xs font-mono w-5 shrink-0 flex items-center justify-center dim-label">
+              <div className="text-xs font-mono w-5 shrink-0 flex items-center justify-center" style={{ color: "var(--text-muted)" }}>
                 {String(i + 1).padStart(2, "0")}
               </div>
               <div
                 className="flex-1 px-3 py-2 text-xs font-mono transition-colors duration-200"
                 style={{
-                  background: "var(--color-surface-1)",
-                  border: "1px solid var(--color-border-dim)",
+                  background: "#fbfaf6",
+                  border: "1px solid var(--color-hairline)",
                   borderLeftWidth: "2px",
                   borderLeftColor:
                     layer.tone === "cyan"
-                      ? "rgba(0,212,255,0.4)"
+                      ? "rgba(3,105,161,0.4)"
                       : layer.tone === "amber"
-                      ? "rgba(255,176,0,0.4)"
+                      ? "rgba(138,90,0,0.4)"
                       : "rgba(255,122,24,0.3)",
                 }}
               >
-                <span className={`tracking-wider ${toneClass}`} style={{ opacity: 0.9 }}>
+                <span className="tracking-wider" style={{ color: toneColor }}>
                   {layer.label}
                 </span>
                 {layer.sublabel && (
-                  <span className="ml-3 text-zinc-400">— {layer.sublabel}</span>
+                  <span className="ml-3 text-[var(--text-muted)]">— {layer.sublabel}</span>
                 )}
               </div>
             </div>
@@ -374,13 +381,13 @@ function TagStrip({
     <div
       className="flex flex-wrap gap-x-4 gap-y-1.5 pt-3"
       style={{
-        borderTop: mt ? "none" : "1px solid #1f1f23",
+        borderTop: mt ? "none" : "1px solid var(--color-hairline)",
         marginTop: mt ? "0" : undefined,
         opacity: muted ? 0.6 : 1,
       }}
     >
       {tags.map((tag) => (
-        <span key={tag} className="text-xs tracking-wider text-zinc-400">
+        <span key={tag} className="text-xs tracking-wider text-[var(--text-muted)]">
           #{tag}
         </span>
       ))}

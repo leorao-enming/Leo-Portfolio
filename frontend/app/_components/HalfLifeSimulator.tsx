@@ -47,17 +47,18 @@ function DecayTooltip({
     <div
       className="text-xs font-mono"
       style={{
-        background: "#080808",
-        border: "1px solid rgba(0,212,255,0.22)",
+        background: "#fbfaf6",
+        border: "1px solid rgba(3,105,161,0.25)",
         borderRadius: "2px",
         padding: "8px 12px",
-        color: "#a1a1aa",
+        boxShadow: "0 4px 16px rgba(10,12,15,0.1)",
+        color: "var(--text-muted)",
       }}
     >
-      <p style={{ color: "#9a9aa0", marginBottom: "4px" }}>T+{label}h</p>
+      <p style={{ color: "var(--text-muted)", marginBottom: "4px" }}>T+{label}h</p>
       <p>
-        <span style={{ color: "#00d4ff" }}>{payload[0].value.toFixed(2)}</span>
-        <span style={{ color: "#8a8a90" }}> mg remaining</span>
+        <span style={{ color: "#0369a1" }}>{payload[0].value.toFixed(2)}</span>
+        <span style={{ color: "var(--text-muted)" }}> mg remaining</span>
       </p>
     </div>
   );
@@ -108,13 +109,13 @@ export function HalfLifeSimulator() {
     <div
       className="mt-5 p-4"
       style={{
-        background: "var(--color-surface-0)",
-        border: "1px solid rgba(0,212,255,0.15)",
-        borderTop: "1px solid rgba(0,212,255,0.3)",
+        background: "#f2f1ed",
+        border: "1px solid rgba(3,105,161,0.15)",
+        borderTop: "1px solid rgba(3,105,161,0.3)",
       }}
     >
       {/* ── Section label ─────────────────────────────────────────────────── */}
-      <p className="text-xs tracking-[0.25em] mb-4 text-zinc-400">
+      <p className="text-xs tracking-[0.25em] mb-4 text-[var(--text-muted)]">
         DECAY SIMULATOR — INTERACTIVE
       </p>
 
@@ -122,7 +123,7 @@ export function HalfLifeSimulator() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
         {/* Substance selector */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
+          <label className="block text-xs tracking-wider text-[var(--text-muted)] mb-1.5">
             SUBSTANCE
           </label>
           <select
@@ -130,14 +131,14 @@ export function HalfLifeSimulator() {
             onChange={(e) => setSubstance(e.target.value as Substance)}
             className="w-full text-xs font-mono px-3 py-2 appearance-none"
             style={{
-              background: "var(--color-surface-1)",
-              border: "1px solid rgba(0,212,255,0.22)",
+              background: "#fbfaf6",
+              border: "1px solid rgba(3,105,161,0.22)",
               borderRadius: "1px",
-              color: "#00d4ff",
+              color: "#0369a1",
             }}
           >
             {SUBSTANCES.map((s) => (
-              <option key={s} value={s} style={{ background: "#0d0d0d" }}>
+              <option key={s} value={s} style={{ background: "#fbfaf6", color: "#0369a1" }}>
                 {s}
               </option>
             ))}
@@ -146,7 +147,7 @@ export function HalfLifeSimulator() {
 
         {/* Initial dosage */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
+          <label className="block text-xs tracking-wider text-[var(--text-muted)] mb-1.5">
             INITIAL DOSAGE (mg)
           </label>
           <input
@@ -156,17 +157,17 @@ export function HalfLifeSimulator() {
             onChange={(e) => setDosage(Math.max(1, Number(e.target.value)))}
             className="w-full text-xs font-mono px-3 py-2"
             style={{
-              background: "var(--color-surface-1)",
-              border: "1px solid rgba(0,212,255,0.2)",
+              background: "#fbfaf6",
+              border: "1px solid rgba(3,105,161,0.2)",
               borderRadius: "1px",
-              color: "#e0e0e0",
+              color: "var(--color-text-primary)",
             }}
           />
         </div>
 
         {/* Bone weight baseline — readonly system variable */}
         <div>
-          <label className="block text-xs tracking-wider text-zinc-400 mb-1.5">
+          <label className="block text-xs tracking-wider text-[var(--text-muted)] mb-1.5">
             BONE WEIGHT BASELINE
           </label>
           <input
@@ -176,10 +177,10 @@ export function HalfLifeSimulator() {
             readOnly
             className="w-full text-xs font-mono px-3 py-2 cursor-not-allowed"
             style={{
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "rgba(10,12,15,0.02)",
+              border: "1px solid rgba(10,12,15,0.08)",
               borderRadius: "1px",
-              color: "#8a8a90",
+              color: "var(--text-muted)",
             }}
           />
         </div>
@@ -189,13 +190,13 @@ export function HalfLifeSimulator() {
       <button
         onClick={runSimulation}
         disabled={loading}
-        className="text-xs tracking-widest font-mono px-5 py-2 text-cyan-400 transition-all duration-150"
+        className="text-xs tracking-widest font-mono px-5 py-2 text-[#0369a1] transition-all duration-150"
         style={{
-          border: "1px solid rgba(0,212,255,0.35)",
+          border: "1px solid rgba(3,105,161,0.35)",
           borderRadius: "1px",
           background: loading
-            ? "rgba(0,212,255,0.02)"
-            : "rgba(0,212,255,0.07)",
+            ? "rgba(3,105,161,0.02)"
+            : "rgba(3,105,161,0.07)",
           opacity: loading ? 0.6 : 1,
           cursor: loading ? "not-allowed" : "pointer",
         }}
@@ -218,7 +219,7 @@ export function HalfLifeSimulator() {
       {error && (
         <p
           className="mt-3 text-xs font-mono"
-          style={{ color: "rgba(239,68,68,0.8)" }}
+          style={{ color: "#b91c1c" }}
         >
           ✗ {error}
         </p>
@@ -231,21 +232,21 @@ export function HalfLifeSimulator() {
           <div
             className="flex flex-wrap items-center justify-between gap-2 mb-3 px-3 py-2"
             style={{
-              background: "var(--color-surface-1)",
-              border: "1px solid rgba(0,212,255,0.1)",
+              background: "#fbfaf6",
+              border: "1px solid rgba(3,105,161,0.1)",
             }}
           >
-            <span className="text-xs font-mono tracking-wider text-zinc-400">
+            <span className="text-xs font-mono tracking-wider text-[var(--text-muted)]">
               {result.substance.toUpperCase()} — {result.dosage_mg}mg
             </span>
             <div className="flex items-center gap-4">
-              <span className="text-xs font-mono text-zinc-400">
+              <span className="text-xs font-mono text-[var(--text-muted)]">
                 t½ base:{" "}
-                <span className="text-cyan-400">{result.half_life_hours}h</span>
+                <span className="text-[#0369a1]">{result.half_life_hours}h</span>
               </span>
-              <span className="text-xs font-mono text-zinc-400">
+              <span className="text-xs font-mono text-[var(--text-muted)]">
                 t½ eff:{" "}
-                <span className="text-cyan-400">
+                <span className="text-[#0369a1]">
                   {result.effective_half_life_hours}h
                 </span>
               </span>
@@ -260,19 +261,19 @@ export function HalfLifeSimulator() {
             >
               <CartesianGrid
                 strokeDasharray="2 4"
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(10,12,15,0.08)"
                 vertical={false}
               />
               <XAxis
                 dataKey="time_hours"
-                tick={{ fill: "#8a8a90", fontSize: 10, fontFamily: "monospace" }}
+                tick={{ fill: "var(--text-muted)", fontSize: 10, fontFamily: "monospace" }}
                 tickFormatter={(v: number) => `${v}h`}
-                axisLine={{ stroke: "rgba(255,255,255,0.05)" }}
+                axisLine={{ stroke: "rgba(10,12,15,0.1)" }}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fill: "#8a8a90", fontSize: 10, fontFamily: "monospace" }}
-                axisLine={{ stroke: "rgba(255,255,255,0.05)" }}
+                tick={{ fill: "var(--text-muted)", fontSize: 10, fontFamily: "monospace" }}
+                axisLine={{ stroke: "rgba(10,12,15,0.1)" }}
                 tickLine={false}
                 tickFormatter={(v: number) =>
                   v >= 1000 ? `${(v / 1000).toFixed(1)}g` : `${v}mg`
@@ -283,13 +284,13 @@ export function HalfLifeSimulator() {
               <Line
                 type="monotone"
                 dataKey="remaining_mg"
-                stroke="#00d4ff"
+                stroke="#0369a1"
                 strokeWidth={1.5}
-                dot={{ fill: "#00d4ff", r: 3, strokeWidth: 0 }}
+                dot={{ fill: "#0369a1", r: 3, strokeWidth: 0 }}
                 activeDot={{
                   r: 5,
-                  fill: "#00d4ff",
-                  stroke: "rgba(0,212,255,0.35)",
+                  fill: "#0369a1",
+                  stroke: "rgba(3,105,161,0.35)",
                   strokeWidth: 4,
                 }}
               />
@@ -299,7 +300,7 @@ export function HalfLifeSimulator() {
           {/* Data table strip */}
           <div
             className="mt-2 overflow-x-auto"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
+            style={{ borderTop: "1px solid rgba(10,12,15,0.08)" }}
           >
             <table className="w-full text-xs font-mono">
               <thead>
@@ -308,7 +309,7 @@ export function HalfLifeSimulator() {
                     <th
                       key={pt.time_hours}
                       className="px-2 py-1.5 text-center font-normal"
-                      style={{ color: "#8a8a90", whiteSpace: "nowrap" }}
+                      style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}
                     >
                       T+{pt.time_hours}h
                     </th>
@@ -321,7 +322,7 @@ export function HalfLifeSimulator() {
                     <td
                       key={pt.time_hours}
                       className="px-2 py-1 text-center"
-                      style={{ color: "#00d4ff" }}
+                      style={{ color: "#0369a1" }}
                     >
                       {pt.remaining_mg >= 1000
                         ? `${(pt.remaining_mg / 1000).toFixed(2)}g`
