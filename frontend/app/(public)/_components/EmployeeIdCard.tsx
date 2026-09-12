@@ -906,6 +906,15 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   const pointerStartX = useRef(0);
   const pointerStartY = useRef(0);
   const pointerIdRef  = useRef<number | null>(null);
+  /* Separate from isDragging: isDragging must clear the instant the
+     pointer is released so the physics loop resumes immediately, but a
+     drag that ends by releasing off the button (e.g. via the lanyard
+     clip, or just outside the button's edge — the common case) never
+     fires a click on the button at all, so nothing would ever clear it.
+     justDraggedRef instead survives just long enough to suppress an
+     accidental flip if a click *does* land on the button right after,
+     and self-heals via the timeout in onPointerUp if it doesn't. */
+  const justDraggedRef = useRef(false);
 
   const onPointerDown = (e: React.PointerEvent) => {
     isDragging.current    = false;
@@ -931,6 +940,7 @@ export function EmployeeIdCard({ open, onClose }: Props) {
       const dy0 = e.clientY - pointerStartY.current;
       if (Math.hypot(dx0, dy0) < DRAG_THRESHOLD) return;
       isDragging.current = true;
+      justDraggedRef.current = true;
       if (pointerIdRef.current !== null) {
         (e.currentTarget as HTMLElement).setPointerCapture(pointerIdRef.current);
       }
@@ -954,10 +964,18 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   };
 
   const onPointerUp = () => {
-    /* isDragging.current is intentionally left as-is here rather than
-       reset — the button's onClick, which fires right after this, reads
-       it to tell a real drag apart from a plain click and clears it. */
+    /* Always clear isDragging here so the physics loop and cursor tilt
+       resume the instant the pointer is released, regardless of whether
+       a click follows. justDraggedRef (below) is what suppresses an
+       accidental flip if this release does turn into a click. */
+    isDragging.current = false;
     if (bodyRef.current) bodyRef.current.style.cursor = "grab";
+    if (justDraggedRef.current) {
+      /* Self-heal in case no click ever reaches the button — without
+         this, a drag that ends off the button would leave the very next,
+         unrelated click permanently suppressed. */
+      setTimeout(() => { justDraggedRef.current = false; }, 0);
+    }
   };
 
   /* ── Cursor tilt + specular sheen ──────────────────────────────────
@@ -1062,7 +1080,7 @@ export function EmployeeIdCard({ open, onClose }: Props) {
             textAlign: "inherit",
           }}
           onClick={() => {
-            if (isDragging.current) { isDragging.current = false; return; }
+            if (justDraggedRef.current) { justDraggedRef.current = false; return; }
             setFlipped((f) => !f);
           }}
         >
