@@ -578,6 +578,15 @@
   .sheet-corner-bl { left: 23px;  bottom: 33px; }
   .sheet-corner-br { right: 23px; bottom: 33px; }
 
+  /* ── Schematic node focus ring ────────────────────────────────
+     <g role="button"> elements aren't real <button>s, so they don't
+     inherit the global a/button/input focus-visible rule above —
+     same ring recipe, applied explicitly. */
+  .schematic-node:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-accent) 78%, white);
+    outline-offset: 2px;
+  }
+
   /* ── Section rhythm ──────────────────────────────────────────
      One class instead of the same padding/max-width object pasted
      into ten components. Being a class rather than an inline style

@@ -9,6 +9,7 @@ import {
   LEVEL_STEPS,
   type Competency,
 } from "../../_data/engineering";
+import { ProcessSchematicArt } from "./ProcessSchematicArt";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ACCENT = "#c084fc";
@@ -109,6 +110,8 @@ export function EngineeringSection() {
           honestly rather than generously.
         </p>
       </motion.div>
+
+      <ProcessSchematicArt />
 
       <div
         style={{
