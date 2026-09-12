@@ -111,6 +111,55 @@
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-pill: 9999px;
+
+  /* ── Project surface system (Phase 2) ────────────────────────────
+     One tone per homepage chapter instead of one dark register applied
+     everywhere — see Selected Work. Values measured for contrast, not
+     just picked: each "-ink" or "-on-dark" variant below is the one
+     actually safe to set as TEXT color on that surface; the plain
+     accent (no suffix) is calibrated for large/graphical use only
+     (chart lines, big glyphs, fills) where WCAG's 3:1 non-text floor
+     applies instead of the 4.5:1 text floor. Using the plain accent as
+     small text anywhere is the one thing these tokens don't cover. */
+  --surface-base: #f3f0e8;
+  --surface-soft: #e8e4dc;
+
+  /* Half-Life — warm / biological. Burgundy verified 7.9:1 on the
+     cream, safe as body text. The gold is decorative only (~2.6:1) —
+     large fills and thin curve highlights, never text. */
+  --surface-half-life: #f5efe5;
+  --accent-half-life: #7b3037;
+  --accent-half-life-dim: #c58a42;
+
+  /* FabTwin — cool titanium. The violet measures 3.6:1 on the titanium
+     (fine for large text / graphics, not body copy) — accent-fabtwin-ink
+     is the darkened, AA-safe (5.8:1) variant for anything read at
+     small size. surface-fabtwin-dark is the "dark element inside a
+     light section" the brief asks for (the SPC chart's own panel), not
+     a second full-dark background. */
+  --surface-fabtwin: #d6d7d9;
+  --surface-fabtwin-dark: #18191b;
+  --accent-fabtwin: #6d63a8;
+  --accent-fabtwin-ink: #4e4780;
+
+  /* LeoLogic OS — the one flagship allowed a true dark section.
+     accent-leologic measures 6.4:1 directly on surface-leologic, safe
+     as text. text-on-dark-* are the general-purpose white-on-graphite
+     ladder for this section (0.55 alpha already clears 5.2:1). */
+  --surface-leologic: #171819;
+  --surface-leologic-elevated: #202225;
+  --accent-leologic: #819dc0;
+  --text-on-dark-strong: rgba(255, 255, 255, 0.94);
+  --text-on-dark-body: rgba(255, 255, 255, 0.78);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.55);
+
+  /* Engineering / Contact. accent-engineering measures 3.0:1 on
+     surface-engineering — large text / graphics only, same rule as
+     the others; small text there keeps using the already-verified
+     --color-accent-ink instead of a new unverified token. */
+  --surface-engineering: #ece9e1;
+  --accent-engineering: #d86424;
+  --surface-contact: #f7f5ef;
 }
 
 /* ════════════════════════════════════════════════════════════

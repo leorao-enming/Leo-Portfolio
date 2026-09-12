@@ -29,28 +29,21 @@ export function ContactSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section
-      id="contact"
-      className="section-shell"
-    >
-      {/* Divider */}
+    <section id="contact" style={{ background: "var(--surface-contact)" }}>
       <div
-        aria-hidden
-        style={{
-          height: 1,
-          background: "linear-gradient(to right, transparent, rgba(10, 12, 15,0.08) 30%, rgba(10, 12, 15,0.08) 70%, transparent)",
-          marginBottom: "clamp(60px, 9vw, 120px)",
-        }}
-      />
+        className="section-shell"
+        style={{ paddingTop: "clamp(72px, 10vw, 120px)", paddingBottom: "clamp(72px, 10vw, 120px)" }}
+      >
+      {/* The divider rule that used to open this section is gone — the
+          tone shift from surface-engineering to surface-contact already
+          marks the boundary, and this section is meant to read quiet. */}
 
+      {/* Columns in className only — the inline gridTemplateColumns that
+          used to sit here silently overrode md:grid-cols-*, so this
+          section never went two-column at any width. */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "clamp(48px, 7vw, 80px)",
-          alignItems: "start",
-        }}
-        className="md:grid-cols-[1.4fr_1fr]"
+        style={{ gap: "clamp(48px, 7vw, 80px)" }}
+        className="grid grid-cols-1 items-start md:grid-cols-[1.4fr_1fr]"
       >
         {/* Left — editorial text */}
         <div>
@@ -208,6 +201,7 @@ export function ContactSection() {
 
       {/* The copyright strip that used to sit here moved into SiteFooter,
           which renders on every public page instead of only this one. */}
+      </div>
     </section>
   );
 }

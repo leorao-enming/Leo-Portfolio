@@ -116,7 +116,7 @@ export function Hero() {
         flexDirection: "column",
         justifyContent: "flex-end",
         overflow: "hidden",
-        background: "var(--color-bg)",
+        background: "var(--surface-base)",
       }}
     >
       {/* ── Generative process-flow field ──────────────────────────

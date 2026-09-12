@@ -93,8 +93,13 @@ export function Manifesto() {
   const reduced = useReducedMotion();
 
   return (
-    <section id="manifesto" className="section-shell" style={{ borderTop: "1px solid var(--color-hairline)" }}>
+    /* Tone change carries the section boundary instead of the hairline
+       rule that used to sit here — surface-base above, surface-soft from
+       here through the Selected Work intro, so the two read as one
+       continuous movement rather than two stacked blocks. */
+    <section id="manifesto" style={{ background: "var(--surface-soft)" }}>
       <motion.div
+        className="section-shell"
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -104,7 +109,8 @@ export function Manifesto() {
           flexDirection: "column",
           alignItems: "center",
           gap: "clamp(28px, 4vw, 44px)",
-          padding: "clamp(24px, 4vw, 48px) 0",
+          paddingTop: "clamp(80px, 11vw, 132px)",
+          paddingBottom: "clamp(80px, 11vw, 132px)",
         }}
       >
         <Statement lines={["Matter", "Becomes", "Data."]} align="left" />

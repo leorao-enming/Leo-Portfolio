@@ -19,11 +19,8 @@ export function PhysicalEngineering() {
   const reduced = useReducedMotion();
 
   return (
-    <section
-      id="engineering"
-      className="section-shell"
-      style={{ borderTop: "1px solid var(--color-hairline)" }}
-    >
+    <section id="engineering" style={{ background: "var(--surface-engineering)" }}>
+      <div className="section-shell" style={{ paddingTop: "clamp(72px, 10vw, 120px)", paddingBottom: "clamp(72px, 10vw, 120px)" }}>
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -83,6 +80,8 @@ export function PhysicalEngineering() {
         <ProcessSchematicArt />
       </motion.div>
 
+      {/* Editorial navigation, not a boxed button — same treatment as the
+          three project chapters above, so the page has one CTA language. */}
       <Link
         href="/engineering"
         className="group"
@@ -90,20 +89,16 @@ export function PhysicalEngineering() {
           display: "inline-flex",
           alignItems: "center",
           gap: 8,
-          padding: "9px 16px",
-          borderRadius: "9999px",
-          border: "1px solid rgba(3,105,161,0.2)",
-          background: "rgba(3,105,161,0.05)",
           fontFamily: "var(--font-display)",
-          fontSize: 12,
-          letterSpacing: "0.02em",
-          color: "#0369a1",
-          whiteSpace: "nowrap",
+          fontSize: 14,
+          color: "var(--color-accent-ink)",
+          textDecoration: "none",
         }}
       >
-        View full engineering profile
-        <span className="transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden>→</span>
+        View engineering profile
+        <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
       </Link>
+      </div>
     </section>
   );
 }
