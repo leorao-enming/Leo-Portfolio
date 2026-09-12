@@ -3,25 +3,61 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { PROJECTS } from "../../_data/projects";
+import { LAB_ENTRIES } from "../../_data/lab";
+import { HalfLifeMotif, FabTwinMotif, LeoLogicOsMotif } from "./SelectedWorkArt";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+const halfLife = PROJECTS.find((p) => p.slug === "half-life")!;
+const leologicOs = PROJECTS.find((p) => p.slug === "leologic-os")!;
+const fabTwin = LAB_ENTRIES.find((e) => e.id === "L-03")!;
+
 /**
- * Three flagship projects, chosen deliberately: each is a registered
- * Project with its own slug and detail page, not a Lab build-queue entry
- * dressed up as finished work. FabTwin (L-03, status IN PROGRESS, no
- * detail page yet) stays in /lab until it actually ships one — this
- * section replaced the six-card ProjectsSection specifically to stop
- * implying every entry carries equal weight, so it can't turn around and
- * do the same thing with an unshipped build.
+ * The three flagships named directly by the brief — Half-Life, FabTwin,
+ * LeoLogic OS — not the prior three (Half-Life, LeoLogic OS, Trace).
+ *
+ * FabTwin has no /projects/[slug] page yet: it's Lab entry L-03, status IN
+ * PROGRESS, not a registered project with documented architecture. Rather
+ * than fabricate a detail page for it or silently link to one that 404s,
+ * its card links to /lab, where its real status already lives — the same
+ * honesty convention (SelectedWork's own file header, LAB_DISCLOSURE) this
+ * codebase already applies everywhere else. That's a deliberate deviation
+ * from treating all three as equal-weight registered projects.
+ *
+ * Each row also carries a small distinct "shape signature" (SelectedWorkArt)
+ * instead of a repeated template, so the three read as structurally
+ * different compositions — the placeholder each project's eventual full art
+ * direction will replace, not three identical cards.
  */
-const FLAGSHIP_SLUGS = ["half-life", "leologic-os", "trace"];
+const FLAGSHIPS = [
+  {
+    number: "01",
+    title: "Half-Life",
+    href: `/projects/${halfLife.slug}`,
+    summary: halfLife.summary,
+    statusLabel: halfLife.statusLabel,
+    Motif: HalfLifeMotif,
+  },
+  {
+    number: "02",
+    title: "FabTwin",
+    href: "/lab",
+    summary: fabTwin.objective,
+    statusLabel: fabTwin.status,
+    Motif: FabTwinMotif,
+  },
+  {
+    number: "03",
+    title: "LeoLogic OS",
+    href: `/projects/${leologicOs.slug}`,
+    summary: leologicOs.summary,
+    statusLabel: leologicOs.statusLabel,
+    Motif: LeoLogicOsMotif,
+  },
+];
 
 export function SelectedWork() {
   const reduced = useReducedMotion();
-  const projects = FLAGSHIP_SLUGS
-    .map((slug) => PROJECTS.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <section id="projects" className="section-shell">
@@ -75,25 +111,25 @@ export function SelectedWork() {
         </Link>
       </motion.div>
 
-      {/* An index, not a card grid: number, title, one line, a link. The
-          full stack chips and metric grids live at /projects/[slug] —
-          here the work is named, not itemized. */}
+      {/* Each flagship gets its own shape signature rather than a repeated
+          row template — three structurally distinct shells, not three
+          identical cards. */}
       <div>
-        {projects.map((project, i) => (
+        {FLAGSHIPS.map((project, i) => (
           <motion.div
-            key={project.id}
+            key={project.href}
             initial={{ opacity: 0, y: reduced ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : i * 0.08, ease }}
           >
             <Link
-              href={`/projects/${project.slug}`}
+              href={project.href}
               className="index-row group"
               style={{
                 display: "grid",
                 gridTemplateColumns: "48px 1fr auto",
-                alignItems: "baseline",
+                alignItems: "center",
                 gap: "clamp(16px, 3vw, 32px)",
                 padding: "clamp(24px, 3.5vw, 36px) 4px",
                 textDecoration: "none",
@@ -104,9 +140,11 @@ export function SelectedWork() {
                   fontFamily: "var(--font-mono)",
                   fontSize: 13,
                   color: "var(--text-muted)",
+                  alignSelf: "start",
+                  paddingTop: 6,
                 }}
               >
-                {String(i + 1).padStart(2, "0")}
+                {project.number}
               </span>
 
               <div>
@@ -136,20 +174,21 @@ export function SelectedWork() {
                 </p>
               </div>
 
-              <span
-                className="transition-transform duration-300 group-hover:translate-x-1"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 12,
-                  letterSpacing: "0.1em",
-                  color: "var(--text-muted)",
-                  whiteSpace: "nowrap",
-                  alignSelf: "center",
-                }}
-                aria-hidden
-              >
-                {project.statusLabel} →
-              </span>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
+                <project.Motif />
+                <span
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 12,
+                    letterSpacing: "0.1em",
+                    color: "var(--text-muted)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {project.statusLabel} →
+                </span>
+              </div>
             </Link>
           </motion.div>
         ))}

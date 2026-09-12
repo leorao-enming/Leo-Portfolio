@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "motion/react";
+import { HeroCredential } from "./HeroCredential";
 
 /* ── Magnetic CTA button ─────────────────────────────────────────── */
 function MagneticBtn({
@@ -202,74 +203,104 @@ export function Hero() {
           ...contentStyle,
         }}
       >
-        {/* Headline — name set large and stacked, editorial rather than a
-            dashboard title bar. Contrast against section h2s (which run
-            26-56px) is the point: this is the one moment on the page
-            allowed to be this big. Still one h1, still real text in the
-            server HTML. */}
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: "clamp(28px, 4vh, 48px)" }}
+        {/* Editorial text on the left, the credential offset on the right —
+            the credential is a hero OBJECT placed in the composition now,
+            not the layout language for the whole page. Column on mobile so
+            the credential stacks below the text instead of competing with
+            it for width. */}
+        <div
+          className="lg:flex-row lg:items-end lg:justify-between"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: "clamp(40px, 6vw, 96px)",
+            marginBottom: "clamp(28px, 4vh, 48px)",
+            textAlign: "center",
+          }}
         >
-          <h1
-            style={{
-              fontSize: "clamp(52px, 11vw, 148px)",
-              letterSpacing: "-0.04em",
-              lineHeight: 0.92,
-              color: "rgba(10, 12, 15,0.94)",
-              margin: 0,
-            }}
-          >
-            <span style={{ display: "block" }}>Leo</span>
-            <span style={{ display: "block" }}>Rao</span>
-          </h1>
+          <div className="lg:text-left" style={{ minWidth: 0 }}>
+            {/* Headline — name set large and stacked, editorial rather than
+                a dashboard title bar. Contrast against section h2s (which
+                run 26-56px) is the point: this is the one moment on the
+                page allowed to be this big. Still one h1, still real text
+                in the server HTML. */}
+            <motion.div
+              initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1
+                style={{
+                  fontSize: "clamp(52px, 11vw, 148px)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: 0.92,
+                  color: "rgba(10, 12, 15,0.94)",
+                  margin: 0,
+                }}
+              >
+                <span style={{ display: "block" }}>Leo</span>
+                <span style={{ display: "block" }}>Rao</span>
+              </h1>
 
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "clamp(11px, 1.1vw, 13px)",
-              letterSpacing: "0.28em",
-              textTransform: "uppercase",
-              color: "var(--text-muted)",
-              margin: "clamp(16px, 2.4vh, 24px) 0 0",
-            }}
-          >
-            Chemical Engineer — University of Toronto
-          </p>
+              {/* The statement — Layer A, dominant over everything else on
+                  the page including this same line's own supporting copy
+                  below it. */}
+              <p
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontWeight: 500,
+                  fontSize: "clamp(24px, 3.6vw, 42px)",
+                  lineHeight: 1.16,
+                  letterSpacing: "-0.01em",
+                  color: "rgba(10, 12, 15,0.86)",
+                  margin: "clamp(20px, 3vh, 32px) 0 0",
+                  maxWidth: "13ch",
+                }}
+              >
+                Engineering the{" "}
+                <span style={{ color: "var(--color-accent-ink)" }}>invisible.</span>
+              </p>
 
-          {/* The statement, broken across short editorial lines rather than
-              run as a paragraph — this replaces the old "by day / by
-              night" tagline, which said the same thing at lower contrast. */}
-          <p
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontWeight: 500,
-              fontSize: "clamp(22px, 3.2vw, 38px)",
-              lineHeight: 1.18,
-              letterSpacing: "-0.01em",
-              color: "rgba(10, 12, 15,0.82)",
-              margin: "clamp(20px, 3vh, 32px) 0 0",
-              maxWidth: "14ch",
-            }}
-          >
-            Building systems between{" "}
-            <span style={{ color: "var(--color-accent-ink)" }}>matter</span>{" "}
-            and software.
-          </p>
-        </motion.div>
+              {/* Layer B — information, one supporting line, well below the
+                  statement's weight. Replaces the old mono credential line;
+                  this is the fuller version of the same fact. */}
+              <p
+                style={{
+                  fontSize: "clamp(14px, 1.3vw, 17px)",
+                  lineHeight: 1.6,
+                  color: "var(--text-body)",
+                  margin: "clamp(14px, 2vh, 20px) 0 0",
+                  maxWidth: "34ch",
+                }}
+              >
+                Chemical engineering, physical systems, software and intelligence.
+              </p>
+            </motion.div>
 
-        {/* CTA row */}
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
-          style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
-        >
-          <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
-          <MagneticBtn href="#contact" variant="ghost">Get in Touch</MagneticBtn>
-        </motion.div>
+            {/* CTA row */}
+            <motion.div
+              initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:justify-start"
+              style={{
+                display: "flex",
+                gap: 14,
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "clamp(28px, 4vh, 40px)",
+              }}
+            >
+              <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
+              <MagneticBtn href="#contact" variant="ghost">Get in Touch</MagneticBtn>
+            </motion.div>
+          </div>
+
+          <HeroCredential />
+        </div>
 
         {/* Bottom bar — nirnor-style horizontal rule + scroll cue */}
         <motion.div

@@ -244,7 +244,10 @@ function QrCode() {
 }
 
 /* ─── CARD FRONT ─────────────────────────────────────────────────── */
-function CardFront() {
+/* Exported so the hero-object placement (HeroCredential.tsx) can reuse the
+   same visual faces without duplicating ~300 lines of markup — the physics
+   rig below stays specific to the nav lanyard drop. */
+export function CardFront() {
   return (
     <div
       style={{
@@ -542,7 +545,7 @@ function CardFront() {
 }
 
 /* ─── CARD BACK ──────────────────────────────────────────────────── */
-function CardBack() {
+export function CardBack() {
   return (
     <div
       style={{

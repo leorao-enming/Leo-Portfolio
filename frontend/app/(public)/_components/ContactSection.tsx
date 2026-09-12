@@ -137,8 +137,11 @@ export function ContactSection() {
           </motion.div>
         </div>
 
-        {/* Right — links */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(12px, 1.5vw, 16px)" }}>
+        {/* Right — links. Hairline rows, not boxed cards: quiet is the
+            point of this section, and a bordered/background treatment
+            reads as one more UI container on a page trying to have fewer
+            of them. */}
+        <div>
           {links.map((link, i) => (
             <motion.a
               key={link.label}
@@ -149,13 +152,12 @@ export function ContactSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : i * 0.1, ease }}
-              className="contact-row"
+              className="index-row group"
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: "18px 22px",
-                borderRadius: 16,
+                padding: "18px 4px",
                 textDecoration: "none",
                 cursor: "pointer",
               }}
