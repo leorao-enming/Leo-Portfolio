@@ -19,6 +19,65 @@ const SECURITY_BG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewB
 const HOLO_GRADIENT =
   "linear-gradient(105deg, transparent 20%, rgba(0,255,100,0.06) 30%, rgba(0,200,255,0.08) 40%, rgba(180,0,255,0.05) 50%, transparent 60%)";
 
+/* ─── PVC grain — feTurbulence noise, at a low enough opacity to read
+   as material texture rather than visible static. ────────────────── */
+const PVC_GRAIN =
+  `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+
+/* ─── Micro scratches — a handful of hand-placed, faintly-angled hairlines,
+   not a repeating pattern. Real handling wear doesn't repeat on a grid. ── */
+const MICRO_SCRATCHES = (
+  <svg
+    aria-hidden
+    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+    viewBox="0 0 252 400"
+    preserveAspectRatio="none"
+  >
+    <g stroke="#fff" strokeLinecap="round" fill="none">
+      <line x1="18" y1="42" x2="86" y2="35" strokeWidth="0.5" opacity="0.10" />
+      <line x1="140" y1="110" x2="210" y2="122" strokeWidth="0.4" opacity="0.08" />
+      <line x1="30" y1="230" x2="70" y2="245" strokeWidth="0.5" opacity="0.09" />
+      <line x1="170" y1="300" x2="150" y2="340" strokeWidth="0.4" opacity="0.07" />
+      <line x1="60" y1="360" x2="130" y2="352" strokeWidth="0.5" opacity="0.08" />
+      <line x1="200" y1="60" x2="222" y2="95" strokeWidth="0.35" opacity="0.06" />
+    </g>
+  </svg>
+);
+
+/* Max tilt in degrees — the brief explicitly rules out large exaggerated
+   3D motion, so this stays small enough to read as "glossy surface"
+   rather than a gimmick. */
+const MAX_TILT = 4;
+
+/* ─── Specular sheen ─────────────────────────────────────────────────
+   Defaults to a fixed upper-left highlight — a believable "studio light"
+   position — so a mobile visitor who never fires a mousemove event still
+   sees a static highlight rather than nothing. On desktop, the mousemove
+   handler on the tilt wrapper overwrites --sheen-x/--sheen-y so it tracks
+   the cursor instead. One component, shared by both faces via CSS custom
+   property inheritance — no ref plumbing into each face needed. */
+function Sheen() {
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: "absolute",
+        inset: 0,
+        background:
+          "radial-gradient(circle 200px at var(--sheen-x, 28%) var(--sheen-y, 18%), rgba(255,255,255,0.28), transparent 60%)",
+        mixBlendMode: "overlay",
+        pointerEvents: "none",
+        /* Kept below the zIndex:2 text layer on both faces on purpose — a
+           white overlay-blend layer measurably washes out dark text under
+           its hotspot, and this card's contrast has already needed fixing
+           three times this session. A physically-accurate glint sitting on
+           top of the lettering isn't worth risking that again. */
+        zIndex: 1,
+      }}
+    />
+  );
+}
+
 /* ─── Chip SVG (EMV-style) ───────────────────────────────────────── */
 function Chip() {
   return (
@@ -211,16 +270,37 @@ function CardFront() {
           zIndex: 0,
         }}
       />
+      {/* PVC grain — a physical card is never perfectly flat plastic. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: PVC_GRAIN,
+          opacity: 0.05,
+          mixBlendMode: "overlay",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      {MICRO_SCRATCHES}
+      {/* Holographic strip — narrowed to a band near the right edge, closer
+          to how a real security-foil strip sits on a badge, and its
+          position ties to --sheen-x so it shifts slightly with the same
+          cursor tracking as the specular highlight, the way real foil
+          shifts color with viewing angle. */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           backgroundImage: HOLO_GRADIENT,
+          backgroundSize: "160% 100%",
+          backgroundPosition: "var(--sheen-x, 28%) 0",
           pointerEvents: "none",
           zIndex: 1,
           mixBlendMode: "screen",
         }}
       />
+      <Sheen />
 
       <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column" }}>
         {/* Badge clip hole */}
@@ -270,6 +350,10 @@ function CardFront() {
                 CREDENTIAL
               </div>
             </div>
+            {/* Embossed — a light rim top-left, a dark one bottom-right, on
+                both the badge and the lettering, is the standard raised-relief
+                trick: it reads as pressed into the card rather than printed
+                flat on it. */}
             <div
               style={{
                 width: 28,
@@ -277,6 +361,8 @@ function CardFront() {
                 borderRadius: "50%",
                 border: "1.5px solid rgba(255,122,24,0.35)",
                 background: "rgba(255,122,24,0.08)",
+                boxShadow:
+                  "inset -1px -1px 2px rgba(0,0,0,0.3), inset 1px 1px 1.5px rgba(255,255,255,0.12)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -284,6 +370,7 @@ function CardFront() {
                 fontWeight: 700,
                 color: "rgba(255,122,24,0.7)",
                 fontFamily: "monospace",
+                textShadow: "0 1px 0 rgba(255,255,255,0.12), 0 -1px 0 rgba(0,0,0,0.35)",
                 flexShrink: 0,
               }}
             >
@@ -471,6 +558,25 @@ function CardBack() {
           "0 32px 80px rgba(0,0,0,0.75), 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
       }}
     >
+      {/* PVC grain, scratches, and the specular sheen — same three material
+          layers as the front face, kept below the zIndex:2 content wrapper
+          below for the same reason: nothing here should risk washing out
+          already AA-fixed text. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: PVC_GRAIN,
+          opacity: 0.05,
+          mixBlendMode: "overlay",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      {MICRO_SCRATCHES}
+      <Sheen />
+
+      <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column" }}>
       <div
         style={{
           width: "100%",
@@ -629,6 +735,7 @@ function CardBack() {
           NOT TRANSFERABLE · VOID IF ALTERED · PROPERTY OF LEOLOGIC
         </div>
       </div>
+      </div>
     </div>
   );
 }
@@ -676,6 +783,7 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null); /* translateY */
   const ropeRef    = useRef<HTMLDivElement>(null); /* rope X rotation */
   const bodyRef    = useRef<HTMLDivElement>(null); /* card+clip X rotation */
+  const tiltRef    = useRef<HTMLDivElement>(null); /* cursor tilt + sheen, independent of the swing above */
 
   /* Physics state (all refs — never trigger renders) */
   const yRef     = useRef(CLOSE_Y);
@@ -819,6 +927,36 @@ export function EmployeeIdCard({ open, onClose }: Props) {
     if (bodyRef.current) bodyRef.current.style.cursor = "grab";
   };
 
+  /* ── Cursor tilt + specular sheen ──────────────────────────────────
+     Mouse-only (not pointer events) and desktop-only by nature — this is a
+     cosmetic glossy-surface cue, not information, so there's no meaningful
+     touch equivalent to build; a static default sheen position already
+     covers the mobile case (see Sheen's fallback values). Applied to
+     tiltRef, a dedicated inner element, so it never touches the flip
+     transform (on the button) or the swing transform (on bodyRef) —
+     three independent transforms on three different elements, composed
+     visually rather than fighting over one style property. A CSS
+     transition on tiltRef (set below, disabled under reduced motion)
+     handles the settle, so this only ever writes the target values. */
+  const onCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced || isDragging.current || !tiltRef.current) return;
+    const rect = tiltRef.current.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width;
+    const relY = (e.clientY - rect.top) / rect.height;
+    const rotY = (relX - 0.5) * MAX_TILT * 2;
+    const rotX = (0.5 - relY) * MAX_TILT * 2;
+    tiltRef.current.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    tiltRef.current.style.setProperty("--sheen-x", `${relX * 100}%`);
+    tiltRef.current.style.setProperty("--sheen-y", `${relY * 100}%`);
+  };
+
+  const onCardMouseLeave = () => {
+    if (!tiltRef.current) return;
+    tiltRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    tiltRef.current.style.removeProperty("--sheen-x");
+    tiltRef.current.style.removeProperty("--sheen-y");
+  };
+
   return (
     <div
       ref={wrapperRef}
@@ -892,8 +1030,24 @@ export function EmployeeIdCard({ open, onClose }: Props) {
           }}
           onClick={() => !isDragging.current && setFlipped(f => !f)}
         >
-          <CardFront />
-          <CardBack />
+          {/* Tilt + sheen live here, one level in from the flip — this way
+              the two 3D transforms (flip on the button, tilt on this div)
+              never overwrite each other's `transform` property. */}
+          <div
+            ref={tiltRef}
+            onMouseMove={onCardMouseMove}
+            onMouseLeave={onCardMouseLeave}
+            style={{
+              position: "absolute",
+              inset: 0,
+              transformStyle: "preserve-3d",
+              transition: reduced ? "none" : "transform 0.15s ease-out",
+              willChange: "transform",
+            }}
+          >
+            <CardFront />
+            <CardBack />
+          </div>
         </button>
       </div>
     </div>
