@@ -373,10 +373,12 @@ function CardFront() {
               ["CERT", "Six Sigma Black Belt"],
             ].map(([k, v]) => (
               <div key={k}>
-                <div style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#aaa", fontFamily: "monospace", marginBottom: 1.5, textTransform: "uppercase" }}>
+                {/* #aaa/#8a8a90 measured 2.1:1 / 3.1:1 on this near-white
+                    face — the same fix already applied two fields up. */}
+                <div style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#6b6b6b", fontFamily: "monospace", marginBottom: 1.5, textTransform: "uppercase" }}>
                   {k}
                 </div>
-                <div style={{ fontSize: 8, color: "#8a8a90", fontWeight: 600, lineHeight: 1.3, fontFamily: "system-ui, sans-serif" }}>
+                <div style={{ fontSize: 8, color: "#5a5a60", fontWeight: 600, lineHeight: 1.3, fontFamily: "system-ui, sans-serif" }}>
                   {v}
                 </div>
               </div>
@@ -392,7 +394,7 @@ function CardFront() {
           />
 
           <div>
-            <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "#bbb", fontFamily: "monospace", marginBottom: 5 }}>
+            <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "#5a5a60", fontFamily: "monospace", marginBottom: 5 }}>
               ID: LL-2004-ENG-0723
             </div>
             <div style={{ display: "flex", gap: 0, alignItems: "flex-end", height: 28 }}>
@@ -542,7 +544,7 @@ function CardBack() {
             position: "absolute",
             right: 6,
             fontSize: 6,
-            color: "#aaa",
+            color: "#6b6b6b",
             fontFamily: "monospace",
             letterSpacing: "0.12em",
             zIndex: 1,
@@ -586,7 +588,9 @@ function CardBack() {
                 borderBottom: "1px solid rgba(255,255,255,0.03)",
               }}
             >
-              <span style={{ fontSize: 7, letterSpacing: "0.2em", color: "#444", fontFamily: "monospace" }}>{k}</span>
+              {/* #444 measured ~2:1 against this near-black face — dark
+                  grey on near-black, not the light grey it needed. */}
+              <span style={{ fontSize: 7, letterSpacing: "0.2em", color: "#8a8a90", fontFamily: "monospace" }}>{k}</span>
               <span style={{ fontSize: 8, color: "#ff7a18", fontFamily: "monospace", fontWeight: 600 }}>{v}</span>
             </div>
           ))}

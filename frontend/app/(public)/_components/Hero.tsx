@@ -202,58 +202,63 @@ export function Hero() {
           ...contentStyle,
         }}
       >
-        {/* Headline — one h1 carrying name and discipline, so the server
-            sends a real headline to crawlers instead of animated placeholder. */}
+        {/* Headline — name set large and stacked, editorial rather than a
+            dashboard title bar. Contrast against section h2s (which run
+            26-56px) is the point: this is the one moment on the page
+            allowed to be this big. Still one h1, still real text in the
+            server HTML. */}
         <motion.div
           initial={{ opacity: 0, y: reduced ? 0 : 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: "clamp(20px, 3vh, 32px)" }}
+          style={{ marginBottom: "clamp(28px, 4vh, 48px)" }}
         >
           <h1
             style={{
-              fontSize: "clamp(34px, 6.5vw, 84px)",
-              letterSpacing: "-0.035em",
-              lineHeight: 1.04,
+              fontSize: "clamp(52px, 11vw, 148px)",
+              letterSpacing: "-0.04em",
+              lineHeight: 0.92,
               color: "rgba(10, 12, 15,0.94)",
               margin: 0,
-              maxWidth: "18ch",
             }}
           >
-            Leo Rao
-            <span
-              style={{
-                display: "block",
-                fontSize: "clamp(17px, 2.4vw, 32px)",
-                fontWeight: 500,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.25,
-                color: "var(--color-accent-ink)",
-                marginTop: "0.35em",
-                maxWidth: "24ch",
-              }}
-            >
-              Chemical engineering at Toronto — process systems, and the software that measures them.
-            </span>
+            <span style={{ display: "block" }}>Leo</span>
+            <span style={{ display: "block" }}>Rao</span>
           </h1>
-        </motion.div>
 
-        {/* Tagline, demoted from the headline it used to occupy */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: reduced ? 0 : 0.35 }}
-          style={{
-            fontSize: "clamp(14px, 1.3vw, 17px)",
-            lineHeight: 1.7,
-            color: "rgba(10, 12, 15,0.62)",
-            maxWidth: "48ch",
-            margin: "0 0 clamp(28px, 4vh, 44px)",
-          }}
-        >
-          By day, I study process systems. By night, I write precision code.
-          Same machine, different rules.
-        </motion.p>
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "clamp(11px, 1.1vw, 13px)",
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              margin: "clamp(16px, 2.4vh, 24px) 0 0",
+            }}
+          >
+            Chemical Engineer — University of Toronto
+          </p>
+
+          {/* The statement, broken across short editorial lines rather than
+              run as a paragraph — this replaces the old "by day / by
+              night" tagline, which said the same thing at lower contrast. */}
+          <p
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontWeight: 500,
+              fontSize: "clamp(22px, 3.2vw, 38px)",
+              lineHeight: 1.18,
+              letterSpacing: "-0.01em",
+              color: "rgba(10, 12, 15,0.82)",
+              margin: "clamp(20px, 3vh, 32px) 0 0",
+              maxWidth: "14ch",
+            }}
+          >
+            Building systems between{" "}
+            <span style={{ color: "var(--color-accent-ink)" }}>matter</span>{" "}
+            and software.
+          </p>
+        </motion.div>
 
         {/* CTA row */}
         <motion.div

@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Canonical project registry — single source of truth.
 //
-// Both the landing page (ProjectsSection) and the full registry (/projects)
-// read from here, so a project's name, codename, and status can only be
-// stated in one place.
+// The landing page's Selected Work, the full registry (/projects), and each
+// detail page (/projects/[slug]) all read from here, so a project's name,
+// codename, and status can only be stated in one place.
 //
 // Content is kept in step with the Obsidian knowledge vault, which is the
 // system of record for project scope and architecture decisions. Nothing here

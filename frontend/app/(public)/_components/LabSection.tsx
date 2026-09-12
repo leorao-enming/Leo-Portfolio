@@ -9,7 +9,6 @@ import {
 } from "../../_data/lab";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-const ACCENT = "#74d7ff";
 // Darkened for AA text contrast on the light ground.
 const ACCENT_TEXT = "#0369a1";
 

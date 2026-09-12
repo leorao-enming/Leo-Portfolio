@@ -71,7 +71,10 @@ export function MarginRails() {
     const els = [...document.querySelectorAll<HTMLElement>("main section[id]")];
     if (els.length === 0) return;
 
-    setActive(els[0].id);
+    /* No manual priming of `active` here — observe() itself queues an
+       initial callback with the current intersection state for every
+       newly-observed target, so the IntersectionObserver below sets the
+       right section on mount without an extra synchronous setState. */
 
     /* Measure each section's true document position, as a fraction of the
        whole page, so the rail is a scale drawing rather than an even split. */
