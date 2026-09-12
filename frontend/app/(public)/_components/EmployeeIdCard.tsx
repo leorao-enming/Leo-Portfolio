@@ -921,6 +921,12 @@ export function EmployeeIdCard({ open, onClose }: Props) {
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) {
+      /* pointermove fires on plain hover too, not just while a button is
+         held — without this check, hovering over the card (with no prior
+         pointerdown to set pointerStartX/Y) computed a huge bogus delta
+         from stale zero refs and slammed yRef/angleRef with garbage,
+         which is what froze the card on mere mouseover. */
+      if (e.buttons === 0) return;
       const dx0 = e.clientX - pointerStartX.current;
       const dy0 = e.clientY - pointerStartY.current;
       if (Math.hypot(dx0, dy0) < DRAG_THRESHOLD) return;
