@@ -288,10 +288,9 @@ export function LabSection() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr",
           gap: "clamp(16px, 2vw, 24px)",
         }}
-        className="md:grid-cols-2"
+        className="grid-cols-1 md:grid-cols-2"
       >
         {LAB_ENTRIES.map((entry, i) => (
           <LabCard key={entry.id} entry={entry} index={i} reduced={reduced} />

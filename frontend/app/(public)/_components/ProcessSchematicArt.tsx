@@ -59,10 +59,9 @@ export function ProcessSchematicArt() {
 
   return (
     <div
-      className="lg:grid-cols-[1.1fr_1fr]"
+      className="grid-cols-1 lg:grid-cols-[1.1fr_1fr]"
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr",
         gap: "clamp(20px, 3vw, 36px)",
         marginBottom: "clamp(28px, 4vw, 40px)",
       }}
