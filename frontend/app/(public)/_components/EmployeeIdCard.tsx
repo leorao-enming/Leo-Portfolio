@@ -892,20 +892,45 @@ export function EmployeeIdCard({ open, onClose }: Props) {
     return () => { clearTimeout(t); window.removeEventListener("click", onClick); };
   }, [open, onClose]);
 
-  /* ── Drag handlers ── */
+  /* ── Drag handlers ─────────────────────────────────────────────────
+     isDragging only flips to true once the pointer has actually moved
+     past a small threshold, not on every pointerdown. Capturing the
+     pointer immediately on pointerdown (the previous behaviour) retargets
+     the click event that follows to the capturing element, per the
+     Pointer Events spec's compatibility-mouse-event rules — so a plain
+     click on the flip button never reached the button at all, only
+     Tab+Enter (keyboard activation bypasses pointer capture entirely)
+     did. Deferring capture until real movement is detected fixes that
+     while keeping the drag-to-swing gesture working. */
+  const DRAG_THRESHOLD = 6; // px
+  const pointerStartX = useRef(0);
+  const pointerStartY = useRef(0);
+  const pointerIdRef  = useRef<number | null>(null);
+
   const onPointerDown = (e: React.PointerEvent) => {
-    isDragging.current  = true;
+    isDragging.current    = false;
+    pointerStartX.current = e.clientX;
+    pointerStartY.current = e.clientY;
+    pointerIdRef.current  = e.pointerId;
     dragStartY.current  = e.clientY;
     dragStartPY.current = yRef.current;
     lastCY.current      = e.clientY;
     lastCX.current      = e.clientX;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    if (bodyRef.current) bodyRef.current.style.cursor = "grabbing";
     e.preventDefault();
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
-    if (!isDragging.current) return;
+    if (!isDragging.current) {
+      const dx0 = e.clientX - pointerStartX.current;
+      const dy0 = e.clientY - pointerStartY.current;
+      if (Math.hypot(dx0, dy0) < DRAG_THRESHOLD) return;
+      isDragging.current = true;
+      if (pointerIdRef.current !== null) {
+        (e.currentTarget as HTMLElement).setPointerCapture(pointerIdRef.current);
+      }
+      if (bodyRef.current) bodyRef.current.style.cursor = "grabbing";
+    }
+
     const dy = e.clientY - dragStartY.current;
     const dx = e.clientX - lastCX.current;
 
@@ -923,7 +948,9 @@ export function EmployeeIdCard({ open, onClose }: Props) {
   };
 
   const onPointerUp = () => {
-    isDragging.current = false;
+    /* isDragging.current is intentionally left as-is here rather than
+       reset — the button's onClick, which fires right after this, reads
+       it to tell a real drag apart from a plain click and clears it. */
     if (bodyRef.current) bodyRef.current.style.cursor = "grab";
   };
 
@@ -1028,7 +1055,10 @@ export function EmployeeIdCard({ open, onClose }: Props) {
             color: "inherit",
             textAlign: "inherit",
           }}
-          onClick={() => !isDragging.current && setFlipped(f => !f)}
+          onClick={() => {
+            if (isDragging.current) { isDragging.current = false; return; }
+            setFlipped((f) => !f);
+          }}
         >
           {/* Tilt + sheen live here, one level in from the flip — this way
               the two 3D transforms (flip on the button, tilt on this div)
