@@ -118,7 +118,7 @@ export function HalfLifeDecayArt() {
           return (
             <g key={n}>
               <line x1={x} y1={PAD_T} x2={x} y2={PAD_T + PLOT_H} stroke="var(--color-hairline)" strokeDasharray="2 4" />
-              <text x={x} y={PAD_T - 8} textAnchor="middle" fontSize="9" fontFamily="var(--font-mono)" fill="var(--text-faint)">
+              <text x={x} y={PAD_T - 8} textAnchor="middle" fontSize="9" fontFamily="var(--font-mono)" fill="var(--text-muted)">
                 {n + 1}× t½
               </text>
             </g>

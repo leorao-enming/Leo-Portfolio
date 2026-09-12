@@ -7,6 +7,7 @@ import {
   LAB_STATUS_TONE,
   type LabEntry,
 } from "../../_data/lab";
+import { FabTwinSpcArt } from "./FabTwinSpcArt";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 // Darkened for AA text contrast on the light ground.
@@ -120,6 +121,8 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             {entry.objective}
           </p>
 
+          {entry.id === "L-03" && <FabTwinSpcArt />}
+
           <p
             style={{
               fontSize: 12,
@@ -128,6 +131,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
               fontFamily: "var(--font-display)",
               textTransform: "uppercase",
               marginBottom: 10,
+              marginTop: entry.id === "L-03" ? 24 : 0,
             }}
           >
             Capabilities targeted
