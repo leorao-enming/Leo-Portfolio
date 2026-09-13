@@ -68,6 +68,14 @@ export type Project = {
   title: string;
   /** Short label for the landing-page pill. */
   tag: string;
+  /**
+   * Subject area, for the /projects archive's DOMAIN column. A short
+   * classification of what the project already documents about itself —
+   * not a new claim. `tag` is a display pill ("Flagship", "Mobile") and
+   * describes the project's role in the portfolio; this describes its
+   * field.
+   */
+  domain: string;
   /** PARKED = intentionally paused, not abandoned — distinct from ARCHIVED. */
   status: "ACTIVE" | "STABLE" | "WIP" | "ARCHIVED" | "PARKED";
   /** Human-readable status for the landing card. */
@@ -92,6 +100,7 @@ export const PROJECTS: Project[] = [
     codename: "LQC",
     title: "LeoLogic Quantitative Core",
     tag: "Flagship",
+    domain: "Markets / quant",
     status: "PARKED",
     statusLabel: "Parked — idle since 2026-05",
     summary:
@@ -193,6 +202,7 @@ export const PROJECTS: Project[] = [
     codename: "HALFLIFE",
     title: "Half-Life",
     tag: "Mobile",
+    domain: "Health / kinetics",
     status: "ACTIVE",
     statusLabel: "Release candidate — 1.0.4 (6)",
     summary:
@@ -297,6 +307,7 @@ export const PROJECTS: Project[] = [
     codename: "LEOLOGIC-OS",
     title: "LeoLogic OS",
     tag: "System",
+    domain: "Personal systems",
     status: "ACTIVE",
     statusLabel: "Active",
     summary:
@@ -387,6 +398,7 @@ export const PROJECTS: Project[] = [
     codename: "ANOMALY",
     title: "异常事务处",
     tag: "Creative IP",
+    domain: "AI / narrative",
     status: "WIP",
     statusLabel: "In Production",
     summary:
@@ -470,6 +482,7 @@ export const PROJECTS: Project[] = [
     codename: "TRACE",
     title: "Trace",
     tag: "AI Engineering",
+    domain: "Evidence / AI",
     status: "ACTIVE",
     statusLabel: "In Development",
     summary:
@@ -564,6 +577,7 @@ export const PROJECTS: Project[] = [
     codename: "TINY-TRIALS",
     title: "Tiny Trials",
     tag: "Mobile",
+    domain: "Self-experiments",
     status: "ACTIVE",
     statusLabel: "In Development",
     summary:

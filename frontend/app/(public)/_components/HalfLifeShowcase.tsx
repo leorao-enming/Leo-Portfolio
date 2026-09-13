@@ -2,76 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { DecayField, REMAINING_MG } from "./project-art/DecayField";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-
-/* ── Decay field ─────────────────────────────────────────────────────
- * Editorial, not a dashboard: no legend, no card border, no axis ticks
- * beyond the two labels the brief's own mockup shows. 200mg at 08:00,
- * 38mg remaining by 23:00 (15h window) — solved for a ~6.3h half-life,
- * inside caffeine's real 3-7h range, same "illustrative, not measured"
- * framing HalfLifeDecayArt already uses on the project's own page. This
- * is a different, plainer drawing built specifically for the homepage;
- * that page keeps its own interactive slider version.
- */
-const DOSE_MG = 200;
-const REMAINING_MG = 38;
-const WINDOW_H = 15;
-const DECAY_K = Math.log(DOSE_MG / REMAINING_MG) / WINDOW_H;
-
-const VIEW_W = 560;
-const VIEW_H = 320;
-const PAD_L = 8;
-const PAD_R = 8;
-const PAD_T = 28;
-const PAD_B = 44;
-const PLOT_W = VIEW_W - PAD_L - PAD_R;
-const PLOT_H = VIEW_H - PAD_T - PAD_B;
-
-function remaining(tHours: number) {
-  return DOSE_MG * Math.exp(-DECAY_K * tHours);
-}
-function xFor(t: number) {
-  return PAD_L + (t / WINDOW_H) * PLOT_W;
-}
-function yFor(mg: number) {
-  return PAD_T + PLOT_H - (mg / DOSE_MG) * PLOT_H;
-}
-
-const CURVE_POINTS = Array.from({ length: 61 }, (_, i) => {
-  const t = (i / 60) * WINDOW_H;
-  return { t, mg: remaining(t) };
-});
-const CURVE_PATH = CURVE_POINTS.map((p, i) => `${i === 0 ? "M" : "L"} ${xFor(p.t).toFixed(1)} ${yFor(p.mg).toFixed(1)}`).join(" ");
-const AREA_PATH = `${CURVE_PATH} L ${xFor(WINDOW_H).toFixed(1)} ${(PAD_T + PLOT_H).toFixed(1)} L ${xFor(0).toFixed(1)} ${(PAD_T + PLOT_H).toFixed(1)} Z`;
-
-function DecayField() {
-  return (
-    <svg
-      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-      style={{ width: "100%", height: "auto", display: "block" }}
-      role="img"
-      aria-label="Line drawing of caffeine decaying from 200 milligrams at 8am to 38 milligrams remaining by 11pm, following a smooth exponential curve."
-    >
-      <path d={AREA_PATH} fill="var(--accent-half-life-dim)" fillOpacity="0.14" />
-      <line x1={PAD_L} y1={PAD_T - 6} x2={PAD_L} y2={PAD_T + PLOT_H} stroke="var(--accent-half-life)" strokeOpacity="0.3" />
-      <line x1={PAD_L} y1={PAD_T + PLOT_H} x2={VIEW_W - PAD_R} y2={PAD_T + PLOT_H} stroke="var(--accent-half-life)" strokeOpacity="0.3" />
-      <path d={CURVE_PATH} fill="none" stroke="var(--accent-half-life)" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx={xFor(0)} cy={yFor(DOSE_MG)} r="3.5" fill="var(--accent-half-life)" />
-      <circle cx={xFor(WINDOW_H)} cy={yFor(REMAINING_MG)} r="3.5" fill="var(--accent-half-life)" />
-
-      <text x={PAD_L} y={PAD_T - 12} fontSize="15" fontFamily="var(--font-mono)" fontWeight="600" fill="var(--accent-half-life)">
-        {DOSE_MG} mg
-      </text>
-      <text x={PAD_L} y={PAD_T + PLOT_H + 22} fontSize="11" fontFamily="var(--font-mono)" letterSpacing="0.08em" fill="var(--text-muted)">
-        08:00
-      </text>
-      <text x={VIEW_W - PAD_R} y={PAD_T + PLOT_H + 22} textAnchor="end" fontSize="11" fontFamily="var(--font-mono)" letterSpacing="0.08em" fill="var(--text-muted)">
-        23:00
-      </text>
-    </svg>
-  );
-}
 
 const TAGS = ["HealthKit", "Sleep", "First-order kinetics"];
 

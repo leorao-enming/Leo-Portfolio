@@ -613,6 +613,32 @@
   .sheet-corner-bl { left: 23px;  bottom: 33px; }
   .sheet-corner-br { right: 23px; bottom: 33px; }
 
+  /* ── Archive row ──────────────────────────────────────────────
+     The /projects registry row. Hover and focus add an accent rule and
+     a tint only — every piece of the row's content is rendered up
+     front, so nothing here is required to read or use the archive.
+     :focus-visible is matched alongside :hover so keyboard traversal
+     gets the same affordance a pointer does. */
+  .archive-row {
+    display: block;
+    padding: clamp(18px, 2.2vw, 24px) 4px;
+    border-bottom: 1px solid var(--color-hairline);
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    transition: background 200ms ease, border-left-color 200ms ease;
+  }
+  .archive-row:hover,
+  .archive-row:focus-visible {
+    background: rgba(10, 12, 15, 0.025);
+    border-left-color: var(--accent-engineering);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .archive-row .group-hover\:translate-x-1 {
+      transform: none !important;
+    }
+  }
+
   /* ── Visually-hidden text ─────────────────────────────────────
      Available to screen readers, removed from the visual layout. Used
      for the process canvas's long-form diagram description. Declared

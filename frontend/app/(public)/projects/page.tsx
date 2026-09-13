@@ -1,72 +1,43 @@
 import type { Metadata } from "next";
-import { ProjectIndexCard } from "../_components/ProjectIndexCard";
-import { REGISTRY_PROJECTS } from "../../_data/projects";
+import { ProjectsHero } from "./_components/ProjectsHero";
+import { GalleryHalfLife } from "./_components/GalleryHalfLife";
+import { GalleryFabTwin } from "./_components/GalleryFabTwin";
+import { GalleryLeoLogicOs } from "./_components/GalleryLeoLogicOs";
+import { ProjectArchive } from "./_components/ProjectArchive";
+import { ContinueToLab } from "./_components/ContinueToLab";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Technical project portfolio: an evidence-grounded AI drawing assistant, local-first " +
-    "mobile apps, a parked quant console, and a personal operating system — each documented " +
-    "at the same evidence standard as the code itself.",
+    "Selected systems, experiments and tools: a caffeine-kinetics iOS app, a plasma-etch " +
+    "SPC simulator, and a personal operating system — plus the working archive behind them.",
 };
 
-const LIVE_COUNT = REGISTRY_PROJECTS.filter(
-  (p) => p.registry.displayType === "Live System",
-).length;
-const ARCH_COUNT = REGISTRY_PROJECTS.filter(
-  (p) => p.registry.displayType === "Architecture Only",
-).length;
-
+/**
+ * /projects as two layers rather than one uniform registry.
+ *
+ * GALLERY (01) carries identity: three works, each a full chapter with its
+ * own surface, art direction and composition. ARCHIVE (02) carries
+ * evidence: the dense registry, preserved, on a light technical paper.
+ *
+ * The tone arc is load-bearing, same as the homepage: warm neutral → cream
+ * → titanium → graphite → technical paper → warm neutral. Only LeoLogic OS
+ * gets a large dark field, and the page resolves back to light afterwards
+ * rather than ending in black.
+ *
+ * Half-Life and LeoLogic OS are excluded from the archive because they are
+ * shown in full above; nothing is deleted — every other registry project
+ * still appears, and FabTwin's record stays in Lab where it belongs.
+ */
 export default function ProjectsPage() {
   return (
-    <div className="page-shell">
-      <header style={{ marginBottom: "clamp(32px, 5vw, 56px)" }}>
-        <p
-          className="text-xs tracking-[0.35em] font-mono"
-          style={{ color: "var(--text-muted)", marginBottom: 16 }}
-        >
-          PROJECT REGISTRY — {REGISTRY_PROJECTS.length} ENTRIES
-        </p>
-        <h1
-          style={{
-            fontSize: "clamp(32px, 5.5vw, 64px)",
-            letterSpacing: "-0.03em",
-            lineHeight: 1.05,
-            color: "var(--color-text-primary)",
-            margin: "0 0 18px",
-          }}
-        >
-          Technical projects
-        </h1>
-        <p
-          style={{
-            fontSize: "clamp(14px, 1.2vw, 16px)",
-            lineHeight: 1.7,
-            color: "var(--text-body)",
-            maxWidth: "62ch",
-          }}
-        >
-          Live System entries are connected to real APIs and can be interacted with
-          directly. Architecture Only entries are private or conceptual — the source is
-          restricted, but the execution stack is documented in full. Open any entry for
-          the architecture, the specs, and what has and has not been verified.
-        </p>
-
-        <div className="flex flex-wrap gap-5 mt-6">
-          <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
-            <span style={{ color: "#00d4ff" }}>●</span> {LIVE_COUNT} live
-          </span>
-          <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
-            <span style={{ color: "#ffb000" }}>●</span> {ARCH_COUNT} architecture only
-          </span>
-        </div>
-      </header>
-
-      <div className="flex flex-col gap-4">
-        {REGISTRY_PROJECTS.map((project) => (
-          <ProjectIndexCard key={project.id} project={project} />
-        ))}
-      </div>
-    </div>
+    <>
+      <ProjectsHero />
+      <GalleryHalfLife />
+      <GalleryFabTwin />
+      <GalleryLeoLogicOs />
+      <ProjectArchive excludeSlugs={["half-life", "leologic-os"]} />
+      <ContinueToLab />
+    </>
   );
 }

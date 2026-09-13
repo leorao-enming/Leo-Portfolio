@@ -3,102 +3,10 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { LAB_ENTRIES } from "../../_data/lab";
+import { Wafer, SpcPanel } from "./project-art/FabTwinArt";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const fabTwin = LAB_ENTRIES.find((e) => e.id === "L-03")!;
-
-/* ── Silicon wafer ──────────────────────────────────────────────────
- * The section's one violet moment — thin-film interference on a wafer
- * surface, restrained rather than a rainbow-holo effect. Concentric
- * process rings + a flat notch (a real wafer-orientation feature, not
- * invented detail) keep it reading as an object, not an abstract disc. */
-function Wafer() {
-  return (
-    <svg viewBox="0 0 280 280" style={{ width: "100%", maxWidth: 300, height: "auto", display: "block" }} aria-hidden>
-      <defs>
-        <radialGradient id="wafer-sheen" cx="35%" cy="30%" r="75%">
-          <stop offset="0%" stopColor="var(--accent-fabtwin)" stopOpacity="0.28" />
-          <stop offset="45%" stopColor="var(--accent-fabtwin)" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="var(--surface-fabtwin-dark)" stopOpacity="0.08" />
-        </radialGradient>
-      </defs>
-      <circle cx="140" cy="140" r="124" fill="url(#wafer-sheen)" stroke="var(--accent-fabtwin-ink)" strokeOpacity="0.4" />
-      {[96, 68, 40].map((r) => (
-        <circle key={r} cx="140" cy="140" r={r} fill="none" stroke="var(--accent-fabtwin-ink)" strokeOpacity="0.18" />
-      ))}
-      {/* Orientation notch */}
-      <path d="M 128 262 A 124 124 0 0 0 152 262 L 148 250 A 108 108 0 0 1 132 250 Z" fill="var(--surface-fabtwin)" stroke="var(--accent-fabtwin-ink)" strokeOpacity="0.4" />
-    </svg>
-  );
-}
-
-/* ── SPC chart ───────────────────────────────────────────────────────
- * A dark instrument panel set inside the light titanium section — the
- * brief's own instruction ("dark elements inside the section", not a
- * second full-dark canvas). Same subject as FabTwinSpcArt (chamber
- * pressure, one flagged point), redrawn plainer for the homepage. */
-const SUBGROUPS = [0.42, 0.30, 0.58, 0.22, 0.5, 0.86, 0.34, 0.46];
-const FAULT_INDEX = 5;
-
-function SpcPanel() {
-  const w = 360;
-  const h = 220;
-  const padX = 30;
-  const topY = 44;
-  const bottomY = h - 44;
-  const stepX = (w - padX * 2) / (SUBGROUPS.length - 1);
-
-  return (
-    <svg
-      viewBox={`0 0 ${w} ${h}`}
-      style={{ width: "100%", height: "auto", display: "block", background: "var(--surface-fabtwin-dark)", borderRadius: 12 }}
-      role="img"
-      aria-label="Statistical process control chart for chamber 03. Eight subgroups plotted between the upper and lower control limits, with one point flagged as a fault above the upper limit."
-    >
-      <text x={padX} y={26} fontSize="12" fontFamily="var(--font-mono)" letterSpacing="0.14em" fill="var(--text-on-dark-strong)">
-        CHAMBER 03
-      </text>
-
-      <line x1={padX} y1={topY} x2={w - padX} y2={topY} stroke="var(--accent-fabtwin)" strokeOpacity="0.5" strokeDasharray="3 4" />
-      <text x={w - padX} y={topY - 6} textAnchor="end" fontSize="10" fontFamily="var(--font-mono)" fill="var(--text-on-dark-muted)">UCL</text>
-
-      <line x1={padX} y1={bottomY} x2={w - padX} y2={bottomY} stroke="var(--accent-fabtwin)" strokeOpacity="0.5" strokeDasharray="3 4" />
-      <text x={padX} y={bottomY + 18} fontSize="10" fontFamily="var(--font-mono)" fill="var(--text-on-dark-muted)">LCL</text>
-
-      {SUBGROUPS.map((v, i) => {
-        const x = padX + i * stepX;
-        const y = topY + (1 - v) * (bottomY - topY);
-        const isFault = i === FAULT_INDEX;
-        return (
-          <g key={i}>
-            {i > 0 && (
-              <line
-                x1={padX + (i - 1) * stepX}
-                y1={topY + (1 - SUBGROUPS[i - 1]) * (bottomY - topY)}
-                x2={x}
-                y2={y}
-                stroke="var(--text-on-dark-body)"
-                strokeOpacity="0.5"
-              />
-            )}
-            {isFault ? (
-              <g stroke="#e08a7a" strokeWidth="2" strokeLinecap="round">
-                <line x1={x - 5} y1={y - 5} x2={x + 5} y2={y + 5} />
-                <line x1={x - 5} y1={y + 5} x2={x + 5} y2={y - 5} />
-              </g>
-            ) : (
-              <circle cx={x} cy={y} r="3.5" fill="var(--text-on-dark-strong)" />
-            )}
-          </g>
-        );
-      })}
-
-      <text x={padX} y={h - 14} fontSize="10" fontFamily="var(--font-mono)" letterSpacing="0.1em" fill="#e08a7a">
-        FAULT DETECTED
-      </text>
-    </svg>
-  );
-}
 
 const TAGS = ["SPC", "PCA", "Hotelling T²", "Fault detection"];
 
