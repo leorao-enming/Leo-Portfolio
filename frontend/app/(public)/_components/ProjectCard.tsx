@@ -85,8 +85,7 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
       <div className="p-5">
         {/* No fontFamily/color override — inherits serif + ink from
             .public-shell h1, matching every other heading on the site. */}
-        <h1 className="tracking-tight mb-2" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
-        <p className="text-xs leading-relaxed mb-1 text-[var(--text-body)]">{project.summary}</p>
+        <h2 className="tracking-tight mb-2" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
         <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics */}
@@ -196,7 +195,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
         <div className="flex items-start justify-between mb-2 gap-4">
-          <h1 className="tracking-tight" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>{project.title}</h1>
+          <h2 className="tracking-tight" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
           {/* Architecture-only badge */}
           <span
             className="text-xs tracking-wider font-mono whitespace-nowrap px-2 py-0.5 mt-0.5 shrink-0"
@@ -210,7 +209,6 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
           </span>
         </div>
 
-        <p className="text-xs leading-relaxed mb-1 text-[var(--text-muted)]">{project.summary}</p>
         <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
 
         {/* Two-column: stack + metrics (slightly muted) */}

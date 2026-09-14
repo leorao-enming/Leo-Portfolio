@@ -101,7 +101,10 @@ export function HalfLifeDecayArt() {
             textAlign: "right",
           }}
         >
-          A(t) = {DOSE_MG}·e<sup>−0.693t/{HALF_LIFE_H}</sup>
+          {/* Explicit size: the browser's default `smaller` put this at 9px
+              against the site's 11px floor. Superscript still reads as
+              superscript from the raised baseline alone. */}
+          A(t) = {DOSE_MG}·e<sup style={{ fontSize: 11 }}>−0.693t/{HALF_LIFE_H}</sup>
         </p>
       </div>
       <p style={{ fontSize: 13, color: "var(--text-muted)", margin: "0 0 20px", maxWidth: "62ch" }}>
@@ -110,24 +113,50 @@ export function HalfLifeDecayArt() {
         control below to move through time.
       </p>
 
+      {/* Half-life tick labels, in HTML rather than <text> inside the SVG.
+          This viewBox is 720 units wide and renders at ~293px on a phone, a
+          scale of 0.41 — the labels used to be 9 user units, which measured
+          3.7px on screen and was effectively invisible. As HTML they are
+          real CSS pixels at every width. Positioned by the same xFor() the
+          SVG uses, expressed as a percentage, so a label cannot drift away
+          from the gridline it belongs to. */}
+      <div style={{ position: "relative", height: 16, marginBottom: 2 }} aria-hidden>
+        {[0, 1, 2].map((n) => {
+          const th = HALF_LIFE_H * (n + 1);
+          if (th > WINDOW_H) return null;
+          return (
+            <span
+              key={n}
+              style={{
+                position: "absolute",
+                left: `${(xFor(th) / VIEW_W) * 100}%`,
+                transform: "translateX(-50%)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                color: "var(--text-muted)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {n + 1}× t½
+            </span>
+          );
+        })}
+      </div>
+
       <svg
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         style={{ width: "100%", height: "auto", display: "block" }}
         role="img"
         aria-label={`Exponential decay curve from ${DOSE_MG} milligrams at time zero to near zero by ${WINDOW_H} hours, following a five-hour half-life`}
       >
-        {/* Reference lines at each half-life */}
+        {/* Reference lines at each half-life — the labels for these now sit
+            above the chart in HTML (see the block above). */}
         {[0, 1, 2].map((n) => {
           const th = HALF_LIFE_H * (n + 1);
           if (th > WINDOW_H) return null;
           const x = xFor(th);
           return (
-            <g key={n}>
-              <line x1={x} y1={PAD_T} x2={x} y2={PAD_T + PLOT_H} stroke="var(--color-hairline)" strokeDasharray="2 4" />
-              <text x={x} y={PAD_T - 8} textAnchor="middle" fontSize="9" fontFamily="var(--font-mono)" fill="var(--text-muted)">
-                {n + 1}× t½
-              </text>
-            </g>
+            <line key={n} x1={x} y1={PAD_T} x2={x} y2={PAD_T + PLOT_H} stroke="var(--color-hairline)" strokeDasharray="2 4" />
           );
         })}
 
