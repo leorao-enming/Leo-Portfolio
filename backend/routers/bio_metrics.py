@@ -153,9 +153,11 @@ class DecayRequest(BaseModel):
         default=4.5,
         gt=0,
         description=(
-            "Physiological baseline parameter (default 4.5 kg). "
-            "Acts as a variance multiplier on the effective decay rate: "
-            "higher bone mass slightly slows clearance via increased volume of distribution."
+            "Dimensionless scale factor on the half-life, expressed relative to a "
+            "baseline of 4.5 so that the default is a no-op (4.5 / 4.5 = 1.0). "
+            "This is a tuning knob for exploring the curve, not a physiological "
+            "measurement -- see _calculate_decay for why the earlier bone-mass "
+            "reading of this parameter was withdrawn."
         ),
     )
 
@@ -183,14 +185,31 @@ def _calculate_decay(
     """
     Simulate exponential (first-order) metabolic decay over a series of time points.
 
-    The bone_weight_modifier rescales the effective half-life relative to the
-    reference baseline of 4.5 kg.  A heavier skeletal mass increases the apparent
-    volume of distribution, proportionally extending the effective half-life:
+    bone_weight_modifier rescales the half-life against a baseline of 4.5:
 
         effective_half_life = half_life × (bone_weight_modifier / 4.5)
 
     Formula per time point:
         remaining = dosage × exp(−λ × t),   where λ = ln(2) / effective_half_life
+
+    NOTE ON THE NAME. This parameter does not model skeletal mass, and the
+    docstring that said it did has been withdrawn as incorrect. Three things
+    were wrong with that reading:
+
+      1. Caffeine distributes into total body water. Bone is mineralised
+         matrix with low water content and little perfusion, so skeletal mass
+         is not a meaningful determinant of its volume of distribution.
+      2. The dominant sources of variation in caffeine half-life are CYP1A2
+         activity (genotype, smoking, pregnancy, oral contraceptives), hepatic
+         function, and age -- not body composition.
+      3. Even given a real Vd term, half-life is not proportional to Vd alone:
+         t½ = ln(2) · Vd / CL. Scaling t½ by Vd holds only if clearance is
+         held constant, which this function assumes and never stated.
+
+    The arithmetic is unchanged and still does what the formula above says --
+    it is an honest scale factor on the curve. Only the claim about what it
+    physically represents has been removed. Whether to rename the field or
+    drop the parameter entirely is a separate, deliberate decision.
     """
     reference_baseline = 4.5
     effective_half_life = half_life_hours * (bone_weight_modifier / reference_baseline)
@@ -220,9 +239,10 @@ async def simulate_decay(payload: DecayRequest) -> DecayResponse:
 
     Supported substances: `Caffeine`, `Melatonin`.
 
-    The `bone_weight_modifier` (default **4.5 kg**) acts as a physiological
-    volume-of-distribution proxy.  Values above the baseline proportionally extend
-    the effective half-life; values below it accelerate clearance.
+    The `bone_weight_modifier` (default **4.5**) is a dimensionless scale factor
+    on the half-life, not a physiological measurement. Values above the 4.5
+    baseline proportionally extend the effective half-life; values below it
+    shorten it. See `_calculate_decay` for why this is not a bone-mass model.
     """
     key = payload.substance.strip().lower()
     if key not in _SUBSTANCE_HALF_LIVES:

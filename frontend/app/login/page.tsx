@@ -4,9 +4,19 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+/**
+ * Published on purpose. This gate scopes the demo — it protects nothing, and
+ * the previous screen said so while still printing the token above the field
+ * and making the reader retype it. That is a bounce point on the most
+ * prominent CTA in the nav ("Enter OS") in exchange for zero security, so the
+ * field now arrives filled and the whole thing is one click. The boot log
+ * stays: that part is narrative, not friction.
+ */
+const DEMO_TOKEN = "leologic-demo-operator";
+
 export default function LoginPage() {
   const router = useRouter();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(DEMO_TOKEN);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [logs, setLogs] = useState<string[]>([
@@ -26,7 +36,7 @@ export default function LoginPage() {
 
     await new Promise((r) => setTimeout(r, 600));
 
-    if (token === "leologic-access-2024") {
+    if (token === DEMO_TOKEN) {
       appendLog("> Token accepted. Access granted.");
       appendLog("> Routing to command center...");
 
@@ -56,9 +66,9 @@ export default function LoginPage() {
             OPERATOR <span className="terminal-text">CONSOLE</span>
           </h1>
           <p className="text-xs leading-relaxed" style={{ color: "#9a9aa0" }}>
-            The subsystem dashboards behind this screen are a read-only demo. Sign in
-            with the shared token below — there are no personal accounts and no
-            private data here.
+            The subsystem dashboards behind this screen are a read-only demo. The
+            shared token is already filled in — there are no personal accounts and
+            no private data here.
           </p>
         </div>
 
@@ -90,12 +100,16 @@ export default function LoginPage() {
             <label className="block text-xs tracking-widest mb-2" style={{ color: "#8a8a90" }}>
               ACCESS TOKEN
             </label>
+            {/* Deliberately not type="password". Masking a token that is
+                published two lines below invites the browser to offer to save
+                it as a credential, which is the one thing it is not. */}
             <input
-              type="password"
+              type="text"
               value={token}
               onChange={(e) => setToken(e.target.value)}
               placeholder="Enter operator token..."
-              autoComplete="current-password"
+              autoComplete="off"
+              spellCheck={false}
               className="w-full px-4 py-3 text-sm font-mono transition-all"
               style={{
                 backgroundColor: "var(--color-surface-2)",
@@ -123,18 +137,15 @@ export default function LoginPage() {
               cursor: loading || !token ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "AUTHENTICATING..." : "AUTHENTICATE →"}
+            {loading ? "AUTHENTICATING..." : "ENTER AS DEMO OPERATOR →"}
           </button>
         </form>
 
-        {/* The token is published on purpose — this gate exists to scope the demo,
-            not to protect anything. Pretending otherwise would be theatre. */}
+        {/* Kept as a statement of fact, not as a password to copy out. */}
         <div className="mt-8 pt-6" style={{ borderTop: "1px solid #111" }}>
           <p className="text-xs text-center" style={{ color: "#8a8a90" }}>
-            Shared demo token —{" "}
-            <span className="font-mono" style={{ color: "#a1a1aa" }}>
-              leologic-access-2024
-            </span>
+            One shared token, published and pre-filled. Nothing behind this screen
+            is private.
           </p>
         </div>
 

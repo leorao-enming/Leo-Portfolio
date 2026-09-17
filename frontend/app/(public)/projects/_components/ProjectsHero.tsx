@@ -1,4 +1,4 @@
-import { PROJECTS } from "../../../_data/projects";
+import { PROJECTS_ON_RECORD } from "../../../_data/projects";
 
 /**
  * A quiet opening. Deliberately not a dashboard panel and not six cards:
@@ -9,7 +9,16 @@ import { PROJECTS } from "../../../_data/projects";
  */
 export function ProjectsHero() {
   return (
-    <section style={{ background: "var(--surface-base)" }}>
+    /* surface-soft, not surface-base.
+       base (#f3f0e8) against the Half-Life chapter's cream (#f5efe5) is a
+       3/255 step — the one section boundary on the site that does not read
+       as a boundary at all. Every other transition here runs 14 to 213.
+       The homepage already solves this: the block immediately above its
+       Half-Life chapter is surface-soft, giving a 13-step. Matching that
+       fixes the seam and makes the two pages share one tonal rhythm into
+       the same chapter, rather than repainting the palette to work around
+       a single adjacency. */
+    <section style={{ background: "var(--surface-soft)" }}>
       <div
         className="section-shell"
         style={{
@@ -26,13 +35,13 @@ export function ProjectsHero() {
             margin: "0 0 24px",
           }}
         >
-          PROJECT ARCHIVE — {PROJECTS.length} ENTRIES
+          PROJECT ARCHIVE — {PROJECTS_ON_RECORD} ENTRIES
         </p>
         <h1
           style={{
             fontFamily: "var(--font-serif)",
             fontWeight: 500,
-            fontSize: "clamp(44px, 8vw, 108px)",
+            fontSize: "var(--type-display-l)",
             lineHeight: 0.98,
             letterSpacing: "-0.03em",
             color: "var(--color-text-primary)",
@@ -44,7 +53,7 @@ export function ProjectsHero() {
         </h1>
         <p
           style={{
-            fontSize: "clamp(15px, 1.3vw, 18px)",
+            fontSize: "var(--type-body-l)",
             lineHeight: 1.7,
             color: "var(--text-body)",
             maxWidth: "52ch",

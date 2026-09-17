@@ -42,7 +42,7 @@ export function GalleryLeoLogicOs() {
             style={{
               fontFamily: "var(--font-serif)",
               fontWeight: 500,
-              fontSize: "clamp(44px, 8vw, 112px)",
+              fontSize: "var(--type-display-m)",
               lineHeight: 0.94,
               letterSpacing: "-0.03em",
               textTransform: "uppercase",
@@ -67,7 +67,7 @@ export function GalleryLeoLogicOs() {
           <div>
             <p
               style={{
-                fontSize: "clamp(15px, 1.3vw, 17px)",
+                fontSize: "var(--type-body-l)",
                 lineHeight: 1.7,
                 color: "var(--text-on-dark-body)",
                 maxWidth: "46ch",

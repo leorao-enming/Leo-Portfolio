@@ -26,7 +26,7 @@ function Statement({
         style={{
           fontFamily: "var(--font-serif)",
           fontWeight: 500,
-          fontSize: "clamp(32px, 6.5vw, 76px)",
+          fontSize: "var(--type-display-m)",
           lineHeight: 1.04,
           letterSpacing: "-0.02em",
           textTransform: "uppercase",
@@ -68,13 +68,23 @@ function TransitionLine() {
       />
       {STEPS.map((label, i) => {
         const cx = pad + i * step;
+        /* The end nodes sit `pad` from the edge, so a centred label wider
+           than 2*pad hangs outside the viewBox — "Physical process" is
+           102 units wide against a 20-unit margin and was starting at
+           x = -31, rendering past the left edge of its own graphic. Axis
+           ends anchor to their edge instead; the interior labels have room
+           on both sides and stay centred on their node. */
+        const first = i === 0;
+        const last = i === STEPS.length - 1;
+        const anchor = first ? "start" : last ? "end" : "middle";
+        const tx = first ? cx - 4 : last ? cx + 4 : cx;
         return (
           <g key={label}>
             <circle cx={cx} cy={h / 2} r="4" fill="var(--color-bg)" stroke="var(--color-accent-ink)" strokeWidth="1.4" />
             <text
-              x={cx}
+              x={tx}
               y={h / 2 - 14}
-              textAnchor="middle"
+              textAnchor={anchor}
               fontSize="10"
               fontFamily="var(--font-mono)"
               letterSpacing="0.04em"

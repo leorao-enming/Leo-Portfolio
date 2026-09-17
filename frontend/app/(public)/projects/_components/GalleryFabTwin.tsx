@@ -54,7 +54,7 @@ export function GalleryFabTwin() {
               style={{
                 fontFamily: "var(--font-serif)",
                 fontWeight: 500,
-                fontSize: "clamp(40px, 6.4vw, 88px)",
+                fontSize: "var(--type-display-m)",
                 lineHeight: 0.96,
                 letterSpacing: "-0.03em",
                 textTransform: "uppercase",
@@ -67,7 +67,7 @@ export function GalleryFabTwin() {
             </h2>
             <p
               style={{
-                fontSize: "clamp(15px, 1.3vw, 17px)",
+                fontSize: "var(--type-body-l)",
                 lineHeight: 1.7,
                 color: "var(--text-body)",
                 maxWidth: "46ch",

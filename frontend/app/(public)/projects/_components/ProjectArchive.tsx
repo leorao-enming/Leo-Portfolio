@@ -64,7 +64,7 @@ function ArchiveRow({ project }: { project: Project }) {
           style={{
             display: "block",
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(17px, 1.8vw, 21px)",
+            fontSize: "var(--type-heading-m)",
             fontWeight: 600,
             letterSpacing: "-0.01em",
             color: "var(--color-text-primary)",
@@ -158,7 +158,7 @@ export function ProjectArchive({ excludeSlugs = [] }: { excludeSlugs?: string[] 
           <h2
             id="project-archive"
             style={{
-              fontSize: "clamp(28px, 4vw, 48px)",
+              fontSize: "var(--type-heading-l)",
               letterSpacing: "-0.03em",
               lineHeight: 1.1,
               color: "var(--color-text-primary)",
@@ -167,7 +167,7 @@ export function ProjectArchive({ excludeSlugs = [] }: { excludeSlugs?: string[] 
           >
             Project registry.
           </h2>
-          <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", lineHeight: 1.7, color: "var(--text-body)", margin: 0 }}>
+          <p style={{ fontSize: "var(--type-body-m)", lineHeight: 1.7, color: "var(--text-body)", margin: 0 }}>
             Everything else on the record. Live system entries are wired to real APIs;
             architecture only entries are private or conceptual, with the execution stack
             documented in full.

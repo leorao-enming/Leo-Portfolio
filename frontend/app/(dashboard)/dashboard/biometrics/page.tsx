@@ -33,7 +33,11 @@ export default async function BiometricsPage() {
           Tracks metabolic stressors, training load, and recovery state across time.
         </p>
         <p className="mt-3 text-xs font-mono" style={{ color: "#8a8a90" }}>
-          R(t) = R₀ · e^(−λt) &nbsp;·&nbsp; λ = ln(2) / t½ &nbsp;·&nbsp; bone_weight_modifier = 4.5
+          {/* The trailing "bone_weight_modifier = 4.5" was dropped: it is pinned
+              at the value where its scale factor is exactly 1.0, so printing it
+              beside the formula implied a term that changes the result when it
+              does not. The two expressions below are the whole model. */}
+          R(t) = R₀ · e^(−λt) &nbsp;·&nbsp; λ = ln(2) / t½
         </p>
       </div>
 

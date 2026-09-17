@@ -2,16 +2,26 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useInView } from "motion/react";
+import { PROJECTS_ON_RECORD } from "../../_data/projects";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 // Darkened for AA text contrast on the light ground — these render as the
 // large stat numeral itself, so the floor applies at full strength.
+//
+// Every numeral here has to be checkable against something else on the site.
+// This row used to end on "∞ / Systems Mindset", which was the one unearned
+// claim in a site whose credibility rests on the opposite habit — "Self-
+// assessed: Beginner", "Synthetic — not a validated result", "Nothing here is
+// finished". An un-backed ∞ does not add a fourth stat so much as cast doubt
+// on the three real ones beside it, so it is now the count of works actually
+// on the record, read from the project data rather than asserted. Likewise
+// "1st" read as an ordinal ranking next to "3rd Year"; it is a plain count.
 const stats = [
-  { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",      accent: "#1d4ed8" },
-  { raw: 1,   display: () => `1st`,    label: "Industry Internship", accent: "var(--color-accent-ink)" },
-  { raw: 6,   display: () => `6σ`,     label: "Black Belt",        accent: "#6d28d9" },
-  { raw: 100, display: () => `∞`,      label: "Systems Mindset",   accent: "#c2410c" },
+  { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",       accent: "#1d4ed8" },
+  { raw: 1,   display: (n: number) => `${n}`,   label: "Industry Internship", accent: "var(--color-accent-ink)" },
+  { raw: 6,   display: () => `6σ`,              label: "Black Belt",          accent: "#6d28d9" },
+  { raw: PROJECTS_ON_RECORD, display: (n: number) => `${n}`, label: "Projects On Record", accent: "#c2410c" },
 ];
 
 function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inView: boolean; index: number; reduced: boolean | null }) {
@@ -27,7 +37,7 @@ function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inV
         <div
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(26px, 4vw, 40px)",
+            fontSize: "var(--type-heading-l)",
             fontWeight: 800,
             color: stat.accent,
             lineHeight: 1,
@@ -94,7 +104,7 @@ export function AboutSection() {
 
             <h1
               style={{
-                fontSize: "clamp(32px, 4.5vw, 56px)",
+                fontSize: "var(--type-heading-l)",
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
                 color: "rgba(10, 12, 15,0.9)",
@@ -107,10 +117,10 @@ export function AboutSection() {
               </span>
             </h1>
 
-            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "var(--text-body)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
+            <p style={{ fontSize: "var(--type-body-m)", color: "var(--text-body)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
               I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
             </p>
-            <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: "var(--text-muted)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
+            <p style={{ fontSize: "var(--type-body-m)", color: "var(--text-muted)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
               From plant-floor process control to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.
             </p>
 
@@ -144,7 +154,7 @@ export function AboutSection() {
               <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--color-accent-ink)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
                 Currently Building
               </div>
-              <div style={{ fontSize: "clamp(13px, 1.1vw, 15px)", color: "rgba(10, 12, 15,0.65)", lineHeight: 1.7 }}>
+              <div style={{ fontSize: "var(--type-body-s)", color: "rgba(10, 12, 15,0.65)", lineHeight: 1.7 }}>
                 <span style={{ color: "var(--color-accent-ink)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
               </div>
             </div>

@@ -85,8 +85,8 @@ function LiveSystemCard({ project }: { project: ProjectCardProps }) {
       <div className="p-5">
         {/* No fontFamily/color override — inherits serif + ink from
             .public-shell h1, matching every other heading on the site. */}
-        <h2 className="tracking-tight mb-2" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
-        <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
+        <h2 className="tracking-tight mb-2" style={{ fontSize: "var(--type-heading-l)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
+        <LongDescription text={registry.longDescription} />
 
         {/* Two-column: stack + metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
@@ -195,7 +195,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
       {/* ── Body ──────────────────────────────────────────────────────────── */}
       <div className="p-5">
         <div className="flex items-start justify-between mb-2 gap-4">
-          <h2 className="tracking-tight" style={{ fontSize: "clamp(24px, 3.4vw, 38px)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
+          <h2 className="tracking-tight" style={{ fontSize: "var(--type-heading-l)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>Technical record</h2>
           {/* Architecture-only badge */}
           <span
             className="text-xs tracking-wider font-mono whitespace-nowrap px-2 py-0.5 mt-0.5 shrink-0"
@@ -209,7 +209,7 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
           </span>
         </div>
 
-        <p className="text-xs leading-relaxed mb-5 text-[var(--text-muted)]">{registry.longDescription}</p>
+        <LongDescription text={registry.longDescription} />
 
         {/* Two-column: stack + metrics (slightly muted) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
@@ -251,6 +251,24 @@ function ArchitectureOnlyCard({ project }: { project: ProjectCardProps }) {
 }
 
 // ─── Shared sub-components ─────────────────────────────────────────────────────
+
+/** Renders longDescription as one paragraph or several — see the field's doc. */
+function LongDescription({ text }: { text: string | readonly string[] }) {
+  const paras = typeof text === "string" ? [text] : text;
+  return (
+    <div className="mb-5">
+      {paras.map((para, i) => (
+        <p
+          key={i}
+          className="text-xs leading-relaxed text-[var(--text-muted)]"
+          style={{ marginTop: i === 0 ? 0 : "0.9em" }}
+        >
+          {para}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 function TechStackPanel({ tags, muted }: { tags: TechTag[]; muted?: boolean }) {
   return (
@@ -381,6 +399,19 @@ function ArchitecturePanel({
   );
 }
 
+/**
+ * Domain tags, in the site's one tag vocabulary.
+ *
+ * These used to render as "#IOS #REACT_NATIVE" — a social-media convention
+ * that appeared nowhere else and sat on the same page as two other tag
+ * treatments (the dot-separated caps in the gallery, the chips in TECH
+ * STACK). Three vocabularies for one kind of information reads as three
+ * different authors. This is now the gallery's treatment, so the case study
+ * and the gallery that links to it label things the same way.
+ *
+ * Underscores become spaces on the way out: the screaming-snake form is a
+ * data-key convention and has no business being visible as prose.
+ */
 function TagStrip({
   tags,
   mt,
@@ -392,16 +423,26 @@ function TagStrip({
 }) {
   return (
     <div
-      className="flex flex-wrap gap-x-4 gap-y-1.5 pt-3"
+      className="flex flex-wrap gap-x-2 gap-y-1.5 pt-3"
       style={{
         borderTop: mt ? "none" : "1px solid var(--color-hairline)",
         marginTop: mt ? "0" : undefined,
         opacity: muted ? 0.6 : 1,
       }}
     >
-      {tags.map((tag) => (
-        <span key={tag} className="text-xs tracking-wider text-[var(--text-muted)]">
-          #{tag}
+      {tags.map((tag, i) => (
+        <span
+          key={tag}
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--text-muted)",
+          }}
+        >
+          {tag.replace(/_/g, " ")}
+          {i < tags.length - 1 ? " ·" : ""}
         </span>
       ))}
     </div>

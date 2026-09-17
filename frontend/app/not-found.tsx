@@ -17,7 +17,7 @@ export default function NotFound() {
         </p>
         <h1
           className="font-bold tracking-tight mb-3"
-          style={{ fontSize: "clamp(2.5rem, 10vw, 4rem)", color: "#e0e0e0" }}
+          style={{ fontSize: "var(--type-display-s)", color: "#e0e0e0" }}
         >
           4<span className="terminal-text">0</span>4
         </h1>

@@ -48,7 +48,7 @@ export function PhysicalEngineering() {
           </p>
           <h2
             style={{
-              fontSize: "clamp(28px, 4vw, 48px)",
+              fontSize: "var(--type-heading-l)",
               letterSpacing: "-0.03em",
               lineHeight: 1.1,
               color: "var(--color-text-primary)",
@@ -82,7 +82,10 @@ export function PhysicalEngineering() {
           transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
           style={{ marginBottom: "clamp(32px, 4vw, 48px)" }}
         >
-          <ProcessCanvas />
+          {/* Preview, not the instrument — see ProcessCanvas. The tag index
+              and competency panel live on /engineering, which is what the
+              link below is for. */}
+          <ProcessCanvas variant="preview" />
         </motion.div>
 
         {/* Editorial navigation, not a boxed button — same treatment as the

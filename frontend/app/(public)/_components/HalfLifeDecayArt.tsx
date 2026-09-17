@@ -88,7 +88,7 @@ export function HalfLifeDecayArt() {
       >
         <h2
           id="half-life-decay-heading"
-          style={{ fontSize: "clamp(20px, 2.4vw, 28px)", margin: 0 }}
+          style={{ fontSize: "var(--type-heading-m)", margin: 0 }}
         >
           Decay, drawn.
         </h2>

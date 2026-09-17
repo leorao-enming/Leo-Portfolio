@@ -8,8 +8,8 @@ const ease = [0.16, 1, 0.3, 1] as const;
 /**
  * The build log as a core sample rather than a conventional timeline.
  * Each year is a stratum: a fixed-size swatch carries a texture specific
- * to what that period actually was (data/certification, coursework,
- * software build, plant floor), not a magnitude — there's no honest unit
+ * to what that period actually was (exam-board groundwork, coursework,
+ * software build, statistical method, plant floor), not a magnitude — there's no honest unit
  * to measure "how much" a year was, so no bar pretends to. The most
  * recent stratum (NOW) uses the same open 45deg hatch FabTwin's SPC chart
  * uses for "not yet resolved": this year is still being deposited.
@@ -27,23 +27,40 @@ type Era = {
   open?: boolean; // still forming — draw the pending hatch, not a solid fill
 };
 
+/**
+ * Accent -> a text colour dark enough to read on the light chip behind it.
+ * The lookup below falls back to the raw accent, which is the wrong default:
+ * these accents are chosen to work as fills and borders, not as type.
+ *
+ * "#ff7a18" was missing, so the Build tags rendered their label in raw
+ * accent orange at 2.50:1 against the chip — under the 4.5:1 floor, while
+ * the two entries that did exist both sit near 6.5:1. globals.css already
+ * names the fix: the accent is scoped to chrome, and --color-accent-ink is
+ * the darkened rust kept for the case where the accent itself has to be
+ * read as text (6.67:1 here).
+ */
 const TAG_TEXT_COLOR: Record<string, string> = {
   "#c084fc": "#6d28d9",
   "#60a5fa": "#1d4ed8",
+  "#ff7a18": "var(--color-accent-ink)",
 };
 
 const ERAS: Era[] = [
   {
     year: "2022",
-    label: "SHENZHEN · ORIGIN",
-    title: "Six Sigma Black Belt",
-    desc: "Completed intensive DMAIC certification — applying statistical process control and variance reduction to real manufacturing systems.",
-    tag: "Certification",
+    label: "SELANGOR · A-LEVEL",
+    title: "Taylor's College",
+    desc: "Read A-Levels at Taylor's College in Selangor, Malaysia. Mathematics, physics, chemistry — the groundwork, before any of it had a name.",
+    tag: "Education",
     ch: "01",
-    accent: "#c084fc",
-    // Stipple — DMAIC is a discipline of scattered data points brought
-    // under control.
-    swatch: "repeating-radial-gradient(circle at 4px 4px, rgba(109,40,217,0.55) 0 1.4px, transparent 1.5px 9px), #fbfaf6",
+    // Same blue as 2023: both strata are formal education, and colouring
+    // them alike is the honest reading. The texture carries the difference.
+    accent: "#60a5fa",
+    // Graph paper — the substrate A-Level maths and physics are worked on,
+    // and a deliberately more elementary grid than 2023's ruled page.
+    swatch:
+      "repeating-linear-gradient(to bottom, rgba(29,78,216,0.26) 0 1px, transparent 1px 6px), " +
+      "repeating-linear-gradient(to right, rgba(29,78,216,0.26) 0 1px, transparent 1px 6px), #fbfaf6",
   },
   {
     year: "2023",
@@ -70,12 +87,25 @@ const ERAS: Era[] = [
       "repeating-linear-gradient(-45deg, rgba(255,122,24,0.18) 0 1px, transparent 1px 6px), #fbfaf6",
   },
   {
+    year: "2025",
+    label: "TORONTO · CORE",
+    title: "Core & Black Belt",
+    desc: "Core chemical engineering at Toronto — thermodynamics, transport phenomena, reactor design — alongside the Six Sigma Black Belt: DMAIC, statistical process control, variance reduction. The statistics FabTwin now runs on.",
+    tag: "Education",
+    ch: "04",
+    accent: "#60a5fa",
+    // The stipple that used to sit on 2022, recoloured to the education
+    // blue. It was written for DMAIC — scattered points brought under
+    // control — so it follows the Black Belt to the year it belongs to.
+    swatch: "repeating-radial-gradient(circle at 4px 4px, rgba(29,78,216,0.5) 0 1.4px, transparent 1.5px 9px), #fbfaf6",
+  },
+  {
     year: "2026",
     label: "HUBEI · PLANT FLOOR",
     title: "Process Engineering Internship",
     desc: "Joined the process engineering department at Hubei Jingrui Microelectronic Materials. P&ID, instrumentation, DCS operations, SOPs — the discipline that theory turns into.",
     tag: "Industry",
-    ch: "04",
+    ch: "05",
     accent: "#c084fc",
     // Directional grain — the same steel-floor language as the P&ID panel.
     swatch: "repeating-linear-gradient(100deg, rgba(109,40,217,0.4) 0 1px, transparent 1px 5px), #fbfaf6",
@@ -86,7 +116,7 @@ const ERAS: Era[] = [
     title: "Half-Life & FabTwin",
     desc: "Half-Life is at release-candidate stage — signed iOS archive built, device acceptance next. FabTwin's simulator Gate just opened: a semiconductor SPC/fault-detection engine validated against real public fab data.",
     tag: "Build",
-    ch: "05",
+    ch: "06",
     accent: "#ff7a18",
     swatch: "",
     open: true,
@@ -243,7 +273,7 @@ export function TimelineSection() {
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(28px, 4vw, 48px)",
+            fontSize: "var(--type-heading-l)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
@@ -255,7 +285,7 @@ export function TimelineSection() {
         </h2>
         <p
           style={{
-            fontSize: "clamp(13px, 1.1vw, 15px)",
+            fontSize: "var(--type-body-s)",
             color: "var(--text-muted)",
             lineHeight: 1.7,
             maxWidth: "58ch",
@@ -288,7 +318,7 @@ export function TimelineSection() {
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(44px, 6vw, 72px)",
+                fontSize: "var(--type-display-s)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
                 lineHeight: 1,
@@ -324,7 +354,7 @@ export function TimelineSection() {
             <h3
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(18px, 2.5vw, 26px)",
+                fontSize: "var(--type-heading-m)",
                 fontWeight: 700,
                 letterSpacing: "-0.025em",
                 lineHeight: 1.2,
@@ -337,7 +367,7 @@ export function TimelineSection() {
 
             <p
               style={{
-                fontSize: "clamp(13px, 1.1vw, 15px)",
+                fontSize: "var(--type-body-s)",
                 color: "var(--text-muted)",
                 lineHeight: 1.75,
                 maxWidth: 520,

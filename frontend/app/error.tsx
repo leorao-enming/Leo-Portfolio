@@ -25,7 +25,7 @@ export default function Error({
         </p>
         <h1
           className="font-bold tracking-tight mb-3"
-          style={{ fontSize: "clamp(1.8rem, 7vw, 2.75rem)", color: "#e0e0e0" }}
+          style={{ fontSize: "var(--type-heading-l)", color: "#e0e0e0" }}
         >
           SUBSYSTEM <span className="terminal-red">FAULT</span>
         </h1>

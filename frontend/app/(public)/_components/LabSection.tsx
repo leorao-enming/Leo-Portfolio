@@ -85,10 +85,10 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             <StatusPill status={entry.status} />
           </div>
 
-          <h3
+          <h2
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(18px, 2.2vw, 24px)",
+              fontSize: "var(--type-heading-m)",
               fontWeight: 700,
               letterSpacing: "-0.02em",
               lineHeight: 1.2,
@@ -97,7 +97,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             }}
           >
             {entry.title}
-          </h3>
+          </h2>
           <p
             style={{
               fontSize: 11,
@@ -110,16 +110,22 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
             {entry.upstream}
           </p>
 
-          <p
-            style={{
-              fontSize: "clamp(13px, 1.1vw, 15px)",
-              color: "var(--text-body)",
-              lineHeight: 1.7,
-              marginBottom: 20,
-            }}
-          >
-            {entry.objective}
-          </p>
+          <div style={{ marginBottom: 20 }}>
+            {(typeof entry.objective === "string" ? [entry.objective] : entry.objective).map((para, i) => (
+              <p
+                key={i}
+                style={{
+                  fontSize: "var(--type-body-s)",
+                  color: "var(--text-body)",
+                  lineHeight: 1.7,
+                  marginTop: i === 0 ? 0 : "0.9em",
+                  marginBottom: 0,
+                }}
+              >
+                {para}
+              </p>
+            ))}
+          </div>
 
           {entry.id === "L-03" && <FabTwinSpcArt />}
 
@@ -209,6 +215,7 @@ function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; re
                   href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="touch-target"
                   style={{
                     fontSize: 11,
                     color: "var(--text-muted)",
@@ -261,7 +268,7 @@ export function LabSection() {
         </span>
         <h1
           style={{
-            fontSize: "clamp(28px, 4vw, 48px)",
+            fontSize: "var(--type-heading-l)",
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
@@ -272,7 +279,7 @@ export function LabSection() {
         </h1>
         <p
           style={{
-            fontSize: "clamp(14px, 1.2vw, 16px)",
+            fontSize: "var(--type-body-m)",
             color: "var(--text-body)",
             lineHeight: 1.7,
             maxWidth: "58ch",

@@ -48,7 +48,7 @@ export function SelectedWorkIntro() {
         </p>
         <Link
           href="/projects"
-          className="group"
+          className="touch-target group"
           style={{
             display: "inline-flex",
             alignItems: "center",

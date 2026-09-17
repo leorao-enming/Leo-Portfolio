@@ -55,7 +55,7 @@ export function NavBar() {
             <Link
               href="/"
               onClick={() => { if (isHome) setCardOpen(v => !v); }}
-              className="flex items-center gap-2 rounded-full"
+              className="touch-target flex items-center gap-2 rounded-full"
               /* Negative margin keeps the visual position identical while giving
                  the link a real hit area — it was a 20px-tall target before. */
               style={{ background: "none", border: "none", cursor: "pointer", padding: "8px 12px", margin: "-8px -12px" }}
@@ -136,20 +136,38 @@ export function NavBar() {
                 </span>
               </Link>
 
-              {/* Mobile menu toggle */}
+              {/* Mobile menu toggle.
+                  The button box is 44x44 — the touch-target floor — while the
+                  visible chrome stays the 32px circle it always was. Same
+                  trick as the logo above: grow the hit area, then pull the
+                  layout back with a matching negative margin so nothing
+                  moves. This is the only control on the mobile bar, so it is
+                  also the one that can least afford to be hard to hit. */}
               <button
                 onClick={() => setMenuOpen(v => !v)}
                 className="md:hidden flex items-center justify-center"
                 style={{
-                  width: 32,
-                  height: 32,
+                  width: 44,
+                  height: 44,
+                  margin: -6,
                   borderRadius: "50%",
-                  background: menuOpen ? "rgba(10, 12, 15,0.1)" : "transparent",
-                  border: "1px solid rgba(10, 12, 15,0.12)",
+                  background: "transparent",
+                  border: "none",
                 }}
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
               >
+                <span
+                  aria-hidden
+                  className="flex items-center justify-center"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: menuOpen ? "rgba(10, 12, 15,0.1)" : "transparent",
+                    border: "1px solid rgba(10, 12, 15,0.12)",
+                  }}
+                >
                 <div style={{ position: "relative", width: 14, height: 10 }}>
                   <span
                     style={{
@@ -176,6 +194,7 @@ export function NavBar() {
                     }}
                   />
                 </div>
+                </span>
               </button>
             </div>
           </div>

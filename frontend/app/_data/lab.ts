@@ -21,8 +21,13 @@ export type LabEntry = {
   /** What is being replicated, and from where. */
   upstream: string;
   status: LabStatus;
-  /** Why this build is worth the time, in capability terms. */
-  objective: string;
+  /**
+   * Why this build is worth the time, in capability terms.
+   * One string is one paragraph; an array is several. L-03 covers two
+   * separate builds and needs the breaks — the others are two sentences
+   * and do not.
+   */
+  objective: string | readonly string[];
   /** Named skills the build is meant to produce. */
   capabilities: string[];
   /** The honest link back to the process engineering track. */
@@ -77,16 +82,21 @@ export const LAB_ENTRIES: LabEntry[] = [
       "Own build — hierarchical semiconductor process simulator (FabTwin) and an IPA/water " +
       "separation flowsheet optimizer (FabChem), cross-validated against public fab datasets",
     status: "IN PROGRESS",
-    objective:
+    /* Framing, then one paragraph per build. This entry was a single block
+       of ~100 words sitting between two entries of two sentences each; the
+       density read as a different author. Wording unchanged. */
+    objective: [
       "Two evidence-first engineering projects built for process/manufacturing New Grad " +
-      "roles, on a 2027-06-30 deadline. FabTwin is a plasma-etch SPC and fault-detection " +
-      "simulator whose real differentiator isn't the model — it's validating that model " +
-      "against two real public fab datasets (SECOM, LAM9600) with the correct statistics, " +
-      "including a deliberate reproduction of the common evaluation mistakes (like reporting " +
-      "raw accuracy on a 1:14 class imbalance) as a documented contrast. FabChem is an " +
-      "IPA/water separation techno-economic optimizer cross-checked against two independent " +
-      "literature NRTL parameter sources, Monte Carlo cost uncertainty, and an independent " +
-      "DWSIM solver run.",
+        "roles, on a 2027-06-30 deadline.",
+      "FabTwin is a plasma-etch SPC and fault-detection simulator whose real differentiator " +
+        "isn't the model — it's validating that model against two real public fab datasets " +
+        "(SECOM, LAM9600) with the correct statistics, including a deliberate reproduction " +
+        "of the common evaluation mistakes (like reporting raw accuracy on a 1:14 class " +
+        "imbalance) as a documented contrast.",
+      "FabChem is an IPA/water separation techno-economic optimizer cross-checked against " +
+        "two independent literature NRTL parameter sources, Monte Carlo cost uncertainty, " +
+        "and an independent DWSIM solver run.",
+    ],
     capabilities: [
       "Statistical process control (SPC)",
       "Multivariate fault detection — PCA / Hotelling T² / SPE",

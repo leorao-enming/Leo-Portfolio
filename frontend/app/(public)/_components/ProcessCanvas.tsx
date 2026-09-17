@@ -76,11 +76,13 @@ function Node({
   layout,
   selected,
   onHover,
+  interactive,
 }: {
   node: DiagramNode;
   layout: Layout;
   selected: boolean;
   onHover: (id: string) => void;
+  interactive: boolean;
 }) {
   const c = layout.pos[node.id];
   const { hx, hy } = halfExtent(node, layout);
@@ -89,7 +91,10 @@ function Node({
   const fill = selected ? "color-mix(in srgb, var(--accent-engineering) 10%, #fbfaf6)" : NODE_FILL;
 
   return (
-    <g onMouseEnter={() => onHover(node.id)} style={{ cursor: "pointer" }}>
+    <g
+      onMouseEnter={interactive ? () => onHover(node.id) : undefined}
+      style={interactive ? { cursor: "pointer" } : undefined}
+    >
       {node.kind === "equipment" ? (
         <rect x={c.x - hx} y={c.y - hy} width={hx * 2} height={hy * 2} rx="3" fill={fill} stroke={stroke} strokeWidth={selected ? 2 : 1} />
       ) : (
@@ -119,11 +124,13 @@ function Canvas({
   selectedId,
   onHover,
   descId,
+  interactive,
 }: {
   layout: Layout;
   selectedId: string;
   onHover: (id: string) => void;
   descId: string;
+  interactive: boolean;
 }) {
   const vb = canvasViewBox(layout);
   const activeEdgeIds = new Set(edgesForNode(selectedId).map((e) => e.id));
@@ -153,7 +160,7 @@ function Canvas({
         <Edge key={edge.id} edge={edge} layout={layout} active={activeEdgeIds.has(edge.id)} />
       ))}
       {NODES.map((node) => (
-        <Node key={node.id} node={node} layout={layout} selected={selectedId === node.id} onHover={onHover} />
+        <Node key={node.id} node={node} layout={layout} selected={selectedId === node.id} onHover={onHover} interactive={interactive} />
       ))}
     </svg>
   );
@@ -195,12 +202,14 @@ function TagIndex({
               onClick={() => onSelect(node.id)}
               onMouseEnter={() => onSelect(node.id)}
               onFocus={() => onSelect(node.id)}
+              className="touch-target"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: 12,
                 letterSpacing: "0.06em",
-                /* 32px min height keeps these comfortable tap targets. */
-                minHeight: 32,
+                /* Height comes from .touch-target (32px on a mouse, 44px
+                   under a finger). Setting it inline here would win over the
+                   class and pin the chip at 32 everywhere. */
                 padding: "6px 11px",
                 borderRadius: 4,
                 cursor: "pointer",
@@ -241,7 +250,7 @@ function DetailPanel({ node, id }: { node: DiagramNode; id: string }) {
       <h3
         style={{
           fontFamily: "var(--font-display)",
-          fontSize: "clamp(20px, 2.2vw, 26px)",
+          fontSize: "var(--type-heading-m)",
           fontWeight: 700,
           letterSpacing: "-0.01em",
           textTransform: "uppercase",
@@ -303,20 +312,47 @@ function DetailPanel({ node, id }: { node: DiagramNode; id: string }) {
   );
 }
 
-export function ProcessCanvas() {
+/**
+ * `full` is the real instrument: diagram + tag index + competency panel.
+ * `preview` is the drawing alone, inert.
+ *
+ * The homepage used to render `full`, which meant the identical module —
+ * nine tag buttons, the selection state, the whole competency readout —
+ * appeared in its entirety on both `/` and `/engineering`. A reader who
+ * scrolled the homepage had already seen everything the engineering page
+ * had to offer, so the click through led to a rerun. The homepage now
+ * shows what the section IS (a process train, drawn) and `/engineering`
+ * keeps what the section KNOWS. Nothing is selected in preview: an
+ * accent-highlighted TK-101 with no tag index to explain it reads as a
+ * stray state rather than a starting point.
+ */
+export function ProcessCanvas({ variant = "full" }: { variant?: "full" | "preview" }) {
+  const preview = variant === "preview";
   const [selectedId, setSelectedId] = useState<string>("TK-101");
   const node = NODE_BY_ID[selectedId];
 
   const descId = "process-canvas-desc";
   const panelId = "process-canvas-detail";
 
+  const activeId = preview ? "" : selectedId;
+
   return (
     <div
-      className="grid grid-cols-1 items-start lg:grid-cols-[1.2fr_1fr]"
+      className={preview ? "grid grid-cols-1" : "grid grid-cols-1 items-start lg:grid-cols-[1.2fr_1fr]"}
       style={{ gap: "clamp(28px, 4vw, 56px)" }}
     >
-      <div>
-        <p
+      {/* The viewBox is portrait (580x638), so without a cap the preview
+          stretches to the full 1280 container and renders ~1230px tall —
+          taller than the full module it replaced, which is the opposite of
+          the point. A process train wants to be read at drawing size, not
+          poster size. */}
+      <div style={preview ? { maxWidth: 520 } : undefined}>
+        {/* A heading, not a caption. The detail panel below is an h3, and
+            without this the only thing above it was the page h1 — so
+            /engineering skipped a level. Every size and weight here is set
+            explicitly and Tailwind preflight neutralises heading defaults,
+            so the tag change is invisible. */}
+        <h2
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: 12,
@@ -327,14 +363,16 @@ export function ProcessCanvas() {
           }}
         >
           Process line — feed to reactor (illustrative)
-        </p>
+        </h2>
         <p id={descId} className="sr-only">
           A vertical process train runs from feed tank TK-101 through flow control valve
           FCV-101, feed pump P-101, preheat exchanger HX-101, to reactor R-101. Level
           transmitter LT-101 measures TK-101, flow transmitter FT-101 measures P-101,
           temperature transmitter TT-101 measures HX-101, and pressure transmitter PT-101
-          measures R-101. Use the tag index below the diagram to read the competency and
-          plant exposure behind each tag.
+          measures R-101.
+          {preview
+            ? " The engineering page carries the tag index and the competency behind each tag."
+            : " Use the tag index below the diagram to read the competency and plant exposure behind each tag."}
         </p>
 
         {/* Two layouts, one selection state. The compact layout is a real
@@ -343,18 +381,20 @@ export function ProcessCanvas() {
             tag text would render around 5px. display:none also keeps the
             inactive copy out of the accessibility tree. */}
         <div className="hidden lg:block">
-          <Canvas layout={WIDE} selectedId={selectedId} onHover={setSelectedId} descId={descId} />
+          <Canvas layout={WIDE} selectedId={activeId} onHover={setSelectedId} descId={descId} interactive={!preview} />
         </div>
         <div className="lg:hidden">
-          <Canvas layout={COMPACT} selectedId={selectedId} onHover={setSelectedId} descId={descId} />
+          <Canvas layout={COMPACT} selectedId={activeId} onHover={setSelectedId} descId={descId} interactive={!preview} />
         </div>
 
-        <div style={{ marginTop: 22 }}>
-          <TagIndex selectedId={selectedId} onSelect={setSelectedId} panelId={panelId} />
-        </div>
+        {!preview && (
+          <div style={{ marginTop: 22 }}>
+            <TagIndex selectedId={selectedId} onSelect={setSelectedId} panelId={panelId} />
+          </div>
+        )}
       </div>
 
-      <DetailPanel node={node} id={panelId} />
+      {!preview && <DetailPanel node={node} id={panelId} />}
     </div>
   );
 }

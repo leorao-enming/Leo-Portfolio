@@ -226,7 +226,7 @@ export function Hero() {
           >
             <h1
               style={{
-                fontSize: "clamp(52px, 11vw, 148px)",
+                fontSize: "var(--type-display-xl)",
                 letterSpacing: "-0.04em",
                 lineHeight: 0.92,
                 color: "rgba(10, 12, 15,0.94)",
@@ -244,7 +244,7 @@ export function Hero() {
               style={{
                 fontFamily: "var(--font-serif)",
                 fontWeight: 500,
-                fontSize: "clamp(24px, 3.6vw, 42px)",
+                fontSize: "var(--type-heading-l)",
                 lineHeight: 1.16,
                 letterSpacing: "-0.01em",
                 color: "rgba(10, 12, 15,0.86)",
@@ -260,7 +260,7 @@ export function Hero() {
                 statement's weight. */}
             <p
               style={{
-                fontSize: "clamp(14px, 1.3vw, 17px)",
+                fontSize: "var(--type-body-m)",
                 lineHeight: 1.6,
                 color: "var(--text-body)",
                 margin: "clamp(14px, 2vh, 20px) 0 0",

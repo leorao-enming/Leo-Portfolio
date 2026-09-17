@@ -44,7 +44,7 @@ export function FabTwinShowcase() {
             style={{
               fontFamily: "var(--font-serif)",
               fontWeight: 500,
-              fontSize: "clamp(40px, 6.5vw, 84px)",
+              fontSize: "var(--type-display-m)",
               lineHeight: 0.98,
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
@@ -57,7 +57,7 @@ export function FabTwinShowcase() {
           </h2>
           <p
             style={{
-              fontSize: "clamp(14px, 1.2vw, 16px)",
+              fontSize: "var(--type-body-m)",
               lineHeight: 1.7,
               color: "var(--text-body)",
               margin: "0 auto 24px",

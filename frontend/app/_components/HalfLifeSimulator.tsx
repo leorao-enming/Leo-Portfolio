@@ -114,13 +114,33 @@ export function HalfLifeSimulator() {
         borderTop: "1px solid rgba(3,105,161,0.3)",
       }}
     >
-      {/* ── Section label ─────────────────────────────────────────────────── */}
-      <p className="text-xs tracking-[0.25em] mb-4 text-[var(--text-muted)]">
-        DECAY SIMULATOR — INTERACTIVE
+      {/* ── Section label ─────────────────────────────────────────────────
+          This page carries two exponential-decay charts, and labelled only
+          "INTERACTIVE" this one read as a repeat of the illustrative curve
+          near the top. It is not: that one is drawn client-side from fixed
+          numbers, this one posts to the Python/FastAPI service and plots
+          what comes back. Saying so turns an apparent duplicate into the
+          page's strongest single piece of evidence — it is what makes the
+          "DECAY API · live endpoint" row in SYSTEM SPECS checkable rather
+          than merely claimed. */}
+      <p className="text-xs tracking-[0.25em] mb-2 text-[var(--text-muted)]">
+        DECAY SIMULATOR — LIVE ENDPOINT
+      </p>
+      <p className="text-xs leading-relaxed mb-4 text-[var(--text-muted)]">
+        The curve higher up the page is drawn from fixed numbers to show the
+        mechanic. This one posts to the Python service and plots the response —
+        the same <span className="font-mono">/api/decay</span> the app calls.
       </p>
 
       {/* ── Controls ──────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+      {/* Two controls, both of which do something. A third sat here — a
+          disabled "BONE WEIGHT BASELINE" pinned to 4.5, the value at which
+          the backend's scale factor is exactly 1.0. It could not be changed,
+          it never altered the result, and its label described a physiological
+          mechanism the model does not implement (see _calculate_decay in
+          backend/routers/bio_metrics.py). A control that cannot be operated
+          and does nothing is not a control. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
         {/* Substance selector */}
         <div>
           <label className="block text-xs tracking-wider text-[var(--text-muted)] mb-1.5">
@@ -165,25 +185,6 @@ export function HalfLifeSimulator() {
           />
         </div>
 
-        {/* Bone weight baseline — readonly system variable */}
-        <div>
-          <label className="block text-xs tracking-wider text-[var(--text-muted)] mb-1.5">
-            BONE WEIGHT BASELINE
-          </label>
-          <input
-            type="text"
-            value="4.5"
-            disabled
-            readOnly
-            className="w-full text-xs font-mono px-3 py-2 cursor-not-allowed"
-            style={{
-              background: "rgba(10,12,15,0.02)",
-              border: "1px solid rgba(10,12,15,0.08)",
-              borderRadius: "1px",
-              color: "var(--text-muted)",
-            }}
-          />
-        </div>
       </div>
 
       {/* ── Run button ────────────────────────────────────────────────────── */}
@@ -240,16 +241,23 @@ export function HalfLifeSimulator() {
               {result.substance.toUpperCase()} — {result.dosage_mg}mg
             </span>
             <div className="flex items-center gap-4">
+              {/* "base" and "eff" were rendered side by side and were always
+                  the same number, because the scale factor is pinned at its
+                  no-op value — two labels implying a distinction the response
+                  never actually carries. Show the effective value alone, and
+                  reveal the pair only if they ever genuinely diverge. */}
               <span className="text-xs font-mono text-[var(--text-muted)]">
-                t½ base:{" "}
-                <span className="text-[#0369a1]">{result.half_life_hours}h</span>
-              </span>
-              <span className="text-xs font-mono text-[var(--text-muted)]">
-                t½ eff:{" "}
+                t½:{" "}
                 <span className="text-[#0369a1]">
                   {result.effective_half_life_hours}h
                 </span>
               </span>
+              {result.effective_half_life_hours !== result.half_life_hours && (
+                <span className="text-xs font-mono text-[var(--text-muted)]">
+                  t½ base:{" "}
+                  <span className="text-[#0369a1]">{result.half_life_hours}h</span>
+                </span>
+              )}
             </div>
           </div>
 

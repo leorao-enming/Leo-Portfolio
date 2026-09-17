@@ -43,7 +43,7 @@ export function GalleryHalfLife() {
           style={{
             fontFamily: "var(--font-serif)",
             fontWeight: 500,
-            fontSize: "clamp(48px, 9vw, 128px)",
+            fontSize: "var(--type-display-m)",
             lineHeight: 0.92,
             letterSpacing: "-0.03em",
             textTransform: "uppercase",
@@ -80,7 +80,7 @@ export function GalleryHalfLife() {
           <div>
             <p
               style={{
-                fontSize: "clamp(15px, 1.3vw, 17px)",
+                fontSize: "var(--type-body-l)",
                 lineHeight: 1.7,
                 color: "var(--text-body)",
                 maxWidth: "46ch",

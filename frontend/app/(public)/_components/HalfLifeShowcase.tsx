@@ -46,7 +46,7 @@ export function HalfLifeShowcase() {
             style={{
               fontFamily: "var(--font-serif)",
               fontWeight: 500,
-              fontSize: "clamp(44px, 7vw, 92px)",
+              fontSize: "var(--type-display-m)",
               lineHeight: 0.98,
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
@@ -59,7 +59,7 @@ export function HalfLifeShowcase() {
           </h2>
           <p
             style={{
-              fontSize: "clamp(14px, 1.2vw, 16px)",
+              fontSize: "var(--type-body-m)",
               lineHeight: 1.7,
               color: "var(--text-body)",
               maxWidth: "42ch",

@@ -87,7 +87,7 @@ export function EngineeringSection() {
         </span>
         <h1
           style={{
-            fontSize: "clamp(28px, 4vw, 48px)",
+            fontSize: "var(--type-heading-l)",
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             color: "var(--color-text-primary)",
@@ -98,7 +98,7 @@ export function EngineeringSection() {
         </h1>
         <p
           style={{
-            fontSize: "clamp(14px, 1.2vw, 16px)",
+            fontSize: "var(--type-body-m)",
             color: "var(--text-body)",
             lineHeight: 1.7,
             maxWidth: "56ch",
@@ -205,10 +205,10 @@ export function EngineeringSection() {
                 </span>
               </div>
 
-              <h3
+              <h2
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "clamp(19px, 2.4vw, 26px)",
+                  fontSize: "var(--type-heading-m)",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.2,
@@ -217,7 +217,7 @@ export function EngineeringSection() {
                 }}
               >
                 {INTERNSHIP.company}
-              </h3>
+              </h2>
               <p
                 style={{
                   fontSize: 12,
@@ -242,7 +242,7 @@ export function EngineeringSection() {
 
               <p
                 style={{
-                  fontSize: "clamp(13px, 1.1vw, 15px)",
+                  fontSize: "var(--type-body-s)",
                   color: "var(--text-body)",
                   lineHeight: 1.7,
                   marginBottom: 24,
@@ -316,10 +316,10 @@ export function EngineeringSection() {
                     marginBottom: 20,
                   }}
                 >
-                  <h3
+                  <h2
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: "clamp(15px, 1.7vw, 19px)",
+                      fontSize: "var(--type-body-l)",
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
                       color: "var(--color-text-primary)",
@@ -327,7 +327,7 @@ export function EngineeringSection() {
                     }}
                   >
                     Competency matrix
-                  </h3>
+                  </h2>
                   <span
                     style={{
                       fontSize: 12,
@@ -403,10 +403,10 @@ export function EngineeringSection() {
                 className="bezel-inner"
                 style={{ padding: "clamp(22px, 3vw, 30px)" }}
               >
-                <h3
+                <h2
                   style={{
                     fontFamily: "var(--font-display)",
-                    fontSize: "clamp(15px, 1.7vw, 19px)",
+                    fontSize: "var(--type-body-l)",
                     fontWeight: 600,
                     letterSpacing: "-0.02em",
                     color: "var(--color-text-primary)",
@@ -414,7 +414,7 @@ export function EngineeringSection() {
                   }}
                 >
                   Trajectory
-                </h3>
+                </h2>
 
                 {CERTIFICATIONS.map((cert) => (
                   <div key={cert.name} style={{ marginBottom: 18 }}>

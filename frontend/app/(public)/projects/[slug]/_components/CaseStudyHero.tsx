@@ -35,7 +35,7 @@ export function CaseStudyHero({ project }: { project: Project }) {
         <nav aria-label="Breadcrumb" style={{ marginBottom: "clamp(28px, 4vw, 44px)" }}>
           <Link
             href="/projects"
-            className="group"
+            className="touch-target group"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -70,7 +70,7 @@ export function CaseStudyHero({ project }: { project: Project }) {
           style={{
             fontFamily: "var(--font-serif)",
             fontWeight: 500,
-            fontSize: "clamp(40px, 6.5vw, 84px)",
+            fontSize: "var(--type-display-l)",
             lineHeight: 1,
             letterSpacing: "-0.03em",
             color: id.text.strong,
@@ -85,7 +85,7 @@ export function CaseStudyHero({ project }: { project: Project }) {
             style={{
               fontFamily: "var(--font-serif)",
               fontWeight: 500,
-              fontSize: "clamp(24px, 3.4vw, 44px)",
+              fontSize: "var(--type-heading-l)",
               lineHeight: 1.06,
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
@@ -99,7 +99,7 @@ export function CaseStudyHero({ project }: { project: Project }) {
 
         <p
           style={{
-            fontSize: "clamp(15px, 1.3vw, 18px)",
+            fontSize: "var(--type-body-l)",
             lineHeight: 1.7,
             color: id.text.body,
             maxWidth: "58ch",

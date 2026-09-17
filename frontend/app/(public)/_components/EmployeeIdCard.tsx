@@ -8,9 +8,52 @@ interface Props {
   onClose: () => void;
 }
 
+/* ─── Card geometry ───────────────────────────────────────────────
+   Was 252x400. The card carries roughly twenty-five distinct fields, and
+   at 252px wide the only way to fit them was type between 6px and 9px —
+   nine separate steps below the 10px floor, on the single most decorative
+   element of the site. Shrinking type to fit a box is backwards; the box
+   grows instead. 320x508 holds the same composition at the same
+   proportions (CR80-ish, 0.63) with every readable field at 10px or more,
+   and still clears a 375px viewport with margin. */
+const CARD_W = 320;
+const CARD_H = 508;
+
 /* card resting positions */
 const OPEN_Y  =  20;   /* visible: 20px below top of viewport */
-const CLOSE_Y = -580;  /* fully hidden above viewport          */
+const CLOSE_Y = -700;  /* fully hidden above viewport (card is CARD_H tall) */
+
+/* ─── Typefaces ───────────────────────────────────────────────────
+   The card used to name "monospace", "system-ui" and "cursive" directly.
+   Those are generic families, not faces: they resolve to whatever the OS
+   ships, which made this the one component on the site that rendered
+   differently on every machine. All three now point at faces the site
+   already loads and self-hosts. */
+const MONO   = "var(--font-mono)";
+const SANS   = "var(--font-sans)";
+/* The signature. "cursive" is the worst offender of the three — plenty of
+   systems ship no script face at all and silently fall back to Times, so
+   the "handwritten" signature rendered as plain serif. Spectral italic is
+   a real loaded face and reads as a signature everywhere. */
+const SCRIPT = "var(--font-serif)";
+
+/* ─── Type scale ──────────────────────────────────────────────────
+   Four steps, floor 10px, replacing the ~20 ad-hoc sizes this file used
+   to carry. MICROPRINT is the deliberate exception and the only thing on
+   the card allowed to be illegible: it simulates the security microprint
+   on a real badge, it is always aria-hidden, and it never carries
+   information a reader needs. Everything a reader is meant to read sits
+   at T.micro or above. */
+const T = {
+  micro: 10,  /* field labels, zone codes, affordances */
+  body:  12,  /* field values */
+  title: 14,  /* EMPLOYEE / CREDENTIAL */
+  name:  18,  /* LEO RAO */
+} as const;
+const MICROPRINT = 7;
+/* One-off: the signature is handwriting, not UI type, so it sits outside
+   the scale on purpose rather than by accident. */
+const SIGNATURE = 16;
 
 /* ─── Security pattern SVG (guilloché-style micro lines) ─────────── */
 const SECURITY_BG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%233a2a14' stroke-width='0.4' opacity='0.18'%3E%3Ccircle cx='20' cy='20' r='18'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='20' cy='20' r='8'/%3E%3Cline x1='0' y1='20' x2='40' y2='20'/%3E%3Cline x1='20' y1='0' x2='20' y2='40'/%3E%3C/g%3E%3C/svg%3E")`;
@@ -30,7 +73,7 @@ const MICRO_SCRATCHES = (
   <svg
     aria-hidden
     style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
-    viewBox="0 0 252 400"
+    viewBox={`0 0 ${CARD_W} ${CARD_H}`}
     preserveAspectRatio="none"
   >
     <g stroke="#fff" strokeLinecap="round" fill="none">
@@ -120,8 +163,8 @@ function PhotoPlaceholder() {
   return (
     <div
       style={{
-        width: 72,
-        height: 90,
+        width: 84,
+        height: 105,
         background: "linear-gradient(160deg, #1a2a1a 0%, #0d180d 100%)",
         border: "1.5px solid #d0cfc0",
         borderRadius: 3,
@@ -137,7 +180,7 @@ function PhotoPlaceholder() {
           bottom: 0,
           left: "50%",
           transform: "translateX(-50%)",
-          width: 58,
+          width: 68,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -146,8 +189,8 @@ function PhotoPlaceholder() {
       >
         <div
           style={{
-            width: 28,
-            height: 28,
+            width: 33,
+            height: 33,
             borderRadius: "50%",
             background: "linear-gradient(135deg, #2a3d2a 0%, #1e2e1e 100%)",
             marginBottom: 2,
@@ -155,8 +198,8 @@ function PhotoPlaceholder() {
         />
         <div
           style={{
-            width: 52,
-            height: 36,
+            width: 60,
+            height: 42,
             borderRadius: "50% 50% 0 0",
             background: "linear-gradient(135deg, #1e2e1e 0%, #152215 100%)",
           }}
@@ -174,10 +217,13 @@ function PhotoPlaceholder() {
       >
         <span
           style={{
-            fontSize: 14,
+            fontSize: T.title,
             fontWeight: 700,
-            color: "rgba(255,122,24,0.4)",
-            fontFamily: "monospace",
+            /* Was rgba(...,0.4), which composites to ~2.4:1 against this
+               dark green field. These are the person's initials, not
+               texture, so they get the accent at full strength (6.9:1). */
+            color: "#ff7a18",
+            fontFamily: MONO,
             letterSpacing: "0.1em",
           }}
         >
@@ -210,7 +256,7 @@ function QrCode() {
     [1,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,0,0,1,1,0,1,0,1,1,1,1,1,1,1],
   ];
-  const size = 5;
+  const size = 6;
   return (
     <div
       style={{
@@ -324,7 +370,7 @@ function CardFront() {
         <div
           style={{
             background: "linear-gradient(135deg, #1a1206 0%, #3a2410 50%, #52320f 100%)",
-            padding: "14px 16px 12px",
+            padding: "16px 18px 14px",
             borderBottom: "2px solid rgba(255,122,24,0.5)",
             position: "relative",
             overflow: "hidden",
@@ -340,13 +386,17 @@ function CardFront() {
           />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
             <div>
-              <div style={{ fontSize: 8, letterSpacing: "0.38em", color: "rgba(255,122,24,0.55)", marginBottom: 3, fontFamily: "monospace" }}>
+              {/* 8px at 0.55 alpha composited to 2.9:1 on this brown band.
+                  Still the quietest thing in the header, but now legible. */}
+              <div style={{ fontSize: T.micro, letterSpacing: "0.3em", color: "rgba(255,122,24,0.85)", marginBottom: 4, fontFamily: MONO }}>
                 LEOLOGIC SYSTEMS
               </div>
-              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: "monospace", lineHeight: 1 }}>
+              {/* Accent on the dark brown band measures 5.5:1 — one of the
+                  few places on the site where the accent IS safe as text. */}
+              <div style={{ fontSize: T.title, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: MONO, lineHeight: 1.05 }}>
                 EMPLOYEE
               </div>
-              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: "monospace", lineHeight: 1 }}>
+              <div style={{ fontSize: T.title, fontWeight: 800, letterSpacing: "0.1em", color: "#ff7a18", fontFamily: MONO, lineHeight: 1.05 }}>
                 CREDENTIAL
               </div>
             </div>
@@ -356,8 +406,8 @@ function CardFront() {
                 flat on it. */}
             <div
               style={{
-                width: 28,
-                height: 28,
+                width: 34,
+                height: 34,
                 borderRadius: "50%",
                 border: "1.5px solid rgba(255,122,24,0.35)",
                 background: "rgba(255,122,24,0.08)",
@@ -366,10 +416,10 @@ function CardFront() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 11,
+                fontSize: T.body,
                 fontWeight: 700,
-                color: "rgba(255,122,24,0.7)",
-                fontFamily: "monospace",
+                color: "#ff7a18",
+                fontFamily: MONO,
                 textShadow: "0 1px 0 rgba(255,255,255,0.12), 0 -1px 0 rgba(0,0,0,0.35)",
                 flexShrink: 0,
               }}
@@ -380,38 +430,54 @@ function CardFront() {
         </div>
 
         {/* Body */}
-        <div style={{ padding: "14px 16px 0", flex: 1 }}>
+        {/* The taller card left ~70px of dead air between the barcode block
+            and the footer band — content, then void, which reads as a
+            layout bug rather than as margin. Distributing it across the
+            existing block boundaries instead lets the whole face breathe at
+            the new size, which is the point of the new size. */}
+        <div
+          style={{
+            padding: "16px 18px 14px",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
           <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
             <PhotoPlaceholder />
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: 15,
+                  fontSize: T.name,
                   fontWeight: 800,
                   color: "#111",
                   letterSpacing: "0.02em",
                   lineHeight: 1.1,
                   marginBottom: 3,
-                  fontFamily: "system-ui, sans-serif",
+                  fontFamily: SANS,
                 }}
               >
                 LEO RAO
               </div>
               <div
                 style={{
-                  fontSize: 8.5,
+                  fontSize: T.micro,
                   color: "#444",
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   marginBottom: 2,
-                  fontFamily: "monospace",
+                  fontFamily: MONO,
                 }}
               >
                 Systems Engineer
               </div>
               {/* Sits on the card's near-white face, so this needs dark ink —
                   the previous #777 measured 4.07:1, just under AA. */}
-              <div style={{ fontSize: 10, color: "#5f5f5f", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "monospace" }}>
+              {/* Tracking trimmed with the column: at 0.08em this needs ~197px
+                  and has 188, so it broke to two lines. It is one phrase and
+                  should read as one line. */}
+              <div style={{ fontSize: T.micro, color: "#5f5f5f", letterSpacing: "0.01em", marginBottom: 8, fontFamily: MONO, whiteSpace: "nowrap" }}>
                 Process Engineering · ChemEng
               </div>
               <Chip />
@@ -437,7 +503,7 @@ function CardFront() {
                     animation: "pulse-green 2s ease-in-out infinite",
                   }}
                 />
-                <span style={{ fontSize: 7.5, color: "#006620", letterSpacing: "0.22em", fontFamily: "monospace", fontWeight: 700 }}>
+                <span style={{ fontSize: T.micro, color: "#006620", letterSpacing: "0.18em", fontFamily: MONO, fontWeight: 700 }}>
                   AUTHORIZED
                 </span>
               </div>
@@ -462,10 +528,10 @@ function CardFront() {
               <div key={k}>
                 {/* #aaa/#8a8a90 measured 2.1:1 / 3.1:1 on this near-white
                     face — the same fix already applied two fields up. */}
-                <div style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#6b6b6b", fontFamily: "monospace", marginBottom: 1.5, textTransform: "uppercase" }}>
+                <div style={{ fontSize: T.micro, letterSpacing: "0.18em", color: "#6b6b6b", fontFamily: MONO, marginBottom: 2, textTransform: "uppercase" }}>
                   {k}
                 </div>
-                <div style={{ fontSize: 8, color: "#5a5a60", fontWeight: 600, lineHeight: 1.3, fontFamily: "system-ui, sans-serif" }}>
+                <div style={{ fontSize: T.body, color: "#4a4a52", fontWeight: 600, lineHeight: 1.35, fontFamily: SANS }}>
                   {v}
                 </div>
               </div>
@@ -481,7 +547,7 @@ function CardFront() {
           />
 
           <div>
-            <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "#5a5a60", fontFamily: "monospace", marginBottom: 5 }}>
+            <div style={{ fontSize: T.micro, letterSpacing: "0.16em", color: "#5a5a60", fontFamily: MONO, marginBottom: 6 }}>
               ID: LL-2004-ENG-0723
             </div>
             <div style={{ display: "flex", gap: 0, alignItems: "flex-end", height: 28 }}>
@@ -499,7 +565,7 @@ function CardFront() {
             </div>
             {/* Simulated barcode serial — decorative microprint, like the real
                 thing it imitates. Carries no information a reader needs. */}
-            <div aria-hidden style={{ fontSize: 6.5, letterSpacing: "0.35em", color: "#ccc", fontFamily: "monospace", marginTop: 2 }}>
+            <div aria-hidden style={{ fontSize: MICROPRINT, letterSpacing: "0.35em", color: "#ccc", fontFamily: MONO, marginTop: 2 }}>
               0 7 2 3 · 2 0 0 4 · S Y S
             </div>
           </div>
@@ -509,7 +575,7 @@ function CardFront() {
         <div
           style={{
             background: "linear-gradient(90deg, #001200 0%, #002000 100%)",
-            padding: "7px 16px",
+            padding: "9px 18px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -522,10 +588,13 @@ function CardFront() {
               <span
                 key={zone}
                 style={{
-                  fontSize: 6.5,
-                  letterSpacing: "0.18em",
-                  color: i === 0 ? "#ff7a18" : "rgba(255,122,24,0.45)",
-                  fontFamily: "monospace",
+                  fontSize: T.micro,
+                  letterSpacing: "0.14em",
+                  /* The inactive zones were rgba(...,0.45) — 2.2:1 on this
+                     near-black green. Raised to 0.8 (5.0:1); the active
+                     zone stays distinguishable by weight and full strength. */
+                  color: i === 0 ? "#ff7a18" : "rgba(255,122,24,0.8)",
+                  fontFamily: MONO,
                   fontWeight: i === 0 ? 700 : 400,
                 }}
               >
@@ -534,7 +603,7 @@ function CardFront() {
             ))}
           </div>
           {/* A real affordance, not chrome — it has to be readable. */}
-          <span style={{ fontSize: 9, letterSpacing: "0.08em", color: "rgba(255,255,255,0.75)", fontFamily: "monospace" }}>CLICK TO FLIP</span>
+          <span style={{ fontSize: T.micro, letterSpacing: "0.08em", color: "rgba(255,255,255,0.85)", fontFamily: MONO }}>CLICK TO FLIP</span>
         </div>
       </div>
     </div>
@@ -595,16 +664,20 @@ function CardBack() {
             backgroundImage: "repeating-linear-gradient(90deg, rgba(255,180,0,0.04) 0px, rgba(255,180,0,0.04) 1px, transparent 1px, transparent 3px)",
           }}
         />
+        {/* Simulated standards mark on the mag-stripe band — texture, not a
+            claim, so it joins the rest of the microprint behind aria-hidden
+            rather than being announced as content. */}
         <div
+          aria-hidden
           style={{
             position: "absolute",
             right: 10,
             top: "50%",
             transform: "translateY(-50%)",
-            fontSize: 6,
+            fontSize: MICROPRINT,
             letterSpacing: "0.15em",
             color: "rgba(255,160,0,0.2)",
-            fontFamily: "monospace",
+            fontFamily: MONO,
           }}
         >
           ISO/IEC 7811
@@ -613,8 +686,8 @@ function CardBack() {
 
       <div
         style={{
-          margin: "10px 16px 0",
-          height: 28,
+          margin: "12px 18px 0",
+          height: 36,
           background: "linear-gradient(90deg, #f8f6f0 0%, #f0ede8 100%)",
           borderRadius: 2,
           border: "1px solid #ddd",
@@ -634,9 +707,10 @@ function CardBack() {
         />
         <span
           style={{
-            fontSize: 8,
-            fontFamily: "cursive, serif",
-            color: "#334",
+            fontSize: SIGNATURE,
+            fontFamily: SCRIPT,
+            fontWeight: 500,
+            color: "#22222c",
             letterSpacing: "0.05em",
             position: "relative",
             zIndex: 1,
@@ -648,11 +722,11 @@ function CardBack() {
         <span
           style={{
             position: "absolute",
-            right: 6,
-            fontSize: 6,
+            right: 8,
+            fontSize: T.micro,
             color: "#6b6b6b",
-            fontFamily: "monospace",
-            letterSpacing: "0.12em",
+            fontFamily: MONO,
+            letterSpacing: "0.06em",
             zIndex: 1,
           }}
         >
@@ -662,7 +736,7 @@ function CardBack() {
 
       <div
         style={{
-          padding: "14px 16px",
+          padding: "14px 18px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -670,7 +744,7 @@ function CardBack() {
           flex: 1,
         }}
       >
-        <div style={{ fontSize: 10, letterSpacing: "0.28em", color: "rgba(255,122,24,0.85)", fontFamily: "monospace", textTransform: "uppercase" }}>
+        <div style={{ fontSize: T.micro, letterSpacing: "0.24em", color: "rgba(255,122,24,0.85)", fontFamily: MONO, textTransform: "uppercase" }}>
           LeoLogic · Access Control
         </div>
 
@@ -696,8 +770,8 @@ function CardBack() {
             >
               {/* #444 measured ~2:1 against this near-black face — dark
                   grey on near-black, not the light grey it needed. */}
-              <span style={{ fontSize: 7, letterSpacing: "0.2em", color: "#8a8a90", fontFamily: "monospace" }}>{k}</span>
-              <span style={{ fontSize: 8, color: "#ff7a18", fontFamily: "monospace", fontWeight: 600 }}>{v}</span>
+              <span style={{ fontSize: T.micro, letterSpacing: "0.16em", color: "#8a8a90", fontFamily: MONO }}>{k}</span>
+              <span style={{ fontSize: T.body, color: "#ff7a18", fontFamily: MONO, fontWeight: 600 }}>{v}</span>
             </div>
           ))}
         </div>
@@ -714,10 +788,10 @@ function CardBack() {
             padding: "6px 8px",
           }}
         >
-          <div style={{ fontSize: 6.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", fontFamily: "monospace", lineHeight: 1.6 }}>
+          <div style={{ fontSize: MICROPRINT, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", fontFamily: MONO, lineHeight: 1.6 }}>
             P&lt;LLSRAO&lt;&lt;LEO&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
           </div>
-          <div style={{ fontSize: 6.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", fontFamily: "monospace", lineHeight: 1.6 }}>
+          <div style={{ fontSize: MICROPRINT, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", fontFamily: MONO, lineHeight: 1.6 }}>
             LL20040723&lt;5ENG9912319M&lt;&lt;&lt;4
           </div>
         </div>
@@ -725,13 +799,13 @@ function CardBack() {
 
       <div
         style={{
-          padding: "6px 16px 8px",
+          padding: "6px 18px 8px",
           textAlign: "center",
           borderTop: "1px solid rgba(255,122,24,0.06)",
         }}
       >
         {/* Decorative security-strip text, as on a real badge. */}
-        <div aria-hidden style={{ fontSize: 6.5, letterSpacing: "0.22em", color: "#333", fontFamily: "monospace" }}>
+        <div aria-hidden style={{ fontSize: MICROPRINT, letterSpacing: "0.22em", color: "#333", fontFamily: MONO }}>
           NOT TRANSFERABLE · VOID IF ALTERED · PROPERTY OF LEOLOGIC
         </div>
       </div>
@@ -1018,7 +1092,10 @@ export function EmployeeIdCard({ open, onClose }: Props) {
       style={{
         position: "fixed",
         top: 0,
-        right: "clamp(60px, 10vw, 180px)",
+        /* The 60px minimum was tuned for the old 252px card. At CARD_W=320
+           it would push the left edge 5px off a 375px viewport, so the
+           floor drops to a plain gutter; wider screens are unaffected. */
+        right: "clamp(16px, 10vw, 180px)",
         zIndex: 9998,
         display: "flex",
         flexDirection: "column",
@@ -1065,8 +1142,8 @@ export function EmployeeIdCard({ open, onClose }: Props) {
           aria-pressed={flipped}
           aria-label={flipped ? "Show front of ID card" : "Show back of ID card"}
           style={{
-            width: 252,
-            height: 400,
+            width: CARD_W,
+            height: CARD_H,
             position: "relative",
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",

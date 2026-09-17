@@ -42,7 +42,16 @@ export type ArchitectureLayer = {
 /** Extended detail rendered by ProjectCard on /projects. */
 export type ProjectRegistryDetail = {
   displayType: "Live System" | "Architecture Only";
-  longDescription: string;
+  /**
+   * One string is one paragraph. An array is several.
+   *
+   * The two shipped case studies had grown to ~150 words in a single
+   * unbroken block, on pages where every neighbouring element is a short
+   * labelled row — the density does not match, and the reader has no
+   * handhold to re-enter the text after looking away. The content was
+   * never the problem; it was being served as a wall.
+   */
+  longDescription: string | readonly string[];
   techStack: TechTag[];
   metrics: ProjectMetric[];
   architecture: {
@@ -54,7 +63,12 @@ export type ProjectRegistryDetail = {
 };
 
 export type Project = {
-  /** Registry id, e.g. "P-01". Stable — used as a React key and display label. */
+  /**
+   * Registry id, e.g. "P-01". Used as a React key and display label.
+   * Contiguous by intent: nothing outside this file addresses a project
+   * by id (every route is slug-based), so when an entry is retired the
+   * rest close up rather than leaving a numbered hole on a public page.
+   */
   id: string;
   /**
    * URL segment for /projects/<slug>. Declared explicitly rather than derived
@@ -215,19 +229,24 @@ export const PROJECTS: Project[] = [
     landingFeatured: true,
     registry: {
       displayType: "Live System",
-      longDescription:
+      /* Three paragraphs: what it models, where the privacy boundary sits,
+         what was traded away to keep it shipping. Same words as before —
+         only the breaks are new. */
+      longDescription: [
         "Half-Life is a local-first iOS app built with Expo and React Native that helps make " +
-        "sense of caffeine intake against sleep timing, modelled as first-order decay: " +
-        "A(t) = A₀ · e^(−0.693t / t½). HealthKit access is user-triggered and only feeds " +
-        "suggestions — it never silently overwrites a manually-set sleep or wake time, and raw " +
-        "sleep samples are never persisted or synced to the cloud. Supabase is optional " +
-        "account/sync only; the core logging flow works fully local-first. The architecture " +
-        "deliberately runs on the stable React Native core — Skia, Reanimated, and Worklets " +
-        "were removed after they proved to be a recurring source of build fragility, and " +
-        "stability now takes priority over animation ceiling. The decay model itself is " +
-        "exposed through a Python service, and the simulator below calls that live endpoint. " +
-        "A signed 1.0.4 (6) release archive is built and locally exported; device acceptance " +
-        "and TestFlight remain open.",
+          "sense of caffeine intake against sleep timing, modelled as first-order decay: " +
+          "A(t) = A₀ · e^(−0.693t / t½).",
+        "HealthKit access is user-triggered and only feeds suggestions — it never silently " +
+          "overwrites a manually-set sleep or wake time, and raw sleep samples are never " +
+          "persisted or synced to the cloud. Supabase is optional account/sync only; the core " +
+          "logging flow works fully local-first.",
+        "The architecture deliberately runs on the stable React Native core — Skia, " +
+          "Reanimated, and Worklets were removed after they proved to be a recurring source " +
+          "of build fragility, and stability now takes priority over animation ceiling. The " +
+          "decay model itself is exposed through a Python service, and the simulator below " +
+          "calls that live endpoint. A signed 1.0.4 (6) release archive is built and locally " +
+          "exported; device acceptance and TestFlight remain open.",
+      ],
       techStack: [
         { label: "Expo", tone: "green" },
         { label: "React Native", tone: "green" },
@@ -318,19 +337,24 @@ export const PROJECTS: Project[] = [
     showOnLanding: true,
     registry: {
       displayType: "Live System",
-      longDescription:
+      /* Three paragraphs: the scope boundary, the evidence it is real, and
+         what this page actually shows. Wording unchanged. */
+      longDescription: [
         "LeoLogic OS is the execution layer of a two-system personal architecture. It owns " +
-        "tasks, priorities, agent workflows, automation, and cross-system execution; Obsidian " +
-        "owns long-term knowledge, project context, and decision records. The split is a " +
-        "documented scope boundary rather than an accident — neither system duplicates what " +
-        "the other already does well, which is what keeps maintenance cost from doubling. " +
+          "tasks, priorities, agent workflows, automation, and cross-system execution; " +
+          "Obsidian owns long-term knowledge, project context, and decision records. The " +
+          "split is a documented scope boundary rather than an accident — neither system " +
+          "duplicates what the other already does well, which is what keeps maintenance cost " +
+          "from doubling.",
         "The real leologic-os repository is private, has its own Vite + React + TypeScript " +
-        "client with a Vitest test suite, and has shipped Phase 1 through 9 plus a separate " +
-        "\"Adventure Mode\" feature line, each phase with its own written acceptance " +
-        "checklist — and its daily/ and weekly/ directories hold real dated review files, " +
-        "not templates, which is the evidence the phase cadence is actually lived in rather " +
-        "than just designed. This site's Command Center below is a separate, public-facing " +
-        "Next.js + FastAPI surface that visualizes a slice of that state — not the OS itself.",
+          "client with a Vitest test suite, and has shipped Phase 1 through 9 plus a separate " +
+          "\"Adventure Mode\" feature line, each phase with its own written acceptance " +
+          "checklist — and its daily/ and weekly/ directories hold real dated review files, " +
+          "not templates, which is the evidence the phase cadence is actually lived in rather " +
+          "than just designed.",
+        "This site's Command Center below is a separate, public-facing Next.js + FastAPI " +
+          "surface that visualizes a slice of that state — not the OS itself.",
+      ],
       techStack: [
         { label: "Next.js 16", tone: "green" },
         { label: "React 19", tone: "green" },
@@ -394,90 +418,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "P-04",
-    slug: "anomaly-affairs",
-    codename: "ANOMALY",
-    title: "异常事务处",
-    tag: "Creative IP",
-    domain: "AI / narrative",
-    status: "WIP",
-    statusLabel: "In Production",
-    summary:
-      "AI-assisted short-drama and novel IP, exploring a repeatable content production " +
-      "workflow and monetisation path. Written under the pen name 尤尼维斯.",
-    stack: ["AI-assisted writing", "Worldbuilding", "Content ops"],
-    accent: "#c084fc",
-    showOnLanding: false,
-    registry: {
-      displayType: "Architecture Only",
-      longDescription:
-        "异常事务处 is an original short-drama and novel IP developed with AI assistance " +
-        "across drafting, worldbuilding, and revision. The goal is less a single story than a " +
-        "repeatable production pipeline: a structured worldbuilding and character base that " +
-        "keeps continuity across episodes, an AI-assisted drafting loop that stays under " +
-        "authorial control, and a distribution track for content operations. Current milestone " +
-        "is unit U-001. Published under the pen name 尤尼维斯.",
-      techStack: [
-        { label: "AI-assisted drafting", tone: "green" },
-        { label: "Worldbuilding system", tone: "cyan" },
-        { label: "Episode structure", tone: "cyan" },
-        { label: "Character bible", tone: "cyan" },
-        { label: "Content operations", tone: "amber" },
-      ],
-      metrics: [
-        { label: "FORMAT", value: "Short drama · novel" },
-        { label: "PEN NAME", value: "尤尼维斯" },
-        { label: "MILESTONE", value: "U-001" },
-        { label: "METHOD", value: "AI-assisted, author-directed" },
-        { label: "FOCUS", value: "Repeatable production workflow" },
-        { label: "TRACK", value: "Content monetisation" },
-      ],
-      architecture: {
-        title: "异常事务处 — PRODUCTION PIPELINE",
-        layers: [
-          {
-            label: "WORLDBUILDING",
-            sublabel: "Setting rules · internal consistency constraints",
-            tone: "cyan",
-          },
-          {
-            label: "CHARACTER BIBLE",
-            sublabel: "Cast definitions · voice and motivation continuity",
-            tone: "cyan",
-          },
-          {
-            label: "EPISODE STRUCTURE",
-            sublabel: "Outline → beat sheet → script draft",
-            tone: "green",
-          },
-          {
-            label: "AI DRAFTING LOOP",
-            sublabel: "Assisted generation under explicit authorial direction",
-            tone: "green",
-          },
-          {
-            label: "RESEARCH BASE",
-            sublabel: "Reference material and plot source gathering",
-            tone: "amber",
-          },
-          {
-            label: "DISTRIBUTION",
-            sublabel: "Publishing cadence and content operations",
-            tone: "amber",
-          },
-        ],
-      },
-      tags: [
-        "CREATIVE_IP",
-        "AI_ASSISTED_WRITING",
-        "SHORT_DRAMA",
-        "WORLDBUILDING",
-        "CONTENT_OPERATIONS",
-        "NARRATIVE_DESIGN",
-      ],
-    },
-  },
-  {
-    id: "P-05",
     slug: "trace",
     codename: "TRACE",
     title: "Trace",
@@ -572,7 +512,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    id: "P-06",
+    id: "P-05",
     slug: "tiny-trials",
     codename: "TINY-TRIALS",
     title: "Tiny Trials",
@@ -672,3 +612,17 @@ export const REGISTRY_PROJECTS = PROJECTS.filter(
 export function getProjectBySlug(slug: string) {
   return REGISTRY_PROJECTS.find((p) => p.slug === slug);
 }
+
+/**
+ * How many works /projects actually puts on screen.
+ *
+ * Not PROJECTS.length. The gallery leads with three works carried far enough
+ * to show in full — Half-Life, FabTwin, LeoLogic OS — but FabTwin has no
+ * PROJECTS entry on purpose: it is an experiment still under validation, so
+ * its record lives in the Lab as L-03 rather than in the project registry.
+ * Counting PROJECTS alone therefore under-reports the page by exactly that
+ * one gallery-only work, which on a site that leads with honest numbers is
+ * the worst possible place to be off by one.
+ */
+export const GALLERY_ONLY_WORKS = 1; // FabTwin — see app/_data/lab.ts, L-03
+export const PROJECTS_ON_RECORD = PROJECTS.length + GALLERY_ONLY_WORKS;

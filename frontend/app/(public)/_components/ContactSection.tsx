@@ -56,7 +56,7 @@ export function ContactSection() {
           >
             <h2
               style={{
-                fontSize: "clamp(32px, 5vw, 64px)",
+                fontSize: "var(--type-display-s)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
                 color: "var(--color-text-primary)",
@@ -73,7 +73,7 @@ export function ContactSection() {
 
             <p
               style={{
-                fontSize: "clamp(14px, 1.3vw, 17px)",
+                fontSize: "var(--type-body-m)",
                 color: "var(--text-muted)",
                 lineHeight: 1.75,
                 maxWidth: 400,
@@ -170,7 +170,7 @@ export function ContactSection() {
                 </div>
                 <div
                   style={{
-                    fontSize: "clamp(13px, 1.1vw, 15px)",
+                    fontSize: "var(--type-body-s)",
                     color: "rgba(10, 12, 15,0.7)",
                     fontFamily: "var(--font-sans)",
                   }}

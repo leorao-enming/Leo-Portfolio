@@ -106,6 +106,38 @@
   --section-px: clamp(24px, 5vw, 80px);
   --container-max: 1280px;
 
+  /* ── Type scale ───────────────────────────────────────────────
+     Eleven separate display clamps had accumulated across the showcase
+     and gallery components, and three of them landed within 9% of each
+     other at desktop width (76 / 83.2 / 89.6px). A 9% step is not a
+     step — the eye reads it as three headings that failed to line up
+     rather than as a hierarchy. These four are a ~1.3 modular scale, so
+     every step is unmistakably a step:
+
+         1280px:  140.8  ->  108.8  ->  84.5  ->  64
+
+     Roles, not sizes: XL is the site's one hero, L is a page-level h1 or
+     a full gallery chapter, M is a section headline, S is a sub-section.
+     Pick by what the heading IS, not by how big it should look. */
+  --type-display-xl: clamp(52px, 11vw, 148px);
+  --type-display-l:  clamp(46px, 8.5vw, 116px);
+  --type-display-m:  clamp(38px, 6.6vw, 90px);
+  --type-display-s:  clamp(30px, 5vw, 66px);
+
+  /* Heading tier — the sub-display range, where the sprawl was worst:
+     thirteen clamps between 21px and 56px, most of them within a few
+     pixels of a neighbour. L is a section heading, M is a card or row
+     title. */
+  --type-heading-l: clamp(28px, 4vw, 48px);
+  --type-heading-m: clamp(19px, 2.3vw, 27px);
+
+  /* Body tier, same treatment: six near-identical clamps collapsed to
+     three. L is a lead/standfirst paragraph, M is default running text,
+     S is dense secondary text (captions, table cells, metadata). */
+  --type-body-l: clamp(15px, 1.3vw, 18px);
+  --type-body-m: clamp(14px, 1.2vw, 16px);
+  --type-body-s: clamp(13px, 1.1vw, 15px);
+
   /* ── Radius scale ─────────────────────────────────────────── */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -425,6 +457,30 @@
     text-transform: uppercase;
     color: var(--text-muted);
     font-family: var(--font-display);
+  }
+
+  /* ── Touch target floor ───────────────────────────────────────
+     WCAG 2.5.8 (AA) asks for 24x24 CSS px and explicitly exempts links
+     sitting inline in a run of text; every standalone control here
+     already clears that. 44px is the comfort bar from 2.5.5 (AAA) and
+     the platform HIGs, and it is only worth paying for where a finger
+     is actually doing the pointing — forcing 44px rows on a mouse-driven
+     desktop would just loosen lists that read correctly today.
+
+     `pointer: coarse` keys off the input device rather than the viewport
+     width, which is the axis that actually matters: a touch laptop gets
+     the larger target, a narrow desktop window does not. Applied to the
+     standalone controls that sat between 24 and 44 — footer navigation,
+     the P&ID tag index, the nav wordmark. */
+  .touch-target {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+  }
+  @media (pointer: coarse) {
+    .touch-target {
+      min-height: 44px;
+    }
   }
 
   /* ── Index row ────────────────────────────────────────────────

@@ -83,12 +83,12 @@ export function FabTwinSpcArt() {
           marginBottom: 8,
         }}
       >
-        <h4
+        <h3
           id="fabtwin-spc-heading"
           style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 700, margin: 0, color: "var(--color-text-primary)" }}
         >
           SPC — chamber pressure, individuals chart
-        </h4>
+        </h3>
         <p style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", margin: 0, textAlign: "right" }}>
           UCL/LCL = μ ± 3σ
         </p>
@@ -124,7 +124,7 @@ export function FabTwinSpcArt() {
               stroke={label === "CL" ? "var(--color-hairline-bright)" : "rgba(3,105,161,0.35)"}
               strokeDasharray={label === "CL" ? "2 4" : undefined}
             />
-            <text x={PAD_L - 6} y={yForValue(y) + 3} textAnchor="end" fontSize="9" fontFamily="var(--font-mono)" fill="var(--text-muted)">
+            <text x={PAD_L - 6} y={yForValue(y) + 3} textAnchor="end" fontSize="10" fontFamily="var(--font-mono)" fill="var(--text-muted)">
               {label}
             </text>
           </g>
@@ -184,7 +184,7 @@ export function FabTwinSpcArt() {
           x={xForIndex(FAULT_INDEX)}
           y={yForValue(SUBGROUPS[FAULT_INDEX]) - 10}
           textAnchor="middle"
-          fontSize="9"
+          fontSize="10"
           fontFamily="var(--font-mono)"
           fontWeight="700"
           fill="#b91c1c"

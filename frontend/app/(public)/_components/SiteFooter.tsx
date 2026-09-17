@@ -35,8 +35,13 @@ const colHeading: React.CSSProperties = {
   marginBottom: 14,
 };
 
+/* 32px tall on a mouse. The `touch-target` class that every consumer of
+   this style also carries lifts it to 44 under a coarse pointer, so the
+   footer stays a tight index on desktop and a comfortable one on a phone. */
 const linkStyle: React.CSSProperties = {
-  display: "block",
+  /* display and min-height come from .touch-target — an inline `display:
+     block` here would beat the class and leave the taller coarse-pointer
+     target with its label stuck at the top of the box. */
   fontSize: 13,
   lineHeight: 1.4,
   color: "var(--text-body)",
@@ -98,7 +103,7 @@ export function SiteFooter() {
         <nav aria-label="Footer">
           <h2 style={colHeading}>Sections</h2>
           {NAV.map(({ label, href }) => (
-            <Link key={href} href={href} style={linkStyle} className="hover:underline">
+            <Link key={href} href={href} style={linkStyle} className="touch-target hover:underline">
               {label}
             </Link>
           ))}
@@ -114,7 +119,7 @@ export function SiteFooter() {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               style={linkStyle}
-              className="hover:underline"
+              className="touch-target hover:underline"
             >
               {label}
             </a>

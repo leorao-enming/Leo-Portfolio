@@ -34,7 +34,7 @@ export function ContinueToLab() {
             style={{
               fontFamily: "var(--font-serif)",
               fontWeight: 500,
-              fontSize: "clamp(28px, 4.4vw, 52px)",
+              fontSize: "var(--type-heading-l)",
               lineHeight: 1.04,
               letterSpacing: "-0.02em",
               color: "var(--color-text-primary)",
@@ -50,7 +50,7 @@ export function ContinueToLab() {
               →
             </span>
           </p>
-          <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", lineHeight: 1.7, color: "var(--text-body)", margin: 0 }}>
+          <p style={{ fontSize: "var(--type-body-m)", lineHeight: 1.7, color: "var(--text-body)", margin: 0 }}>
             Experiments, validation, and the things still being tested.
           </p>
         </Link>
