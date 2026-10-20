@@ -13,14 +13,14 @@ const links = [
   },
   {
     label: "GitHub",
-    value: "github.com/leo-rao",
-    href: "https://github.com/leo-rao",
+    value: "github.com/leorao-enming",
+    href: "https://github.com/leorao-enming",
     icon: "↗",
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/leo-rao",
-    href: "https://linkedin.com/in/leo-rao",
+    value: "linkedin.com/in/enming-rao",
+    href: "https://www.linkedin.com/in/enming-rao-677220294/",
     icon: "↗",
   },
 ];

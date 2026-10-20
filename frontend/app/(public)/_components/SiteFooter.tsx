@@ -22,8 +22,8 @@ const NAV = [
 
 const ELSEWHERE = [
   { label: "Email", href: "mailto:leorao2004@gmail.com" },
-  { label: "GitHub", href: "https://github.com/leo-rao" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/leo-rao" },
+  { label: "GitHub", href: "https://github.com/leorao-enming" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/enming-rao-677220294/" },
 ];
 
 const colHeading: React.CSSProperties = {
