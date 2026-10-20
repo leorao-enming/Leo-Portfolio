@@ -156,6 +156,15 @@
   --surface-base: #f3f0e8;
   --surface-soft: #e8e4dc;
 
+  /* The homepage thesis (Manifesto + the Selected Work hand-off). It used
+     to sit on surface-soft, a 1.11:1 step from the hero's surface-base:
+     both warm paper, both set in the same large serif, so the thesis read
+     as the bottom half of the hero rather than the chapter after it. A
+     deeper drafting-board tone triples the step (1.31:1) without spending
+     the one dark section, which stays LeoLogic OS's. Measured on this
+     ground: --text-muted 4.51:1, --text-body 6.99:1, accent-ink 4.67:1. */
+  --surface-thesis: #d9d3c6;
+
   /* Half-Life — warm / biological. Burgundy verified 7.9:1 on the
      cream, safe as body text. The gold is decorative only (~2.6:1) —
      large fills and thin curve highlights, never text. */

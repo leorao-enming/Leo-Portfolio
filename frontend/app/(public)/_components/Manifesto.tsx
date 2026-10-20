@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
+import { Eyebrow } from "./editorial";
 import { DURATION, EASE, STAGGER, VIEWPORT } from "./motion";
 
 /** The conceptual spine of the site, stated once, plainly — MATTER → DATA →
@@ -18,9 +19,9 @@ import { DURATION, EASE, STAGGER, VIEWPORT } from "./motion";
 const STEPS = ["Physical process", "Sensor", "Data", "Model", "Decision"];
 
 /* Literal colours, not tokens: motion interpolates between these on every
-   frame, and it cannot interpolate a var(). Same values as --color-bg,
-   --color-accent, --text-muted and --text-strong. */
-const NODE_IDLE = "#f2f1ed";
+   frame, and it cannot interpolate a var(). Same values as
+   --surface-thesis, --color-accent, --text-muted and --text-strong. */
+const NODE_IDLE = "#d9d3c6"; // --surface-thesis: an unlit node reads as a hollow ring
 const NODE_LIT = "#ff7a18";
 const LABEL_IDLE = "rgba(10, 12, 15, 0.6)";
 const LABEL_LIT = "rgba(10, 12, 15, 0.92)";
@@ -193,11 +194,12 @@ export function Manifesto() {
   const reduced = useReducedMotion();
 
   return (
-    /* Tone change carries the section boundary instead of the hairline
-       rule that used to sit here — surface-base above, surface-soft from
-       here through the Selected Work intro, so the two read as one
-       continuous movement rather than two stacked blocks. */
-    <section id="manifesto" style={{ background: "var(--surface-soft)" }}>
+    /* Its own chapter, not the hero's lower half. Two things carry the
+       boundary: a deeper ground (--surface-thesis, see globals.css) and a
+       chapter index — "00 / Thesis" — in the same form the three project
+       chapters below use ("01 / Half-Life"), so the homepage reads as a
+       numbered sequence that starts here. */
+    <section id="manifesto" data-rail-label="Thesis" style={{ background: "var(--surface-thesis)" }}>
       <div
         className="section-shell"
         style={{
@@ -205,10 +207,28 @@ export function Manifesto() {
           flexDirection: "column",
           alignItems: "center",
           gap: "clamp(28px, 4vw, 44px)",
-          paddingTop: "clamp(80px, 11vw, 132px)",
+          paddingTop: "clamp(40px, 5vw, 64px)",
           paddingBottom: "clamp(80px, 11vw, 132px)",
         }}
       >
+        <div
+          style={{
+            alignSelf: "stretch",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            gap: 16,
+            paddingBottom: 14,
+            borderBottom: "1px solid var(--color-hairline-bright)",
+            marginBottom: "clamp(32px, 6vw, 72px)",
+          }}
+        >
+          <Eyebrow>00 / Thesis</Eyebrow>
+          {/* Dropped below sm: at phone width the two lines collide. */}
+          <span className="max-sm:hidden">
+            <Eyebrow as="span" style={{ letterSpacing: "0.16em" }}>Matter → Data → System</Eyebrow>
+          </span>
+        </div>
         <Statement lines={["Matter", "Becomes", "Data."]} align="left" reduced={reduced} />
         <TransitionLine reduced={reduced} />
         <Statement lines={["Data", "Becomes", "A system."]} align="right" reduced={reduced} />

@@ -17,7 +17,9 @@ export function SelectedWorkIntro() {
   const reduced = useReducedMotion();
 
   return (
-    <section id="projects" style={{ background: "var(--surface-soft)" }}>
+    /* Same ground as the Manifesto above: the thesis and this hand-off are
+       one movement, and the Half-Life cream below is where the work starts. */
+    <section id="projects" style={{ background: "var(--surface-thesis)" }}>
       <motion.div
         className="section-shell"
         {...reveal(reduced)}
