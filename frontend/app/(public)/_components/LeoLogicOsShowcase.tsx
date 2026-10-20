@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { reveal } from "./motion";
 import { SystemTopology } from "./project-art/SystemTopology";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const TAGS = ["Agent workflows", "Automation", "Personal systems"];
 
@@ -26,10 +26,7 @@ export function LeoLogicOsShowcase() {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, ease }}
+          {...reveal(reduced)}
           /* order lives only in className — an inline order would always
              beat the responsive class regardless of breakpoint, the same
              bug already fixed once in Hero.tsx. */
@@ -39,10 +36,7 @@ export function LeoLogicOsShowcase() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
+          {...reveal(reduced, 1)}
           className="order-1 lg:order-2"
         >
           <p

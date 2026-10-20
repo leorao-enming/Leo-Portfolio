@@ -9,13 +9,10 @@ import {
   LEVEL_STEPS,
   type Competency,
 } from "../../_data/engineering";
+import { Eyebrow, MetaList, PageIntro } from "./editorial";
+import { reveal } from "./motion";
 import { ProcessCanvas } from "./ProcessCanvas";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-const ACCENT = "#c084fc";
-// Darkened for AA text contrast on the light ground — the pale ACCENT
-// above stays for borders/fills/glows, which don't carry that requirement.
-const ACCENT_TEXT = "#6d28d9";
 const TOTAL_STEPS = 4;
 
 function formatMonth(iso: string): string {
@@ -27,12 +24,17 @@ function formatMonth(iso: string): string {
   return `${names[Number(month) - 1]} ${year}`;
 }
 
-/** A four-step meter. Honest levels beat flattering ones on a portfolio. */
+/**
+ * A four-step meter. Honest levels beat flattering ones on a portfolio.
+ * Filled in the site accent rather than the violet this page used to run
+ * on — the process canvas above already selects in orange, and two accents
+ * on one page read as two unrelated systems.
+ */
 function LevelMeter({ level }: { level: Competency["level"] }) {
   const filled = LEVEL_STEPS[level];
   return (
     <span
-      style={{ display: "inline-flex", gap: 3, alignItems: "center" }}
+      style={{ display: "inline-flex", gap: 3, alignItems: "center", flexShrink: 0 }}
       role="img"
       aria-label={`${level} — ${filled} of ${TOTAL_STEPS}`}
     >
@@ -41,11 +43,10 @@ function LevelMeter({ level }: { level: Competency["level"] }) {
           key={i}
           aria-hidden
           style={{
-            width: 14,
+            width: 16,
             height: 3,
-            borderRadius: 2,
-            background: i < filled ? ACCENT : "rgba(10, 12, 15,0.09)",
-            boxShadow: i < filled ? `0 0 6px ${ACCENT}55` : "none",
+            borderRadius: 1,
+            background: i < filled ? "var(--color-accent)" : "rgba(10, 12, 15, 0.1)",
           }}
         />
       ))}
@@ -53,457 +54,139 @@ function LevelMeter({ level }: { level: Competency["level"] }) {
   );
 }
 
+/** Serif sub-section heading, the h2 tier under the page title. */
+function SectionHeading({ eyebrow, children }: { eyebrow: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: "clamp(20px, 3vw, 32px)" }}>
+      <Eyebrow style={{ marginBottom: 14 }}>{eyebrow}</Eyebrow>
+      <h2 style={{ fontSize: "var(--type-heading-l)", letterSpacing: "-0.02em", lineHeight: 1.1, margin: 0 }}>
+        {children}
+      </h2>
+    </div>
+  );
+}
+
 export function EngineeringSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section
-      id="engineering"
-      className="section-shell"
-    >
-      {/* ── Section header ──────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: reduced ? 0 : 0.7, ease }}
-        style={{ marginBottom: "clamp(40px, 6vw, 64px)" }}
-      >
-        <span
-          style={{
-            display: "inline-block",
-            padding: "4px 12px",
-            borderRadius: "9999px",
-            border: "1px solid rgba(10, 12, 15,0.1)",
-            fontSize: 12,
-            letterSpacing: "0.24em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-            marginBottom: 20,
-          }}
-        >
-          Process Engineering
-        </span>
-        <h1
-          style={{
-            fontSize: "var(--type-heading-l)",
-            letterSpacing: "-0.03em",
-            lineHeight: 1.1,
-            color: "var(--color-text-primary)",
-            margin: "0 0 18px",
-          }}
-        >
-          The other half of the stack.
-        </h1>
-        <p
-          style={{
-            fontSize: "var(--type-body-m)",
-            color: "var(--text-body)",
-            lineHeight: 1.7,
-            maxWidth: "56ch",
-            margin: 0,
-          }}
-        >
-          Chemical engineering is the degree and the destination — software is how I
-          make it measurable. Below is where that half actually stands today, graded
-          honestly rather than generously.
-        </p>
-      </motion.div>
+    <>
+      <PageIntro
+        railLabel="Engineering"
+        eyebrow="Engineering — process"
+        title="The other half of the stack."
+        lead="Chemical engineering is the degree and the destination — software is how I make it measurable. Below is where that half actually stands today, graded honestly rather than generously."
+      />
 
-      <div style={{ marginBottom: "clamp(32px, 4vw, 48px)" }}>
-        <ProcessCanvas />
-      </div>
-
-      {/* Columns in className only — an inline gridTemplateColumns would
-          override the lg: variant at every width. */}
-      <div
-        style={{ gap: "clamp(16px, 2vw, 24px)" }}
-        className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]"
-      >
-        {/* ── Internship ────────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: reduced ? 0 : 0.8, ease }}
-        >
-          <div className="bezel-outer" style={{ height: "100%" }}>
-            <div
-              className="bezel-inner"
-              style={{
-                padding: "clamp(24px, 3.5vw, 38px)",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  top: -40,
-                  right: -40,
-                  width: 240,
-                  height: 240,
-                  borderRadius: "50%",
-                  background: `radial-gradient(circle, ${ACCENT}14 0%, transparent 70%)`,
-                  pointerEvents: "none",
-                }}
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  gap: 12,
-                  flexWrap: "wrap",
-                  marginBottom: 20,
-                }}
-              >
-                <span
-                  style={{
-                    padding: "3px 10px",
-                    borderRadius: "9999px",
-                    border: `1px solid ${ACCENT}33`,
-                    background: `${ACCENT}0d`,
-                    fontSize: 12,
-                    letterSpacing: "0.18em",
-                    color: ACCENT_TEXT,
-                    fontFamily: "var(--font-display)",
-                    textTransform: "uppercase",
-                    fontWeight: 500,
-                  }}
-                >
-                  Internship
-                </span>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontSize: 12,
-                    letterSpacing: "0.2em",
-                    color: "var(--color-accent-ink)",
-                    fontFamily: "var(--font-mono)",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <span
-                    style={{
-                      width: 5,
-                      height: 5,
-                      borderRadius: "50%",
-                      background: "var(--color-accent)",
-                      boxShadow: "0 0 6px rgba(255,122,24,0.6)",
-                    }}
-                  />
-                  {formatMonth(INTERNSHIP.startDate)} — Present
-                </span>
-              </div>
-
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "var(--type-heading-m)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.2,
-                  color: "var(--color-text-primary)",
-                  marginBottom: 6,
-                }}
-              >
-                {INTERNSHIP.company}
-              </h2>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: "var(--text-muted)",
-                  fontFamily: "var(--font-mono)",
-                  marginBottom: 4,
-                }}
-              >
-                {INTERNSHIP.companyLocal}
-              </p>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: ACCENT_TEXT,
-                  fontFamily: "var(--font-display)",
-                  letterSpacing: "0.02em",
-                  marginBottom: 18,
-                }}
-              >
-                {INTERNSHIP.department} Department
-              </p>
-
-              <p
-                style={{
-                  fontSize: "var(--type-body-s)",
-                  color: "var(--text-body)",
-                  lineHeight: 1.7,
-                  marginBottom: 24,
-                }}
-              >
-                {INTERNSHIP.summary}
-              </p>
-
-              <p
-                style={{
-                  fontSize: 12,
-                  letterSpacing: "0.22em",
-                  color: "var(--text-muted)",
-                  fontFamily: "var(--font-display)",
-                  textTransform: "uppercase",
-                  marginBottom: 12,
-                  marginTop: "auto",
-                }}
-              >
-                Focus areas
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 8px" }}>
-                {INTERNSHIP.focusAreas.map((area) => (
-                  <span
-                    key={area}
-                    style={{
-                      padding: "4px 10px",
-                      borderRadius: 4,
-                      background: "rgba(10, 12, 15,0.035)",
-                      border: "1px solid rgba(10, 12, 15,0.07)",
-                      fontSize: 11,
-                      color: "var(--text-muted)",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
-                    {area}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* ── Process canvas ─────────────────────────────────────────── */}
+      <section id="engineering" style={{ background: "var(--surface-engineering)" }}>
+        <motion.div className="section-shell" {...reveal(reduced)}>
+          <ProcessCanvas />
         </motion.div>
+      </section>
 
-        {/* ── Competency matrix + trajectory ───────────────────── */}
+      {/* ── Internship ─────────────────────────────────────────────── */}
+      <section id="internship" style={{ background: "var(--surface-base)" }}>
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "clamp(16px, 2vw, 24px)",
-            alignContent: "start",
-          }}
+          className="section-shell grid grid-cols-1 lg:grid-cols-2"
+          style={{ gap: "clamp(28px, 5vw, 80px)", alignItems: "start" }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : 0.1, ease }}
-          >
-            <div className="bezel-outer">
-              <div
-                className="bezel-inner"
-                style={{ padding: "clamp(22px, 3vw, 30px)" }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    gap: 12,
-                    flexWrap: "wrap",
-                    marginBottom: 20,
-                  }}
-                >
-                  <h2
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "var(--type-body-l)",
-                      fontWeight: 600,
-                      letterSpacing: "-0.02em",
-                      color: "var(--color-text-primary)",
-                      margin: 0,
-                    }}
-                  >
-                    Competency matrix
-                  </h2>
-                  <span
-                    style={{
-                      fontSize: 12,
-                      letterSpacing: "0.18em",
-                      color: "var(--text-muted)",
-                      fontFamily: "var(--font-mono)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Self-assessed
-                  </span>
-                </div>
-
-                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                  {COMPETENCIES.map((c, i) => (
-                    <li
-                      key={c.name}
-                      style={{
-                        paddingTop: i === 0 ? 0 : 14,
-                        paddingBottom: i === COMPETENCIES.length - 1 ? 0 : 14,
-                        borderTop: i === 0 ? "none" : "1px solid rgba(10, 12, 15,0.055)",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          gap: 12,
-                          marginBottom: 5,
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 13,
-                            color: "rgba(10, 12, 15,0.82)",
-                            fontFamily: "var(--font-display)",
-                            letterSpacing: "-0.01em",
-                          }}
-                        >
-                          {c.name}
-                        </span>
-                        <LevelMeter level={c.level} />
-                      </div>
-                      <p
-                        style={{
-                          fontSize: 11,
-                          color: "var(--text-muted)",
-                          fontFamily: "var(--font-mono)",
-                          lineHeight: 1.6,
-                          margin: 0,
-                        }}
-                      >
-                        {c.evidence}
-                        <span style={{ color: "var(--text-muted)" }}> → </span>
-                        <span style={{ color: ACCENT_TEXT, opacity: 0.75 }}>{c.nextStep}</span>
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <motion.div {...reveal(reduced)}>
+            <Eyebrow tone="accent" style={{ marginBottom: 14 }}>
+              Internship · {formatMonth(INTERNSHIP.startDate)} — Present
+            </Eyebrow>
+            <h2 style={{ fontSize: "var(--type-heading-l)", letterSpacing: "-0.02em", lineHeight: 1.1, margin: "0 0 14px" }}>
+              {INTERNSHIP.company}
+            </h2>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--text-muted)", margin: "0 0 4px" }}>
+              {INTERNSHIP.companyLocal}
+            </p>
+            <p style={{ fontSize: "var(--type-body-m)", color: "var(--text-body)", margin: 0 }}>
+              {INTERNSHIP.department} Department
+            </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : 0.18, ease }}
-          >
-            <div className="bezel-outer">
-              <div
-                className="bezel-inner"
-                style={{ padding: "clamp(22px, 3vw, 30px)" }}
-              >
-                <h2
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "var(--type-body-l)",
-                    fontWeight: 600,
-                    letterSpacing: "-0.02em",
-                    color: "var(--color-text-primary)",
-                    margin: "0 0 18px",
-                  }}
-                >
-                  Trajectory
-                </h2>
+          <motion.div {...reveal(reduced, 1)} style={{ paddingTop: "clamp(0px, 2vw, 30px)" }}>
+            <p style={{ fontSize: "var(--type-body-l)", color: "var(--text-body)", lineHeight: 1.7, maxWidth: "52ch", margin: "0 0 24px" }}>
+              {INTERNSHIP.summary}
+            </p>
+            <Eyebrow as="h3" style={{ marginBottom: 8 }}>Focus areas</Eyebrow>
+            <MetaList items={INTERNSHIP.focusAreas} variant="prose" />
+          </motion.div>
+        </div>
+      </section>
 
-                {CERTIFICATIONS.map((cert) => (
-                  <div key={cert.name} style={{ marginBottom: 18 }}>
-                    <div
+      {/* ── Competency + trajectory ────────────────────────────────── */}
+      <section id="trajectory" style={{ background: "var(--surface-contact)" }}>
+        <div
+          className="section-shell grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]"
+          style={{ gap: "clamp(40px, 6vw, 96px)", alignItems: "start" }}
+        >
+          <motion.div {...reveal(reduced)}>
+            <SectionHeading eyebrow="Self-assessed">Competency matrix</SectionHeading>
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, borderBottom: "1px solid var(--color-hairline)" }}>
+              {COMPETENCIES.map((c) => (
+                <li key={c.name} style={{ borderTop: "1px solid var(--color-hairline)", padding: "16px 0" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 6 }}>
+                    <h3
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "baseline",
-                        gap: 10,
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 13,
-                          color: "rgba(10, 12, 15,0.82)",
-                          fontFamily: "var(--font-display)",
-                        }}
-                      >
-                        {cert.name}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 11,
-                          color: ACCENT_TEXT,
-                          fontFamily: "var(--font-mono)",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {cert.target}
-                      </span>
-                    </div>
-                    <p
-                      style={{
-                        fontSize: 11,
-                        color: "var(--text-muted)",
-                        fontFamily: "var(--font-mono)",
-                        lineHeight: 1.6,
+                        fontFamily: "var(--font-display)",
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: "var(--color-text-primary)",
                         margin: 0,
                       }}
                     >
-                      {cert.body} — {cert.rationale}
-                    </p>
+                      {c.name}
+                    </h3>
+                    <LevelMeter level={c.level} />
                   </div>
-                ))}
-
-                <div
-                  style={{
-                    paddingTop: 16,
-                    borderTop: "1px solid rgba(10, 12, 15,0.055)",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: 12,
-                      letterSpacing: "0.22em",
-                      color: "var(--text-muted)",
-                      fontFamily: "var(--font-display)",
-                      textTransform: "uppercase",
-                      marginBottom: 10,
-                    }}
-                  >
-                    Target roles — class of {CAREER_TARGET.graduationYear}
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-muted)", margin: 0 }}>
+                    {c.evidence}
+                    <span aria-hidden> → </span>
+                    <span className="sr-only">; next step: </span>
+                    <span style={{ color: "var(--color-accent-ink)" }}>{c.nextStep}</span>
                   </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 8px" }}>
-                    {CAREER_TARGET.roleFamilies.map((role) => (
-                      <span
-                        key={role}
-                        style={{
-                          padding: "4px 10px",
-                          borderRadius: "9999px",
-                          background: `${ACCENT}0c`,
-                          border: `1px solid ${ACCENT}25`,
-                          fontSize: 11,
-                          color: ACCENT_TEXT,
-                          fontFamily: "var(--font-display)",
-                          opacity: 0.85,
-                        }}
-                      >
-                        {role}
-                      </span>
-                    ))}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div {...reveal(reduced, 1)}>
+            <SectionHeading eyebrow="Certifications">Trajectory</SectionHeading>
+            <ul style={{ listStyle: "none", margin: "0 0 clamp(28px, 4vw, 44px)", padding: 0, borderBottom: "1px solid var(--color-hairline)" }}>
+              {CERTIFICATIONS.map((cert) => (
+                <li key={cert.name} style={{ borderTop: "1px solid var(--color-hairline)", padding: "16px 0" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 6 }}>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: "var(--color-text-primary)",
+                        margin: 0,
+                      }}
+                    >
+                      {cert.name}
+                    </h3>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--color-accent-ink)", whiteSpace: "nowrap" }}>
+                      {cert.target}
+                    </span>
                   </div>
-                </div>
-              </div>
-            </div>
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-muted)", margin: 0 }}>
+                    {cert.body} — {cert.rationale}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <Eyebrow as="h3" style={{ marginBottom: 8 }}>
+              Target roles — class of {CAREER_TARGET.graduationYear}
+            </Eyebrow>
+            <MetaList items={CAREER_TARGET.roleFamilies} style={{ color: "var(--text-body)" }} />
           </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

@@ -53,8 +53,11 @@ export function SiteFooter() {
   return (
     <footer
       style={{
+        /* No top margin: every page now ends on a full-bleed tonal section
+           that carries its own bottom padding, so a margin here only showed
+           up as a band of bare page ground between that section and this
+           rule. */
         borderTop: "1px solid var(--color-hairline)",
-        marginTop: "clamp(48px, 8vw, 96px)",
       }}
     >
       <div

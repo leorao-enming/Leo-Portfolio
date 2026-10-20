@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DecayField, REMAINING_MG } from "../../_components/project-art/DecayField";
+import { DecayField } from "../../_components/project-art/DecayField";
 import { EvidenceTags } from "./EvidenceTags";
 import { HALF_LIFE_EVIDENCE, halfLife } from "./evidence";
 
@@ -58,20 +58,9 @@ export function GalleryHalfLife() {
         {/* The decay system is the primary visual — given the full container
             width rather than a half column, which is the main departure from
             the homepage teaser. */}
-        <div style={{ marginBottom: 8 }}>
+        <div style={{ marginBottom: "clamp(40px, 5vw, 64px)" }}>
           <DecayField />
         </div>
-        <p
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 13,
-            color: "var(--accent-half-life)",
-            textAlign: "right",
-            margin: "0 0 clamp(40px, 5vw, 64px)",
-          }}
-        >
-          {REMAINING_MG} mg remaining
-        </p>
 
         <div
           className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr]"

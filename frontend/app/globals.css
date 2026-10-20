@@ -484,10 +484,8 @@
   }
 
   /* ── Index row ────────────────────────────────────────────────
-     A hairline-divided list row, standing in for a bezel card where
-     the content is a list rather than a discrete object. Two shape
-     systems, each used consistently: bezel cards for the project
-     gallery, index rows for spec/capability/queue lists. */
+     A hairline-divided list row. Hairlines, not cards, are the site's
+     one shape system for lists — specs, capabilities, queues, contact. */
   .index-row {
     border-top: 1px solid var(--color-hairline);
     transition: background 0.2s;
@@ -723,56 +721,12 @@
 
   /* ── Section rhythm ──────────────────────────────────────────
      One class instead of the same padding/max-width object pasted
-     into ten components. Being a class rather than an inline style
-     is also what lets .page-shell below override it. */
+     into ten components. */
   .section-shell {
     padding: var(--section-py) var(--section-px);
     max-width: var(--container-max);
     margin: 0 auto;
     width: 100%;
-  }
-
-  /* ── Standalone page shell ───────────────────────────────────
-     /about, /engineering and /lab reuse a landing section component
-     inside a wrapper that also pads. Both paddings stacked to ~282px,
-     pushing the first heading past half a viewport. The wrapper clears
-     the fixed nav; the section drops its own top padding here. */
-  .page-shell {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: clamp(88px, 9vw, 104px) var(--section-px) 0;
-  }
-
-  .page-shell > .section-shell {
-    padding-top: clamp(24px, 3vw, 40px);
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* ── Double-bezel outer shell ───────────────────────────── */
-  .bezel-outer {
-    background: linear-gradient(145deg, rgba(10, 12, 15, 0.05), rgba(10, 12, 15, 0.015));
-    border: 1px solid rgba(10, 12, 15, 0.08);
-    padding: 6px;
-    border-radius: 20px;
-    transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease;
-  }
-
-  /* A card lifted slightly off the paper ground, not a dark panel —
-     the same "paper on a desk" logic as the bezel border above. */
-  .bezel-inner {
-    background: #fbfaf6;
-    border-radius: 15px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      inset 0 -1px 0 rgba(10, 12, 15, 0.04),
-      0 1px 2px rgba(10, 12, 15, 0.04);
-    overflow: hidden;
-  }
-
-  .bezel-outer:hover {
-    border-color: rgba(255, 122, 24, 0.32);
-    box-shadow: 0 14px 40px rgba(10, 12, 15, 0.08);
   }
 
   /* ── Font display override for landing sections ─────────── */
@@ -809,35 +763,14 @@
      — not decoration applied evenly everywhere. Each is a background
      layer at 2-6% opacity stacked under the existing flat paper
      colour (#fbfaf6 / #f2f1ed), so nothing here changes contrast or
-     layout, only the ground texture. Compound selectors (.bezel-inner
-     .material-x) override just the background property without
-     touching the shared .bezel-inner class every other card uses.
+     layout, only the ground texture.
 
      Kept deliberately restrained per the brief's own instruction:
      subtle, not skeuomorphic. */
 
-  /* Silicon wafer (FabTwin) is applied inline in FabTwinSpcArt.tsx rather
-     than as a class here — that component has no .bezel-inner wrapper to
-     hang a compound selector off, so the gradient lives directly on its
-     own background declaration instead. */
-
-  /* Fluid diffusion (Half-Life) is likewise applied inline in
-     HalfLifeDecayArt.tsx, for the same reason as the wafer sheen above. */
-
-  /* Brushed steel — fine directional grain plus a soft diagonal sheen.
-     Process Engineering. */
-  .bezel-inner.material-steel {
-    background:
-      repeating-linear-gradient(
-        90deg,
-        rgba(10, 12, 15, 0.018) 0px,
-        rgba(10, 12, 15, 0.018) 1px,
-        transparent 1px,
-        transparent 3px
-      ),
-      linear-gradient(115deg, rgba(255, 255, 255, 0.55) 0%, transparent 32%, transparent 68%, rgba(255, 255, 255, 0.3) 100%),
-      #fbfaf6;
-  }
+  /* Silicon wafer (FabTwin) and fluid diffusion (Half-Life) are applied
+     inline in FabTwinSpcArt.tsx and HalfLifeDecayArt.tsx, on the art's own
+     background declaration. */
 
   /* Graph / technical paper — the drafting-sheet language MarginRails
      already established, at background scale. Lab. */

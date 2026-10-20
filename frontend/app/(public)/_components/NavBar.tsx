@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { EASE } from "./motion";
 import { EmployeeIdCard } from "./EmployeeIdCard";
 
 const NAV_ITEMS = [
@@ -32,7 +33,7 @@ export function NavBar() {
         <motion.nav
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
           className="flex flex-col w-full"
           style={{
             maxWidth: "900px",
@@ -206,7 +207,7 @@ export function NavBar() {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.25, ease: EASE }}
                 className="md:hidden"
                 style={{ borderTop: "1px solid rgba(10, 12, 15,0.08)" }}
               >

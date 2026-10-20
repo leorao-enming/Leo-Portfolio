@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="page-shell">
+    <>
       <AboutSection />
       {/* The build log lives here rather than on the landing page: it is the
           story of how the work got here, which is what this page is for, and
           it was taking a quarter of the landing page's height on its own. */}
       <TimelineSection />
-    </div>
+    </>
   );
 }

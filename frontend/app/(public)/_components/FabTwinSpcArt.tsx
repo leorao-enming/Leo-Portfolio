@@ -56,21 +56,20 @@ export function FabTwinSpcArt() {
       aria-labelledby="fabtwin-spc-heading"
       style={{
         border: "1px solid var(--color-hairline)",
-        borderTop: "2px solid #0369a1",
-        /* The parent LabCard is already #fbfaf6 — matching it here would
-           read as a flat duplicate rather than a distinct panel. #f2f1ed
-           is the same recessed-inset convention ProjectCard's
-           TechStackPanel/MetricsPanel already use against that same
-           #fbfaf6 card background. */
+        /* FabTwin's own ink, not a one-off blue: this is FabTwin's chart
+           wherever it appears, so it carries the colour the FabTwin chapter
+           on the homepage and /projects already established. */
+        borderTop: "2px solid var(--accent-fabtwin-ink)",
+        /* Lifted paper (#fbfaf6) over the Lab's graph-paper ground, so the
+           chart reads as a sheet laid on the drafting table rather than a
+           recess cut into it. */
         /* Silicon wafer — the pastel thin-film interference sheen an
            oxide layer throws under angled light, at background scale. */
         background:
           "linear-gradient(105deg, rgba(147,51,234,0.05) 0%, rgba(59,130,246,0.04) 22%, " +
           "rgba(236,72,153,0.04) 46%, rgba(250,204,21,0.04) 70%, rgba(59,130,246,0.04) 100%), " +
-          "#f2f1ed",
+          "#fbfaf6",
         padding: "clamp(20px, 3.5vw, 36px)",
-        marginTop: 20,
-        marginBottom: 4,
       }}
     >
       <div
@@ -121,7 +120,7 @@ export function FabTwinSpcArt() {
               y1={yForValue(y)}
               x2={PAD_L + PLOT_W}
               y2={yForValue(y)}
-              stroke={label === "CL" ? "var(--color-hairline-bright)" : "rgba(3,105,161,0.35)"}
+              stroke={label === "CL" ? "var(--color-hairline-bright)" : "color-mix(in srgb, var(--accent-fabtwin-ink) 35%, transparent)"}
               strokeDasharray={label === "CL" ? "2 4" : undefined}
             />
             <text x={PAD_L - 6} y={yForValue(y) + 3} textAnchor="end" fontSize="10" fontFamily="var(--font-mono)" fill="var(--text-muted)">
@@ -167,7 +166,7 @@ export function FabTwinSpcArt() {
         </text>
 
         {/* The resolved data itself */}
-        <path d={LINE_PATH} fill="none" stroke="#0369a1" strokeWidth="1.5" />
+        <path d={LINE_PATH} fill="none" stroke="var(--accent-fabtwin-ink)" strokeWidth="1.5" />
         {SUBGROUPS.map((v, i) => {
           const out = v > UCL || v < LCL;
           return (
@@ -176,7 +175,7 @@ export function FabTwinSpcArt() {
               cx={xForIndex(i)}
               cy={yForValue(v)}
               r={out ? 5 : 3}
-              fill={out ? "#b91c1c" : "#0369a1"}
+              fill={out ? "#b91c1c" : "var(--accent-fabtwin-ink)"}
             />
           );
         })}

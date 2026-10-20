@@ -1,14 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useReducedMotion, useInView } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { PROJECTS_ON_RECORD } from "../../_data/projects";
+import { Eyebrow, PageIntro } from "./editorial";
+import { reveal } from "./motion";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
-// Darkened for AA text contrast on the light ground — these render as the
-// large stat numeral itself, so the floor applies at full strength.
-//
 // Every numeral here has to be checkable against something else on the site.
 // This row used to end on "∞ / Systems Mindset", which was the one unearned
 // claim in a site whose credibility rests on the opposite habit — "Self-
@@ -17,150 +13,117 @@ const ease = [0.16, 1, 0.3, 1] as const;
 // on the three real ones beside it, so it is now the count of works actually
 // on the record, read from the project data rather than asserted. Likewise
 // "1st" read as an ordinal ranking next to "3rd Year"; it is a plain count.
+//
+// One ink colour for all four. They used to be blue / rust / violet / orange,
+// one hue per number, which made four facts look like four categories.
 const stats = [
-  { raw: 3,   display: (n: number) => `${n}rd`, label: "Year ChemEng",       accent: "#1d4ed8" },
-  { raw: 1,   display: (n: number) => `${n}`,   label: "Industry Internship", accent: "var(--color-accent-ink)" },
-  { raw: 6,   display: () => `6σ`,              label: "Black Belt",          accent: "#6d28d9" },
-  { raw: PROJECTS_ON_RECORD, display: (n: number) => `${n}`, label: "Projects On Record", accent: "#c2410c" },
+  { value: "3rd", label: "Year ChemEng" },
+  { value: "1", label: "Industry internship" },
+  { value: "6σ", label: "Black Belt" },
+  { value: String(PROJECTS_ON_RECORD), label: "Projects on record" },
 ];
-
-function StatCard({ stat, inView, index, reduced }: { stat: typeof stats[0]; inView: boolean; index: number; reduced: boolean | null }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: reduced ? 0 : 18 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: reduced ? 0 : 0.65, delay: reduced ? 0 : index * 0.07, ease }}
-      className="bezel-outer"
-      style={{ flex: "1 1 110px" }}
-    >
-      <div className="bezel-inner" style={{ padding: "18px 14px", textAlign: "center" }}>
-        <div
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--type-heading-l)",
-            fontWeight: 800,
-            color: stat.accent,
-            lineHeight: 1,
-            marginBottom: 6,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {stat.display(stat.raw)}
-        </div>
-        <div
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.22em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-          }}
-        >
-          {stat.label}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
 
 export function AboutSection() {
   const reduced = useReducedMotion();
-  const statsRef = useRef<HTMLDivElement>(null);
-  const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
 
   return (
-    <section
-      id="about"
-      className="section-shell"
-    >
-      <div
-        style={{ display: "grid", gridTemplateColumns: "1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "start" }}
-        className="md:grid-cols-[1fr_1fr]"
+    <>
+      <PageIntro
+        railLabel="About"
+        eyebrow="About — the system"
+        title={
+          <>
+            Engineering meets{" "}
+            <span style={{ color: "var(--color-accent-ink)" }}>intelligence.</span>
+          </>
+        }
+        lead="I'm Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software."
       >
-        {/* Left */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.8, ease }}
+        <p
+          style={{
+            fontSize: "var(--type-body-l)",
+            lineHeight: 1.7,
+            color: "var(--text-muted)",
+            maxWidth: "52ch",
+            margin: "16px 0 0",
+          }}
+        >
+          From plant-floor process control to AI-powered lab tools, I design precision
+          pipelines that turn data and theory into deployable systems.
+        </p>
+        <Eyebrow style={{ marginTop: 28 }}>University of Toronto · 3T7</Eyebrow>
+      </PageIntro>
+
+      <section id="about" style={{ background: "var(--surface-base)" }}>
+        <div className="section-shell">
+          {/* Hairline grid: the container's background shows through a 1px
+              gap, so the rules sit between cells at any column count without
+              per-cell border bookkeeping. */}
+          <dl
+            className="grid grid-cols-2 md:grid-cols-4"
+            style={{
+              gap: 1,
+              background: "var(--color-hairline)",
+              borderTop: "1px solid var(--color-hairline)",
+              borderBottom: "1px solid var(--color-hairline)",
+              margin: 0,
+            }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                padding: "4px 12px",
-                borderRadius: 9999,
-                border: "1px solid rgba(10, 12, 15,0.1)",
-                fontSize: 11,
-                letterSpacing: "0.26em",
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-display)",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              The System
-            </span>
-
-            <h1
-              style={{
-                fontSize: "var(--type-heading-l)",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                color: "rgba(10, 12, 15,0.9)",
-                marginBottom: 20,
-              }}
-            >
-              Engineering meets{" "}
-              <span style={{ color: "var(--color-accent-ink)" }}>
-                intelligence.
-              </span>
-            </h1>
-
-            <p style={{ fontSize: "var(--type-body-m)", color: "var(--text-body)", lineHeight: 1.78, maxWidth: 420, marginBottom: 16 }}>
-              I&apos;m Leo — a Chemical Engineering student at the University of Toronto who builds systems at the boundary of science and software.
-            </p>
-            <p style={{ fontSize: "var(--type-body-m)", color: "var(--text-muted)", lineHeight: 1.78, maxWidth: 420, marginBottom: 28 }}>
-              From plant-floor process control to AI-powered lab tools, I design precision pipelines that turn data and theory into deployable systems.
-            </p>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 8px rgba(255,122,24,0.6)", animation: "pulse-green 2s ease-in-out infinite" }} />
-              <span style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--text-muted)", fontFamily: "var(--font-display)", textTransform: "uppercase" }}>
-                University of Toronto · 3T7
-              </span>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 2vw, 20px)" }}>
-          {/* Stats row */}
-          <div ref={statsRef} style={{ display: "flex", gap: "clamp(10px, 1.5vw, 16px)", flexWrap: "wrap" }}>
             {stats.map((s, i) => (
-              <StatCard key={s.label} stat={s} inView={statsInView} index={i} reduced={reduced} />
+              <motion.div
+                key={s.label}
+                {...reveal(reduced, i)}
+                style={{
+                  background: "var(--surface-base)",
+                  padding: "clamp(24px, 3vw, 36px) clamp(16px, 2vw, 28px)",
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                  gap: 10,
+                }}
+              >
+                <dt>
+                  <Eyebrow as="span">{s.label}</Eyebrow>
+                </dt>
+                <dd
+                  style={{
+                    margin: 0,
+                    fontFamily: "var(--font-serif)",
+                    fontWeight: 500,
+                    fontSize: "var(--type-display-s)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.02em",
+                    color: "var(--color-text-primary)",
+                  }}
+                >
+                  {s.value}
+                </dd>
+              </motion.div>
             ))}
-          </div>
+          </dl>
 
-          {/* Currently building card */}
           <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.28, ease }}
-            className="bezel-outer"
+            {...reveal(reduced, stats.length)}
+            className="grid grid-cols-1 md:grid-cols-[minmax(180px,1fr)_3fr]"
+            style={{ gap: "8px clamp(24px, 4vw, 56px)", paddingTop: "clamp(24px, 3vw, 36px)" }}
           >
-            <div className="bezel-inner" style={{ padding: "20px 22px" }}>
-              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--color-accent-ink)", fontFamily: "var(--font-mono)", marginBottom: 10, textTransform: "uppercase" }}>
-                Currently Building
-              </div>
-              <div style={{ fontSize: "var(--type-body-s)", color: "rgba(10, 12, 15,0.65)", lineHeight: 1.7 }}>
-                <span style={{ color: "var(--color-accent-ink)", fontWeight: 600 }}>Half-Life</span> — an iOS app modelling caffeine intake against sleep timing as first-order decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight are the open items.
-              </div>
-            </div>
+            <Eyebrow tone="accent">Currently building</Eyebrow>
+            <p
+              style={{
+                fontSize: "var(--type-body-m)",
+                lineHeight: 1.7,
+                color: "var(--text-body)",
+                maxWidth: "62ch",
+                margin: 0,
+              }}
+            >
+              <span style={{ color: "var(--color-text-primary)", fontWeight: 600 }}>Half-Life</span>
+              {" "}— an iOS app modelling caffeine intake against sleep timing as first-order
+              decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight
+              are the open items.
+            </p>
           </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

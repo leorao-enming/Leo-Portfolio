@@ -9,9 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function LabPage() {
-  return (
-    <div className="page-shell">
-      <LabSection />
-    </div>
-  );
+  return <LabSection />;
 }

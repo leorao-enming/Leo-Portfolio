@@ -31,10 +31,20 @@ import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "mo
 /** Zone letters, as a drawing sheet numbers its grid down the edge. */
 const ZONE_REFS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
+/**
+ * The rail names the section being read. It used to print the raw element
+ * id, which put "HERO" — a developer's word for the layout slot — in the
+ * margin of the one screen everyone sees. A section can set its own label
+ * with data-rail-label; otherwise the id is used with hyphens as spaces.
+ */
+function railLabel(el: HTMLElement): string {
+  return el.dataset.railLabel ?? el.id.replace(/-/g, " ");
+}
+
 /** Where down the viewport the "reading line" sits, as a fraction. */
 const READ_LINE = 0.17;
 
-type Segment = { id: string; start: number; span: number };
+type Segment = { id: string; label: string; start: number; span: number };
 
 export function MarginRails() {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -86,7 +96,7 @@ export function MarginRails() {
         els.map((el) => {
           const rect = el.getBoundingClientRect();
           const top = rect.top + window.scrollY;
-          return { id: el.id, start: top / docH, span: rect.height / docH };
+          return { id: el.id, label: railLabel(el), start: top / docH, span: rect.height / docH };
         }),
       );
     };
@@ -162,7 +172,11 @@ export function MarginRails() {
         {/* Cursor riding the rail at the reading position. */}
         <motion.div className="rail-cursor" style={{ top: cursorTop }}>
           <span className="rail-cursor-node" />
-          {active && <span className="rail-cursor-label">{active}</span>}
+          {active && (
+            <span className="rail-cursor-label">
+              {segments.find((seg) => seg.id === active)?.label ?? active}
+            </span>
+          )}
         </motion.div>
       </div>
     </div>

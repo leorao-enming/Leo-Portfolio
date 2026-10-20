@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { reveal } from "./motion";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Opens the Selected Work chapter and hands off to the three
@@ -20,10 +20,7 @@ export function SelectedWorkIntro() {
     <section id="projects" style={{ background: "var(--surface-soft)" }}>
       <motion.div
         className="section-shell"
-        initial={{ opacity: 0, y: reduced ? 0 : 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: reduced ? 0 : 0.7, ease }}
+        {...reveal(reduced)}
         style={{
           display: "flex",
           justifyContent: "space-between",

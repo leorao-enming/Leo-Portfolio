@@ -7,20 +7,18 @@ import {
   LAB_STATUS_TONE,
   type LabEntry,
 } from "../../_data/lab";
+import { Eyebrow, MetaList, PageIntro } from "./editorial";
+import { reveal } from "./motion";
 import { FabTwinSpcArt } from "./FabTwinSpcArt";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-// Darkened for AA text contrast on the light ground.
-const ACCENT_TEXT = "#0369a1";
-
-function StatusPill({ status }: { status: LabEntry["status"] }) {
+function StatusMark({ status }: { status: LabEntry["status"] }) {
   const color = LAB_STATUS_TONE[status];
   return (
     <span
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: 6,
+        gap: 8,
         fontSize: 12,
         letterSpacing: "0.2em",
         color,
@@ -32,11 +30,11 @@ function StatusPill({ status }: { status: LabEntry["status"] }) {
       <span
         aria-hidden
         style={{
-          width: 5,
-          height: 5,
+          width: 6,
+          height: 6,
           borderRadius: "50%",
-          background: color,
-          opacity: status === "QUEUED" ? 0.5 : 1,
+          background: status === "QUEUED" ? "transparent" : color,
+          border: `1px solid ${color}`,
         }}
       />
       {status}
@@ -44,282 +42,212 @@ function StatusPill({ status }: { status: LabEntry["status"] }) {
   );
 }
 
-function LabCard({ entry, index, reduced }: { entry: LabEntry; index: number; reduced: boolean | null }) {
+/** Entry id, status, title and upstream — the line every entry opens with. */
+function EntryHead({ entry }: { entry: LabEntry }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: reduced ? 0 : 26 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : index * 0.1, ease }}
-    >
-      <div className="bezel-outer" style={{ height: "100%" }}>
-        <div
-          className="bezel-inner"
+    <>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+        <span style={{ fontSize: 12, letterSpacing: "0.2em", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
+          {entry.id}
+        </span>
+        <StatusMark status={entry.status} />
+      </div>
+      <h3
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "var(--type-heading-m)",
+          fontWeight: 600,
+          letterSpacing: "-0.015em",
+          lineHeight: 1.2,
+          color: "var(--color-text-primary)",
+          margin: "0 0 8px",
+        }}
+      >
+        {entry.title}
+      </h3>
+      <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--font-mono)", lineHeight: 1.6, margin: "0 0 20px" }}>
+        {entry.upstream}
+      </p>
+    </>
+  );
+}
+
+function Objective({ entry }: { entry: LabEntry }) {
+  return (
+    <div>
+      {(typeof entry.objective === "string" ? [entry.objective] : entry.objective).map((para, i) => (
+        <p
+          key={i}
           style={{
-            padding: "clamp(24px, 3.5vw, 34px)",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
+            fontSize: "var(--type-body-m)",
+            color: "var(--text-body)",
+            lineHeight: 1.75,
+            maxWidth: "60ch",
+            margin: i === 0 ? 0 : "0.9em 0 0",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              gap: 12,
-              flexWrap: "wrap",
-              marginBottom: 16,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 12,
-                letterSpacing: "0.2em",
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              [{entry.id}]
-            </span>
-            <StatusPill status={entry.status} />
-          </div>
+          {para}
+        </p>
+      ))}
+    </div>
+  );
+}
 
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "var(--type-heading-m)",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
-              color: "var(--color-text-primary)",
-              marginBottom: 6,
-            }}
-          >
-            {entry.title}
-          </h2>
-          <p
-            style={{
-              fontSize: 11,
-              color: "var(--text-muted)",
-              fontFamily: "var(--font-mono)",
-              lineHeight: 1.6,
-              marginBottom: 18,
-            }}
-          >
-            {entry.upstream}
-          </p>
-
-          <div style={{ marginBottom: 20 }}>
-            {(typeof entry.objective === "string" ? [entry.objective] : entry.objective).map((para, i) => (
-              <p
-                key={i}
-                style={{
-                  fontSize: "var(--type-body-s)",
-                  color: "var(--text-body)",
-                  lineHeight: 1.7,
-                  marginTop: i === 0 ? 0 : "0.9em",
-                  marginBottom: 0,
-                }}
-              >
-                {para}
-              </p>
-            ))}
-          </div>
-
-          {entry.id === "L-03" && <FabTwinSpcArt />}
-
-          <p
-            style={{
-              fontSize: 12,
-              letterSpacing: "0.22em",
-              color: "var(--text-muted)",
-              fontFamily: "var(--font-display)",
-              textTransform: "uppercase",
-              marginBottom: 10,
-              marginTop: entry.id === "L-03" ? 24 : 0,
-            }}
-          >
-            Capabilities targeted
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 8px", marginBottom: 20 }}>
-            {entry.capabilities.map((c) => (
-              <span
-                key={c}
-                style={{
-                  padding: "4px 10px",
-                  borderRadius: 4,
-                  background: "rgba(10, 12, 15,0.035)",
-                  border: "1px solid rgba(10, 12, 15,0.07)",
-                  fontSize: 11,
-                  color: "var(--text-muted)",
-                  fontFamily: "var(--font-mono)",
-                }}
-              >
-                {c}
-              </span>
-            ))}
-          </div>
-
-          <div
-            style={{
-              marginTop: "auto",
-              paddingTop: 16,
-              borderTop: "1px solid rgba(10, 12, 15,0.055)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: 12,
-                letterSpacing: "0.22em",
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-display)",
-                textTransform: "uppercase",
-                marginBottom: 8,
-              }}
-            >
-              Why it transfers
-            </p>
-            <p
-              style={{
-                fontSize: 12,
-                color: ACCENT_TEXT,
-                fontFamily: "var(--font-mono)",
-                lineHeight: 1.65,
-                margin: 0,
-              }}
-            >
-              {entry.transfer}
-            </p>
-          </div>
-
-          {entry.evidence && (
-            <p
-              style={{
-                marginTop: 14,
-                fontSize: 11,
-                color: "var(--color-accent-ink)",
-                fontFamily: "var(--font-mono)",
-                lineHeight: 1.6,
-              }}
-            >
-              {entry.evidence}
-            </p>
-          )}
-
-          {entry.links && entry.links.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 12 }}>
-              {entry.links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="touch-target"
-                  style={{
-                    fontSize: 11,
-                    color: "var(--text-muted)",
-                    fontFamily: "var(--font-mono)",
-                    textDecoration: "underline",
-                    textUnderlineOffset: 3,
-                  }}
-                >
-                  {l.label} ↗
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+/** Capabilities, transfer note, evidence and repo links. */
+function EntryFacts({ entry }: { entry: LabEntry }) {
+  return (
+    <div style={{ display: "grid", gap: 20 }}>
+      <div>
+        <Eyebrow as="h4" style={{ marginBottom: 8 }}>Capabilities targeted</Eyebrow>
+        <MetaList items={entry.capabilities} variant="prose" />
       </div>
-    </motion.div>
+      <div style={{ borderTop: "1px solid var(--color-hairline)", paddingTop: 16 }}>
+        <Eyebrow as="h4" style={{ marginBottom: 8 }}>Why it transfers</Eyebrow>
+        <p style={{ fontSize: "var(--type-body-s)", color: "var(--text-body)", lineHeight: 1.7, margin: 0 }}>
+          {entry.transfer}
+        </p>
+      </div>
+      {entry.evidence && (
+        <p
+          style={{
+            fontSize: 13,
+            color: "var(--color-accent-ink)",
+            fontFamily: "var(--font-mono)",
+            lineHeight: 1.65,
+            margin: 0,
+          }}
+        >
+          {entry.evidence}
+        </p>
+      )}
+      {entry.links && entry.links.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0 18px" }}>
+          {entry.links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="touch-target"
+              style={{
+                fontSize: 13,
+                color: "var(--color-text-primary)",
+                fontFamily: "var(--font-mono)",
+                textDecoration: "underline",
+                textDecorationColor: "var(--color-hairline-bright)",
+                textUnderlineOffset: 4,
+              }}
+            >
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * The in-progress build gets the full width: text on one side, its chart and
+ * evidence on the other. In the old two-column card grid it sat alone in the
+ * left column at three times the height of the queued cards beside it,
+ * leaving a hole the size of a card on the right.
+ */
+function FeaturedEntry({ entry, reduced }: { entry: LabEntry; reduced: boolean | null }) {
+  return (
+    <motion.article
+      {...reveal(reduced)}
+      className="grid grid-cols-1 lg:grid-cols-2"
+      style={{ gap: "clamp(28px, 5vw, 72px)", borderTop: "1px solid var(--color-hairline-bright)", paddingTop: "clamp(24px, 3vw, 36px)" }}
+    >
+      <div>
+        <EntryHead entry={entry} />
+        <Objective entry={entry} />
+      </div>
+      <div style={{ display: "grid", gap: 28, alignContent: "start" }}>
+        {entry.id === "L-03" && <FabTwinSpcArt />}
+        <EntryFacts entry={entry} />
+      </div>
+    </motion.article>
+  );
+}
+
+function QueuedEntry({ entry, index, reduced }: { entry: LabEntry; index: number; reduced: boolean | null }) {
+  return (
+    <motion.article
+      {...reveal(reduced, index)}
+      style={{ borderTop: "1px solid var(--color-hairline-bright)", paddingTop: "clamp(24px, 3vw, 36px)", display: "grid", gap: 24, alignContent: "start" }}
+    >
+      <div>
+        <EntryHead entry={entry} />
+        <Objective entry={entry} />
+      </div>
+      <EntryFacts entry={entry} />
+    </motion.article>
   );
 }
 
 export function LabSection() {
   const reduced = useReducedMotion();
+  const active = LAB_ENTRIES.filter((e) => e.status !== "QUEUED");
+  const queued = LAB_ENTRIES.filter((e) => e.status === "QUEUED");
 
   return (
-    <section
-      id="lab"
-      className="section-shell material-graphpaper"
-    >
-      <motion.div
-        initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: reduced ? 0 : 0.7, ease }}
-        style={{ marginBottom: "clamp(40px, 6vw, 64px)" }}
-      >
-        <span
-          style={{
-            display: "inline-block",
-            padding: "4px 12px",
-            borderRadius: "9999px",
-            border: "1px solid rgba(10, 12, 15,0.1)",
-            fontSize: 12,
-            letterSpacing: "0.24em",
-            color: "var(--text-muted)",
-            fontFamily: "var(--font-display)",
-            textTransform: "uppercase",
-            marginBottom: 20,
-          }}
-        >
-          Lab — Build Queue
-        </span>
-        <h1
-          style={{
-            fontSize: "var(--type-heading-l)",
-            letterSpacing: "-0.03em",
-            lineHeight: 1.1,
-            color: "var(--color-text-primary)",
-            margin: "0 0 18px",
-          }}
-        >
-          What I&apos;m building next.
-        </h1>
-        <p
-          style={{
-            fontSize: "var(--type-body-m)",
-            color: "var(--text-body)",
-            lineHeight: 1.7,
-            maxWidth: "58ch",
-            margin: 0,
-          }}
-        >
-          Open-source systems I intend to rebuild from source rather than read about.
-          Each one is chosen for a specific capability it forces me to learn — and each
-          of those capabilities points back at automated process control.
-        </p>
-      </motion.div>
+    <>
+      <PageIntro
+        railLabel="Lab"
+        eyebrow="Lab — build queue"
+        title="What I'm building next."
+        lead="Open-source systems I intend to rebuild from source rather than read about. Each one is chosen for a specific capability it forces me to learn — and each of those capabilities points back at automated process control."
+      />
 
-      <div
-        style={{
-          display: "grid",
-          gap: "clamp(16px, 2vw, 24px)",
-        }}
-        className="grid-cols-1 md:grid-cols-2"
+      <section
+        id="lab"
+        className="material-graphpaper"
+        style={{ backgroundColor: "var(--surface-base)" }}
       >
-        {LAB_ENTRIES.map((entry, i) => (
-          <LabCard key={entry.id} entry={entry} index={i} reduced={reduced} />
-        ))}
-      </div>
+        <div className="section-shell" style={{ display: "grid", gap: "clamp(56px, 8vw, 104px)" }}>
+          {active.length > 0 && (
+            <div>
+              <Eyebrow as="h2" tone="accent" style={{ marginBottom: 20 }}>
+                In progress — {active.length}
+              </Eyebrow>
+              <div style={{ display: "grid", gap: "clamp(48px, 6vw, 80px)" }}>
+                {active.map((entry) => (
+                  <FeaturedEntry key={entry.id} entry={entry} reduced={reduced} />
+                ))}
+              </div>
+            </div>
+          )}
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.2, ease }}
-        style={{
-          marginTop: "clamp(24px, 3vw, 36px)",
-          fontSize: 12,
-          color: "var(--text-muted)",
-          fontFamily: "var(--font-mono)",
-          lineHeight: 1.7,
-          maxWidth: "62ch",
-        }}
-      >
-        {LAB_DISCLOSURE}
-      </motion.p>
-    </section>
+          {queued.length > 0 && (
+            <div>
+              <Eyebrow as="h2" style={{ marginBottom: 20 }}>
+                Queued — {queued.length}
+              </Eyebrow>
+              <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "clamp(40px, 5vw, 72px)" }}>
+                {queued.map((entry, i) => (
+                  <QueuedEntry key={entry.id} entry={entry} index={i} reduced={reduced} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <motion.p
+            {...reveal(reduced)}
+            style={{
+              fontSize: 13,
+              color: "var(--text-muted)",
+              fontFamily: "var(--font-mono)",
+              lineHeight: 1.7,
+              maxWidth: "62ch",
+              margin: 0,
+            }}
+          >
+            {LAB_DISCLOSURE}
+          </motion.p>
+        </div>
+      </section>
+    </>
   );
 }

@@ -56,8 +56,10 @@ export function HalfLifeDecayArt() {
 
   const mg = useMemo(() => remaining(t), [t]);
   const pct = mg / DOSE_MG;
-  const cursorX = xFor(t);
-  const cursorY = yFor(mg);
+  /* Rounded: Math.exp differs in the last bit between the server's and the
+     browser's engines, which made the raw float a hydration mismatch. */
+  const cursorX = Number(xFor(t).toFixed(2));
+  const cursorY = Number(yFor(mg).toFixed(2));
 
   return (
     <section

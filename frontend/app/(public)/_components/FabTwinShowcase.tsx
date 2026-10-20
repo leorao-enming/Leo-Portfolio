@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { reveal } from "./motion";
 import { LAB_ENTRIES } from "../../_data/lab";
 import { Wafer, SpcPanel } from "./project-art/FabTwinArt";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 const fabTwin = LAB_ENTRIES.find((e) => e.id === "L-03")!;
 
 const TAGS = ["SPC", "PCA", "Hotelling T²", "Fault detection"];
@@ -23,10 +23,7 @@ export function FabTwinShowcase() {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, ease }}
+          {...reveal(reduced)}
           style={{ textAlign: "center", maxWidth: 620, margin: "0 auto clamp(48px, 7vw, 80px)" }}
         >
           <p
@@ -115,10 +112,7 @@ export function FabTwinShowcase() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
+          {...reveal(reduced, 1)}
           /* Columns in className only — inline grid-template-columns
              would override the lg: variant at every width. Wafer left,
              SPC panel right; stacks wafer-then-chart on mobile. */

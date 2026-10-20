@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { reveal } from "./motion";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const links = [
   {
@@ -48,10 +48,7 @@ export function ContactSection() {
         {/* Left — editorial text */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.8, ease }}
+            {...reveal(reduced)}
             style={{ marginBottom: 16 }}
           >
             <h2
@@ -85,10 +82,7 @@ export function ContactSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.2, ease }}
+            {...reveal(reduced, 2)}
             style={{ marginTop: 36 }}
           >
             <a
@@ -141,10 +135,7 @@ export function ContactSection() {
               href={link.href}
               target={link.href.startsWith("http") ? "_blank" : undefined}
               rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, x: reduced ? 0 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : i * 0.1, ease }}
+              {...reveal(reduced, i)}
               className="index-row group"
               style={{
                 display: "flex",

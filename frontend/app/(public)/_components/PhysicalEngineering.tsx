@@ -2,16 +2,22 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { INTERNSHIP } from "../../_data/engineering";
+import { Eyebrow, MetaList } from "./editorial";
+import { reveal } from "./motion";
 import { ProcessCanvas } from "./ProcessCanvas";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 /**
- * The homepage's engineering chapter: intro / process canvas / detail panel
- * / CTA. Leads with the canvas (ProcessCanvas — one SVG, port-routed edges,
- * derived viewBox) rather than a competency-card list, so the plant-facing
- * work reads from the diagram itself. The same canvas renders on
- * /engineering, so the two stay in step by construction.
+ * The homepage's engineering chapter: intro / process canvas / CTA. Leads
+ * with the canvas (ProcessCanvas — one SVG, port-routed edges, derived
+ * viewBox) rather than a competency-card list, so the plant-facing work
+ * reads from the diagram itself. The same canvas renders on /engineering,
+ * so the two stay in step by construction.
+ *
+ * Text and drawing sit side by side at desktop width. Stacked, the preview
+ * is capped at 520px (a process train wants drawing size, not poster size)
+ * and so filled only the left 40% of a 1280px container, leaving the right
+ * of the section empty for its full ~700px height.
  *
  * Metadata is set inline and dot-separated rather than as bordered chips —
  * same treatment as the three project chapters above it, which keeps one
@@ -25,31 +31,19 @@ export function PhysicalEngineering() {
   return (
     <section id="engineering" style={{ background: "var(--surface-engineering)" }}>
       <div
-        className="section-shell"
-        style={{ paddingTop: "clamp(72px, 10vw, 120px)", paddingBottom: "clamp(72px, 10vw, 120px)" }}
+        className="section-shell grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,520px)] lg:items-center"
+        style={{
+          paddingTop: "clamp(72px, 10vw, 120px)",
+          paddingBottom: "clamp(72px, 10vw, 120px)",
+          gap: "clamp(40px, 6vw, 96px)",
+        }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: reduced ? 0 : 0.7, ease }}
-          style={{ marginBottom: "clamp(36px, 5vw, 56px)", maxWidth: "42ch" }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 12,
-              letterSpacing: "0.24em",
-              color: "var(--color-accent-ink)",
-              margin: "0 0 20px",
-            }}
-          >
-            PHYSICAL SYSTEMS
-          </p>
+        <motion.div {...reveal(reduced)} style={{ maxWidth: "46ch" }}>
+          <Eyebrow tone="accent" style={{ marginBottom: 20 }}>Physical systems</Eyebrow>
           <h2
             style={{
               fontSize: "var(--type-heading-l)",
-              letterSpacing: "-0.03em",
+              letterSpacing: "-0.02em",
               lineHeight: 1.1,
               color: "var(--color-text-primary)",
               margin: "0 0 18px",
@@ -57,55 +51,44 @@ export function PhysicalEngineering() {
           >
             Process engineering, instrumentation, and plant-facing systems.
           </h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0 6px" }}>
-            {TAGS.map((label, i) => (
-              <span
-                key={label}
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "var(--text-muted)",
-                }}
-              >
-                {label}{i < TAGS.length - 1 ? " ·" : ""}
-              </span>
-            ))}
-          </div>
+          <MetaList items={TAGS} style={{ marginBottom: 24 }} />
+          <p
+            style={{
+              fontSize: "var(--type-body-m)",
+              lineHeight: 1.75,
+              color: "var(--text-body)",
+              margin: "0 0 32px",
+            }}
+          >
+            {INTERNSHIP.summary}
+          </p>
+
+          {/* Editorial navigation, not a boxed button — same treatment as the
+              three project chapters above, so the page has one CTA language. */}
+          <Link
+            href="/engineering"
+            className="group"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "var(--font-display)",
+              fontSize: 14,
+              color: "var(--color-accent-ink)",
+              textDecoration: "none",
+            }}
+          >
+            View engineering profile
+            <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
+          </Link>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
-          style={{ marginBottom: "clamp(32px, 4vw, 48px)" }}
-        >
-          {/* Preview, not the instrument — see ProcessCanvas. The tag index
-              and competency panel live on /engineering, which is what the
-              link below is for. */}
+        {/* Preview, not the instrument — see ProcessCanvas. The tag index
+            and competency panel live on /engineering, which is what the
+            link is for. */}
+        <motion.div {...reveal(reduced, 1)}>
           <ProcessCanvas variant="preview" />
         </motion.div>
-
-        {/* Editorial navigation, not a boxed button — same treatment as the
-            three project chapters above, so the page has one CTA language. */}
-        <Link
-          href="/engineering"
-          className="group"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            fontFamily: "var(--font-display)",
-            fontSize: 14,
-            color: "var(--color-accent-ink)",
-            textDecoration: "none",
-          }}
-        >
-          View engineering profile
-          <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
-        </Link>
       </div>
     </section>
   );

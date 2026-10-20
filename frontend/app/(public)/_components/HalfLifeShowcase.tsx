@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { DecayField, REMAINING_MG } from "./project-art/DecayField";
+import { reveal } from "./motion";
+import { DecayField } from "./project-art/DecayField";
 
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const TAGS = ["HealthKit", "Sleep", "First-order kinetics"];
 
@@ -26,10 +26,7 @@ export function HalfLifeShowcase() {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, ease }}
+          {...reveal(reduced)}
         >
           <p
             style={{
@@ -104,23 +101,11 @@ export function HalfLifeShowcase() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.1, ease }}
+          {...reveal(reduced, 1)}
         >
+          {/* The figure carries its own "mg remaining" readout now — it
+              counts down as the curve draws. */}
           <DecayField />
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 13,
-              color: "var(--accent-half-life)",
-              textAlign: "right",
-              margin: "8px 0 0",
-            }}
-          >
-            {REMAINING_MG} mg remaining
-          </p>
         </motion.div>
       </div>
     </section>

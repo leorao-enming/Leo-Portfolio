@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "motion/react";
+import { FlowField } from "./HeroFlowField";
+import { DURATION, EASE } from "./motion";
 
 /* ── Magnetic CTA button ─────────────────────────────────────────── */
 function MagneticBtn({
@@ -23,8 +25,11 @@ function MagneticBtn({
     if (reduced) return;
     const el = ref.current; if (!el) return;
     const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left - r.width  / 2) * 0.28;
-    const y = (e.clientY - r.top  - r.height / 2) * 0.28;
+    /* 0.15, down from 0.28: at 0.28 the button visibly chased the cursor
+       across a third of its own width, which read as the page reacting
+       more than the content did. */
+    const x = (e.clientX - r.left - r.width  / 2) * 0.15;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.15;
     el.style.transform = `translate(${x}px, ${y}px)`;
   };
   const onLeave = () => { if (ref.current) ref.current.style.transform = ""; };
@@ -41,7 +46,9 @@ function MagneticBtn({
     fontSize: 13,
     letterSpacing: "0.04em",
     textDecoration: "none",
-    transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s",
+    /* The site's one curve, not an overshooting spring: settling past the
+       rest position and back made the pull feel springy-loose. */
+    transition: `transform 0.35s cubic-bezier(${EASE.join(",")}), background 0.2s, box-shadow 0.2s`,
     willChange: "transform",
     cursor: "pointer",
   };
@@ -108,10 +115,16 @@ export function Hero() {
   return (
     <section
       id="hero"
+      data-rail-label="Leo Rao"
       ref={heroRef}
+      /* Full-viewport from md up; content-height on phones. Bottom-anchored
+         in a full 844px phone screen, the name started 40% of the way down
+         with nothing above it but the field. Sized to its content, the
+         hero starts under the nav and lets the manifesto show at the
+         bottom edge, which is the scroll cue a phone actually needs. */
+      className="pt-[132px] md:pt-0 md:min-h-[100dvh]"
       style={{
         position: "relative",
-        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
@@ -122,9 +135,8 @@ export function Hero() {
       {/* ── Generative process-flow field ──────────────────────────
           Streamlines and instrumentation nodes, not decoration for its
           own sake — flow + measurement is literally the subject matter.
-          Pure SVG math, static (no client JS), so it costs nothing and
-          is reduced-motion-safe by construction. Replaces a dark
-          "cinematic" gradient tuned for the old near-black ground. */}
+          See HeroFlowField. Replaces a dark "cinematic" gradient tuned
+          for the old near-black ground. */}
       <motion.div
         aria-hidden
         style={{
@@ -132,52 +144,24 @@ export function Hero() {
           inset: "-10% 0",
           background:
             "radial-gradient(ellipse 70% 60% at 18% 28%, rgba(255,122,24,0.045) 0%, transparent 60%)," +
-            "radial-gradient(ellipse 60% 55% at 86% 74%, rgba(3,105,161,0.03) 0%, transparent 55%)",
+            "radial-gradient(ellipse 60% 55% at 86% 74%, rgba(10,12,15,0.025) 0%, transparent 55%)",
           pointerEvents: "none",
           zIndex: 1,
           willChange: "transform",
           ...fieldStyle,
         }}
       >
-        <svg
-          viewBox="0 0 1600 900"
-          preserveAspectRatio="none"
-          style={{ width: "100%", height: "100%" }}
-        >
-          <g fill="none" strokeWidth="1.2">
-            <path d="M -50,50  C 380,86  660,14  900,70  S 1280,10  1650,60"  stroke="rgba(10,12,15,0.09)" />
-            <path d="M -50,112 C 420,166 680,58  920,140 S 1310,64  1650,124" stroke="rgba(10,12,15,0.07)" />
-            <path d="M -50,178 C 360,206 640,150 900,190 S 1260,148 1650,182" stroke="var(--color-accent)" strokeOpacity="0.22" strokeWidth="1.4" />
-            <path d="M -50,240 C 440,302 700,178 930,268 S 1330,182 1650,254" stroke="rgba(10,12,15,0.08)" />
-            <path d="M -50,305 C 390,345 650,265 900,325 S 1290,263 1650,315" stroke="rgba(10,12,15,0.06)" />
-            <path d="M -50,368 C 460,438 720,298 940,398 S 1350,300 1650,378" stroke="#6d28d9" strokeOpacity="0.11" />
-            <path d="M -50,432 C 370,464 630,400 900,440 S 1270,398 1650,428" stroke="rgba(10,12,15,0.1)" />
-            <path d="M -50,498 C 450,558 710,438 930,528 S 1340,440 1650,510" stroke="var(--color-accent)" strokeOpacity="0.26" strokeWidth="1.4" />
-            <path d="M -50,562 C 400,604 660,520 900,568 S 1300,518 1650,556" stroke="rgba(10,12,15,0.07)" />
-            <path d="M -50,628 C 470,694 730,562 950,656 S 1360,564 1650,634" stroke="#0369a1" strokeOpacity="0.1" />
-            <path d="M -50,698 C 380,730 640,668 900,706 S 1280,666 1650,696" stroke="rgba(10,12,15,0.09)" />
-            <path d="M -50,762 C 430,818 690,682 920,776 S 1320,684 1650,750" stroke="rgba(10,12,15,0.06)" />
-            <path d="M -50,828 C 400,858 650,798 900,832 S 1290,796 1650,824" stroke="var(--color-accent)" strokeOpacity="0.16" strokeWidth="1.4" />
-          </g>
-          <g>
-            <circle cx="900" cy="70"  r="3.2" fill="var(--color-accent)" fillOpacity="0.35" />
-            <circle cx="930" cy="268" r="2.6" fill="rgba(10,12,15,0.28)" />
-            <circle cx="930" cy="528" r="3.2" fill="var(--color-accent)" fillOpacity="0.4" />
-            <circle cx="940" cy="398" r="2.6" fill="#6d28d9" fillOpacity="0.3" />
-            <circle cx="950" cy="656" r="2.6" fill="#0369a1" fillOpacity="0.3" />
-            <circle cx="900" cy="832" r="2.8" fill="rgba(10,12,15,0.24)" />
-          </g>
-        </svg>
+        <FlowField reduced={reduced} />
       </motion.div>
 
       {/* ── Location + status, top right ─────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: reduced ? 0 : -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: DURATION.base, delay: reduced ? 0 : 0.4, ease: EASE }}
         style={{
           position: "absolute",
-          top: "clamp(90px, 14vh, 140px)",
+          top: "clamp(88px, 12vh, 140px)",
           right: "clamp(24px, 5vw, 80px)",
           textAlign: "right",
           zIndex: 2,
@@ -221,7 +205,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: reduced ? 0 : 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: DURATION.base, ease: EASE }}
             style={{ marginBottom: "clamp(28px, 4vh, 48px)" }}
           >
             <h1
@@ -275,7 +259,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: reduced ? 0 : 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: DURATION.base, delay: reduced ? 0 : 0.6, ease: EASE }}
             style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
           >
             <MagneticBtn href="#projects" variant="primary">View Work</MagneticBtn>
@@ -287,7 +271,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: reduced ? 0 : 1.4 }}
+          transition={{ duration: DURATION.base, delay: reduced ? 0 : 1, ease: EASE }}
           style={{
             display: "flex",
             alignItems: "center",
