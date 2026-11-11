@@ -80,7 +80,7 @@ export const LAB_ENTRIES: LabEntry[] = [
     title: "FabTwin & FabChem",
     upstream:
       "Own build — hierarchical semiconductor process simulator (FabTwin) and an IPA/water " +
-      "separation flowsheet optimizer (FabChem), cross-validated against public fab datasets",
+      "separation flowsheet optimizer (FabChem); public fab datasets are the planned external check",
     status: "IN PROGRESS",
     /* Framing, then one paragraph per build. This entry was a single block
        of ~100 words sitting between two entries of two sentences each; the
@@ -88,14 +88,14 @@ export const LAB_ENTRIES: LabEntry[] = [
     objective: [
       "Two evidence-first engineering projects built for process/manufacturing New Grad " +
         "roles, on a 2027-06-30 deadline.",
-      "FabTwin is a plasma-etch SPC and fault-detection simulator whose real differentiator " +
+      "FabTwin is a plasma-etch SPC and fault-detection simulator whose intended differentiator " +
         "isn't the model — it's validating that model against two real public fab datasets " +
         "(SECOM, LAM9600) with the correct statistics, including a deliberate reproduction " +
         "of the common evaluation mistakes (like reporting raw accuracy on a 1:14 class " +
-        "imbalance) as a documented contrast.",
-      "FabChem is an IPA/water separation techno-economic optimizer cross-checked against " +
-        "two independent literature NRTL parameter sources, Monte Carlo cost uncertainty, " +
-        "and an independent DWSIM solver run.",
+        "imbalance) as a documented contrast. That validation has not been run yet.",
+      "FabChem is an IPA/water separation techno-economic optimizer. Its thermodynamic " +
+        "parameters are being cross-checked across independent literature NRTL sources; " +
+        "the flowsheet, cost model and uncertainty analysis are still ahead.",
     ],
     capabilities: [
       "Statistical process control (SPC)",
@@ -107,10 +107,14 @@ export const LAB_ENTRIES: LabEntry[] = [
       "This is the direct target skill set for process and manufacturing engineering roles — " +
       "SPC, capability analysis, and flowsheet optimization are the daily tools of the " +
       "internship track this site already documents.",
+    /* Vault: FabTwin & FabChem Overview + T3 review, 2026-11-05. */
     evidence:
-      "FabTwin: 42/42 unit tests passing (local + CI), ruff/mypy clean, simulator core " +
-      "(config/effects/faults/metrics) implemented and pushed. FabChem: repo scaffolded, " +
-      "environment setup still pending. Gate T1 window: 2026-09-07 – 2026-10-04.",
+      "FabTwin: 158 tests passing at 775ce5e (local + CI), ruff/mypy clean. Simulator (T1) and " +
+      "SPC/capability (T2) milestones closed. Detection scoring, yield/DPPM and PCA / " +
+      "Hotelling T² / SPE (T3) are implemented, but a 2026-11-05 review found six issues to " +
+      "fix before the milestone closes. Frozen case studies, dashboard and public-dataset " +
+      "validation not started. FabChem: IDAES + IPOPT solver feasibility passed; NRTL " +
+      "parameters sourced from three independent papers; flowsheet and TEA not started.",
     links: [
       { label: "fabtwin", href: "https://github.com/leorao-enming/fabtwin" },
       { label: "fabchem-optimizer", href: "https://github.com/leorao-enming/fabchem-optimizer" },

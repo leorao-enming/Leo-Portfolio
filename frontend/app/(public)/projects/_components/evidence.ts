@@ -57,6 +57,6 @@ export const LEOLOGIC_OS_EVIDENCE: EvidenceLabel[] = compact([
  */
 export const FAB_TWIN_EVIDENCE: EvidenceLabel[] = compact([
   { label: "Status", value: fabTwin.status },
-  fabTwin.evidence ? { label: "Build", value: "42/42 unit tests — local + CI, ruff/mypy clean" } : null,
-  { label: "Datasets", value: "SECOM · LAM9600 (public fab data)" },
+  fabTwin.evidence ? { label: "Build", value: "158 tests — local + CI, ruff/mypy clean" } : null,
+  { label: "Validation target", value: "SECOM · LAM9600 — not run yet" },
 ]);

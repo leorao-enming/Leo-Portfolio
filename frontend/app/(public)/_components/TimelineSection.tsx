@@ -94,7 +94,7 @@ const ERAS: Era[] = [
     year: "2026",
     label: "HUBEI · PLANT FLOOR",
     title: "Process Engineering Internship",
-    desc: "Joined the process engineering department at Hubei Jingrui Microelectronic Materials. P&ID, instrumentation, DCS operations, SOPs — the discipline that theory turns into.",
+    desc: "Joined the process engineering department at Crystal Clear Microelectronic Materials. P&ID, instrumentation, DCS operations, SOPs — the discipline that theory turns into.",
     tag: "Industry",
     ch: "05",
     // Directional grain — the same steel-floor language as the P&ID panel.
@@ -103,8 +103,8 @@ const ERAS: Era[] = [
   {
     year: "NOW",
     label: "LIVE · BUILDING",
-    title: "Half-Life & FabTwin",
-    desc: "Half-Life is at release-candidate stage — signed iOS archive built, device acceptance next. FabTwin's simulator Gate just opened: a semiconductor SPC/fault-detection engine validated against real public fab data.",
+    title: "Trace & FabTwin",
+    desc: "Trace is in gold-annotation review after its quality gate held the v3 pipeline back. FabTwin's simulator and SPC milestones are closed; detection scoring is under review before its milestone closes. Half-Life and Tiny Trials were archived in October 2026.",
     tag: "Build",
     ch: "06",
     build: true,

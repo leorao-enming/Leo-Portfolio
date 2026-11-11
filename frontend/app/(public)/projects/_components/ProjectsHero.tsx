@@ -17,7 +17,7 @@ export function ProjectsHero() {
       railLabel="Projects"
       eyebrow={`Project archive — ${PROJECTS_ON_RECORD} entries`}
       title="Selected systems, experiments and tools."
-      lead="Three works carried far enough to show in full, and the working archive behind them."
+      lead="Three works carried far enough to show in full, and the working archive behind them — including what has been parked or archived."
     />
   );
 }

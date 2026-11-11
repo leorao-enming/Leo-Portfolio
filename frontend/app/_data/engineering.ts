@@ -18,7 +18,6 @@ export type Competency = {
 
 export type Internship = {
   company: string;
-  companyLocal: string;
   department: string;
   startDate: string;
   /** Null while ongoing. */
@@ -36,8 +35,7 @@ export type Certification = {
 };
 
 export const INTERNSHIP: Internship = {
-  company: "Hubei Jingrui Microelectronic Materials",
-  companyLocal: "湖北晶瑞微电子材料",
+  company: "Crystal Clear Microelectronic Materials",
   department: "Process Engineering",
   startDate: "2026-07-01",
   endDate: null,
@@ -89,11 +87,41 @@ export const COMPETENCIES: Competency[] = [
     evidence: "University and project experience",
     nextStep: "Strengthen SQL, Power BI and Python",
   },
+  /* FabTwin's SPC layer (vault: FabTwin & FabChem Overview). Developing,
+     not Proficient: the charts are checked against published worked
+     examples, but no frozen case study has reported detection results. */
+  {
+    name: "SPC / Control Charts",
+    level: "Developing",
+    evidence: "FabTwin — I-MR, EWMA, CUSUM and Xbar charts checked against NIST worked examples",
+    nextStep: "Freeze multi-seed cases; report false alarms and detection delay",
+  },
   {
     name: "Technical Documentation",
     level: "Developing",
     evidence: "Internship and project records",
     nextStep: "Build structured engineering logs",
+  },
+];
+
+/** A credential already earned, with somewhere to check it. */
+export type HeldCertification = {
+  name: string;
+  body: string;
+  /** ISO date the credential was issued. */
+  certifiedOn: string;
+  /** The issuer's own verification page. */
+  verifyHref: string;
+};
+
+/* Read from the issuer's verification page on 2026-11-11 (vault:
+   03 Career/Certification Strategy.md). */
+export const HELD_CERTIFICATIONS: HeldCertification[] = [
+  {
+    name: "Six Sigma Lean Black Belt Professional",
+    body: "Management and Strategy Institute",
+    certifiedOn: "2025-12-26",
+    verifyHref: "https://verify.msicertified.org/verify/297876242",
   },
 ];
 

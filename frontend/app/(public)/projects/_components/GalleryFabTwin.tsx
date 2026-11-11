@@ -74,10 +74,11 @@ export function GalleryFabTwin() {
                 margin: "0 0 20px",
               }}
             >
-              A plasma-etch SPC and fault-detection simulator. The differentiator is not the
-              model — it is validating that model against two real public fab datasets with
-              the correct statistics, including a deliberate reproduction of the common
-              evaluation mistakes as a documented contrast.
+              A plasma-etch SPC and fault-detection simulator. The intended differentiator is
+              not the model — it is validating that model against two real public fab datasets
+              with the correct statistics, including a deliberate reproduction of the common
+              evaluation mistakes as a documented contrast. That validation is the next gate,
+              not a finished result.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0 6px" }}>
               {TAGS.map((tag, i) => (
