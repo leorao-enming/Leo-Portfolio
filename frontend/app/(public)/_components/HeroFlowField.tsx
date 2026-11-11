@@ -81,6 +81,12 @@ function useReadings(reduced: boolean | null): number[] {
   useEffect(() => {
     if (reduced) return;
     const id = window.setInterval(() => {
+      /* Skip the tick when nobody can see it. Each one re-renders the whole
+         field SVG; doing that every 1.8s for the rest of the page's life,
+         with the hero scrolled away or the tab in the background, was
+         main-thread work landing in the middle of other sections' scroll
+         animations. */
+      if (document.hidden || window.scrollY > window.innerHeight) return;
       setValues((prev) =>
         prev.map((v, k) => {
           const inst = INSTRUMENTS[k];

@@ -39,9 +39,14 @@ export function NavBar() {
             maxWidth: "900px",
             borderRadius: menuOpen ? "24px" : "9999px",
             border: "1px solid rgba(10, 12, 15,0.09)",
-            backdropFilter: "blur(18px)",
-            WebkitBackdropFilter: "blur(18px)",
-            background: "rgba(246,245,241,0.78)",
+            /* A fixed backdrop blur is re-rasterised on every scroll frame
+               for everything passing beneath it. 18px over a 78% ground
+               was the single most expensive thing on screen while
+               scrolling; 10px over 88% looks nearly the same (the ground
+               does most of the work) at a fraction of the cost. */
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            background: "rgba(246,245,241,0.88)",
             boxShadow: "0 12px 40px rgba(10,12,15,0.08)",
             transition: "border-radius 0.3s ease",
             overflow: "hidden",

@@ -90,11 +90,18 @@ export function Hero() {
   });
 
   /* Springing the input is what stops this reading as a stiff scrubber.
-     Position still maps 1:1 to scroll; it just settles rather than snaps. */
+     Position still maps 1:1 to scroll; it just settles rather than snaps.
+
+     Stiffness was 110, which left the hero visibly trailing the scroll: at
+     that rate the content was still drifting ~400ms after the wheel
+     stopped, so the section looked like it was catching up rather than
+     moving with the page. At 320 / 40 (near critically damped) the lag is
+     under a frame or two — enough to round off wheel steps, not enough to
+     read as latency. */
   const progress = useSpring(scrollYProgress, {
-    stiffness: 110,
-    damping: 30,
-    restDelta: 0.001,
+    stiffness: 320,
+    damping: 40,
+    restDelta: 0.0005,
   });
 
   /* Three layers at three rates. Depth comes from the difference between

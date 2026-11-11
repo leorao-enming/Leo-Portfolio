@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ProjectsHero } from "./_components/ProjectsHero";
-import { GalleryHalfLife } from "./_components/GalleryHalfLife";
+import { TraceShowcase } from "../_components/TraceShowcase";
 import { GalleryFabTwin } from "./_components/GalleryFabTwin";
 import { GalleryLeoLogicOs } from "./_components/GalleryLeoLogicOs";
 import { ProjectArchive } from "./_components/ProjectArchive";
@@ -9,7 +9,7 @@ import { ContinueToLab } from "./_components/ContinueToLab";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Selected systems, experiments and tools: a caffeine-kinetics iOS app, a plasma-etch " +
+    "Selected systems, experiments and tools: an evidence-first AI for engineering drawings, a plasma-etch " +
     "SPC simulator, and a personal operating system — plus the working archive behind them.",
 };
 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
  * gets a large dark field, and the page resolves back to light afterwards
  * rather than ending in black.
  *
- * Half-Life and LeoLogic OS are excluded from the archive because they are
+ * Trace and LeoLogic OS are excluded from the archive because they are
  * shown in full above; nothing is deleted — every other registry project
  * still appears, and FabTwin's record stays in Lab where it belongs.
  */
@@ -33,10 +33,10 @@ export default function ProjectsPage() {
   return (
     <>
       <ProjectsHero />
-      <GalleryHalfLife />
+      <TraceShowcase />
       <GalleryFabTwin />
       <GalleryLeoLogicOs />
-      <ProjectArchive excludeSlugs={["half-life", "leologic-os"]} />
+      <ProjectArchive excludeSlugs={["trace", "leologic-os"]} />
       <ContinueToLab />
     </>
   );

@@ -95,7 +95,7 @@ export function FabTwinSpcArt() {
       <p style={{ fontSize: 12, color: "var(--text-muted)", margin: "0 0 18px", maxWidth: "64ch", lineHeight: 1.6 }}>
         Synthetic — illustrates the chart FabTwin&apos;s simulator produces, not a validated result.
         The right half is drawn open on purpose: cross-validation against the SECOM and LAM9600
-        public fab datasets hasn&apos;t run yet (Gate T1: 2026-09-07 – 2026-10-04). At this project&apos;s
+        public fab datasets hasn&apos;t run yet (it follows the T3 fixes and frozen case studies). At this project&apos;s
         real 1:14 fault/normal class ratio, raw accuracy is structurally uninformative regardless
         of the run — precision, recall, and F1 are the actual gate.
       </p>

@@ -16,10 +16,15 @@ import { reveal } from "./motion";
 //
 // One ink colour for all four. They used to be blue / rust / violet / orange,
 // one hue per number, which made four facts look like four categories.
-const stats = [
+//
+// `href` is where a figure can be checked. The Black Belt was the one entry
+// with nothing to check it against; it now links to the issuer's own
+// verification page (Six Sigma Lean Black Belt Professional, Management and
+// Strategy Institute, certified 2025-12-26).
+const stats: { value: string; label: string; href?: string }[] = [
   { value: "3rd", label: "Year ChemEng" },
   { value: "1", label: "Industry internship" },
-  { value: "6σ", label: "Black Belt" },
+  { value: "6σ", label: "Black Belt", href: "https://verify.msicertified.org/verify/297876242" },
   { value: String(PROJECTS_ON_RECORD), label: "Projects on record" },
 ];
 
@@ -70,11 +75,14 @@ export function AboutSection() {
             }}
           >
             {stats.map((s, i) => (
+              /* The cell itself is static; only its contents reveal. The cell
+                 paints the ground over the hairline-coloured container, so
+                 fading the CELL in (as this did) left the container showing
+                 through as one solid grey slab until each cell arrived. */
+              <div key={s.label} style={{ background: "var(--surface-base)" }}>
               <motion.div
-                key={s.label}
                 {...reveal(reduced, i)}
                 style={{
-                  background: "var(--surface-base)",
                   padding: "clamp(24px, 3vw, 36px) clamp(16px, 2vw, 28px)",
                   display: "flex",
                   flexDirection: "column-reverse",
@@ -82,22 +90,43 @@ export function AboutSection() {
                 }}
               >
                 <dt>
-                  <Eyebrow as="span">{s.label}</Eyebrow>
+                  {s.href ? (
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${s.label} — verify with the issuer (opens in a new tab)`}
+                      className="group inline-flex items-center gap-1.5 underline decoration-[rgba(10,12,15,0.3)] underline-offset-4 hover:decoration-[var(--color-accent-ink)]"
+                      style={{ minHeight: 24 }}
+                    >
+                      <Eyebrow as="span">{s.label}</Eyebrow>
+                      <span
+                        aria-hidden
+                        className="transition-transform duration-300 group-hover:translate-x-0.5"
+                        style={{ fontSize: 12, color: "var(--text-muted)" }}
+                      >
+                        ↗
+                      </span>
+                    </a>
+                  ) : (
+                    <Eyebrow as="span">{s.label}</Eyebrow>
+                  )}
                 </dt>
                 <dd
                   style={{
                     margin: 0,
-                    fontFamily: "var(--font-serif)",
-                    fontWeight: 500,
-                    fontSize: "var(--type-display-s)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.02em",
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 700,
+                    fontSize: "var(--type-display-m)",
+                    lineHeight: 0.9,
+                    letterSpacing: "-0.04em",
                     color: "var(--color-text-primary)",
                   }}
                 >
                   {s.value}
                 </dd>
               </motion.div>
+              </div>
             ))}
           </dl>
 
@@ -116,10 +145,11 @@ export function AboutSection() {
                 margin: 0,
               }}
             >
-              <span style={{ color: "var(--color-text-primary)", fontWeight: 600 }}>Half-Life</span>
-              {" "}— an iOS app modelling caffeine intake against sleep timing as first-order
-              decay. Signed 1.0.4 release archive is built; device acceptance and TestFlight
-              are the open items.
+              <span style={{ color: "var(--color-text-primary)", fontWeight: 600 }}>Trace</span>
+              {" "}— an evidence-first AI for engineering drawings, now in gold-annotation
+              review after its quality gate held a new pipeline back — and{" "}
+              <span style={{ color: "var(--color-text-primary)", fontWeight: 600 }}>FabTwin</span>,
+              a plasma-etch SPC simulator with its detection-scoring milestone under review.
             </p>
           </motion.div>
         </div>

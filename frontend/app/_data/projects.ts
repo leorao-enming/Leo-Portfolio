@@ -217,22 +217,29 @@ export const PROJECTS: Project[] = [
     title: "Half-Life",
     tag: "Mobile",
     domain: "Health / kinetics",
-    status: "ACTIVE",
-    statusLabel: "Release candidate — 1.0.4 (6)",
+    /* Archived 2026-10-15 (vault: 04 Decisions/Retire Tiny Trials and
+       Half-Life). The repo is archived read-only; the case study stays up as
+       a record of the build, not as a live product. */
+    status: "ARCHIVED",
+    statusLabel: "Archived 2026-10 — RC 1.0.4 (6), unreleased",
     summary:
       "Local-first iOS app that helps make sense of the relationship between caffeine intake " +
       "and sleep — built on Expo and React Native, reading Apple HealthKit data and modelling " +
       "caffeine as first-order exponential decay.",
     stack: ["Expo", "React Native", "HealthKit", "Supabase"],
     accent: "var(--color-terminal-cyan)",
-    showOnLanding: true,
-    landingFeatured: true,
+    showOnLanding: false,
     registry: {
       displayType: "Live System",
-      /* Three paragraphs: what it models, where the privacy boundary sits,
-         what was traded away to keep it shipping. Same words as before —
-         only the breaks are new. */
+      /* Four paragraphs: the archive note first, so nobody reads the rest
+         as a description of a live product; then what it models, where the
+         privacy boundary sits, and what was traded away to keep it
+         shipping. */
       longDescription: [
+        "Archived in October 2026. Half-Life reached a signed release candidate but was not " +
+          "released: it did not find a position clearly different from comparable apps, so " +
+          "active work stopped. The repository is preserved read-only and this page records " +
+          "what was built.",
         "Half-Life is a local-first iOS app built with Expo and React Native that helps make " +
           "sense of caffeine intake against sleep timing, modelled as first-order decay: " +
           "A(t) = A₀ · e^(−0.693t / t½).",
@@ -245,7 +252,7 @@ export const PROJECTS: Project[] = [
           "of build fragility, and stability now takes priority over animation ceiling. The " +
           "decay model itself is exposed through a Python service, and the simulator below " +
           "calls that live endpoint. A signed 1.0.4 (6) release archive is built and locally " +
-          "exported; device acceptance and TestFlight remain open.",
+          "exported; device acceptance and TestFlight were still open when the project was archived.",
       ],
       techStack: [
         { label: "Expo", tone: "green" },
@@ -263,7 +270,8 @@ export const PROJECTS: Project[] = [
         { label: "MODEL", value: "A(t) = A₀ · e^(−λt)" },
         { label: "ARCH CHOICE", value: "Stable core — no Skia/Reanimated" },
         { label: "DECAY API", value: "Python · live endpoint" },
-        { label: "BUILD", value: "1.0.4 (6) — signed archive exported" },
+        { label: "BUILD", value: "1.0.4 (6) — signed archive exported, not released" },
+        { label: "STATE", value: "Archived 2026-10-15 — repository read-only" },
       ],
       architecture: {
         title: "HALF-LIFE — DECAY ENGINE",
@@ -432,6 +440,7 @@ export const PROJECTS: Project[] = [
     stack: ["TypeScript", "Cloudflare Workers", "D1", "R2", "OpenAI"],
     accent: "#fb923c",
     showOnLanding: true,
+    landingFeatured: true,
     registry: {
       displayType: "Architecture Only",
       longDescription:
@@ -518,15 +527,16 @@ export const PROJECTS: Project[] = [
     title: "Tiny Trials",
     tag: "Mobile",
     domain: "Self-experiments",
-    status: "ACTIVE",
-    statusLabel: "In Development",
+    /* Archived 2026-10-15 alongside Half-Life; repo archived read-only. */
+    status: "ARCHIVED",
+    statusLabel: "Archived 2026-10",
     summary:
       "A local-first iOS app for running one bounded, reviewable personal experiment at a " +
       "time — caffeine cutoffs, screen wind-down, morning light — reporting results with " +
       "honest confidence caveats instead of manufactured causal claims.",
     stack: ["Expo", "React Native", "TypeScript"],
     accent: "#fbbf24",
-    showOnLanding: true,
+    showOnLanding: false,
     registry: {
       displayType: "Architecture Only",
       longDescription:
